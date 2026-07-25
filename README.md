@@ -2,6 +2,9 @@
 
 元配布ポスト： [Xのポストを見る](https://x.com/tomathinn_G/status/2078683987103690755)
 
+## 見つけた人へ
+まだ準備中です！ すいません
+
 ## ダウンロード
 
 ### [Guildrun日本語化.exeをダウンロード](https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/updates/Guildrun%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%8C%96.exe)
