@@ -77,6 +77,7 @@ AUTO_UPDATE_APP_PATHS = {
 }
 PATCHER_FILENAME = "Guildrun日本語化.exe"
 GAME_EXE_FILENAME = "Guildrun.exe"
+STEAM_APP_ID = "3669200"
 REPOSITORY = "tomate045/Guildrun-Japanese-Mod"
 REPOSITORY_URL = f"https://github.com/{REPOSITORY}"
 INSTALLER_ZIP_NAME = "Guildrun-Japanese-Mod.zip"
@@ -559,6 +560,170 @@ def steam_launch_options(launcher: Path | None = None) -> str:
         ]
     )
     return f'cmd /d /s /c "start "" {checker} & %command%"'
+
+
+VDF_TOKEN_RE = re.compile(r'"((?:\\.|[^"\\])*)"|([{}])')
+
+
+def vdf_unescape(value: str) -> str:
+    def replace(match: re.Match[str]) -> str:
+        escaped = match.group(1)
+        return {
+            "\\": "\\",
+            '"': '"',
+            "n": "\n",
+            "r": "\r",
+            "t": "\t",
+        }.get(escaped, "\\" + escaped)
+
+    return re.sub(r"\\(.)", replace, value)
+
+
+def parse_vdf(text: str) -> dict[str, Any]:
+    tokens: list[tuple[str, str]] = []
+    for match in VDF_TOKEN_RE.finditer(text):
+        if match.group(1) is not None:
+            tokens.append(("string", vdf_unescape(match.group(1))))
+        else:
+            tokens.append(("brace", match.group(2)))
+
+    def parse_object(index: int, nested: bool) -> tuple[dict[str, Any], int]:
+        result: dict[str, Any] = {}
+        while index < len(tokens):
+            kind, value = tokens[index]
+            if kind == "brace" and value == "}":
+                if not nested:
+                    raise RuntimeError("Steam設定ファイルの閉じ括弧が不正です")
+                return result, index + 1
+            if kind != "string":
+                raise RuntimeError("Steam設定ファイルの項目名が不正です")
+            key = value
+            index += 1
+            if index >= len(tokens):
+                raise RuntimeError("Steam設定ファイルの値がありません")
+            next_kind, next_value = tokens[index]
+            if next_kind == "brace" and next_value == "{":
+                child, index = parse_object(index + 1, True)
+                result[key] = child
+            elif next_kind == "string":
+                result[key] = next_value
+                index += 1
+            else:
+                raise RuntimeError("Steam設定ファイルの項目が不正です")
+        if nested:
+            raise RuntimeError("Steam設定ファイルの閉じ括弧がありません")
+        return result, index
+
+    parsed, final_index = parse_object(0, False)
+    if final_index != len(tokens):
+        raise RuntimeError("Steam設定ファイルを最後まで読み取れませんでした")
+    return parsed
+
+
+def dictionary_value_casefold(value: Any, key: str) -> Any:
+    if not isinstance(value, dict):
+        return None
+    wanted = key.casefold()
+    for current_key, current_value in value.items():
+        if current_key.casefold() == wanted:
+            return current_value
+    return None
+
+
+def steam_install_roots() -> list[Path]:
+    candidates: list[Path] = []
+    if os.name == "nt":
+        try:
+            import winreg
+
+            registry_values = (
+                (winreg.HKEY_CURRENT_USER, r"Software\Valve\Steam", "SteamPath"),
+                (
+                    winreg.HKEY_LOCAL_MACHINE,
+                    r"Software\WOW6432Node\Valve\Steam",
+                    "InstallPath",
+                ),
+                (
+                    winreg.HKEY_LOCAL_MACHINE,
+                    r"Software\Valve\Steam",
+                    "InstallPath",
+                ),
+            )
+            for hive, subkey, name in registry_values:
+                try:
+                    with winreg.OpenKey(hive, subkey) as key:
+                        raw, _ = winreg.QueryValueEx(key, name)
+                    if raw:
+                        candidates.append(Path(str(raw)))
+                except OSError:
+                    continue
+        except ImportError:
+            pass
+
+    for environment_name in ("ProgramFiles(x86)", "ProgramFiles"):
+        base = os.environ.get(environment_name)
+        if base:
+            candidates.append(Path(base) / "Steam")
+
+    result: list[Path] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        normalized = candidate.expanduser().resolve()
+        key = str(normalized).casefold()
+        if key not in seen and (normalized / "userdata").is_dir():
+            seen.add(key)
+            result.append(normalized)
+    return result
+
+
+def steam_localconfig_paths(roots: list[Path] | None = None) -> list[Path]:
+    paths: list[Path] = []
+    for root in roots if roots is not None else steam_install_roots():
+        userdata = root / "userdata"
+        if not userdata.is_dir():
+            continue
+        for account in userdata.iterdir():
+            path = account / "config" / "localconfig.vdf"
+            if account.is_dir() and path.is_file():
+                paths.append(path)
+    return sorted(paths, key=lambda path: path.stat().st_mtime, reverse=True)
+
+
+def steam_launch_option_status(
+    expected: str,
+    paths: list[Path] | None = None,
+) -> dict[str, Any]:
+    localconfigs = paths if paths is not None else steam_localconfig_paths()
+    found_options: list[str] = []
+    readable = 0
+    for path in localconfigs:
+        try:
+            parsed = parse_vdf(path.read_text(encoding="utf-8-sig", errors="replace"))
+        except (OSError, RuntimeError):
+            continue
+        readable += 1
+        current: Any = parsed
+        for key in ("UserLocalConfigStore", "Software", "Valve", "Steam", "apps"):
+            current = dictionary_value_casefold(current, key)
+        app = dictionary_value_casefold(current, STEAM_APP_ID)
+        launch_options = dictionary_value_casefold(app, "LaunchOptions")
+        if isinstance(launch_options, str) and launch_options.strip():
+            found_options.append(launch_options.strip())
+
+    expected = expected.strip()
+    if expected in found_options:
+        status = "configured"
+    elif found_options:
+        status = "different"
+    elif readable:
+        status = "not_configured"
+    else:
+        status = "steam_not_found"
+    return {
+        "status": status,
+        "localconfig_count": len(localconfigs),
+        "readable_count": readable,
+    }
 
 
 def show_update_notification(result: dict[str, Any]) -> None:
@@ -1711,6 +1876,75 @@ def run_gui() -> int:
             if not transferred:
                 kernel32.GlobalFree(memory)
 
+    def configure_steam_update_check() -> None:
+        answer = show_message(
+            "ゲーム起動時のMOD更新確認",
+            "SteamからGuildrun Demoを起動した時に、次の更新を確認する機能です。\n\n"
+            "・日本語の翻訳データ\n"
+            "・日本語化MOD本体\n\n"
+            "更新がある時だけ通知します。\n"
+            "この確認だけでダウンロードやゲームファイルの変更は行いません。\n\n"
+            "設定を始めますか？",
+            MB_YESNO | MB_ICONINFORMATION,
+        )
+        if answer != IDYES:
+            return
+
+        options = steam_launch_options()
+        copy_text_to_clipboard(options)
+        show_message(
+            "手順 1/2",
+            "更新確認用の設定をクリップボードへコピーしました。\n\n"
+            "Steamのライブラリで「Guildrun Demo」を右クリックし、\n"
+            "「プロパティ」を開いてください。\n\n"
+            "開けたら、この案内の「OK」を押してください。",
+            MB_OK | MB_ICONINFORMATION,
+        )
+        show_message(
+            "手順 2/2",
+            "「一般」画面の下にある「起動オプション」欄へ、\n"
+            "先ほどコピーした内容を貼り付けてください。\n\n"
+            "貼り付けたらプロパティ画面を閉じ、\n"
+            "この案内の「OK」を押してください。\n"
+            "Steamの設定ファイルを読み取り、設定できたか確認します。",
+            MB_OK | MB_ICONINFORMATION,
+        )
+
+        result = steam_launch_option_status(options)
+        if result["status"] == "configured":
+            show_message(
+                "設定を確認できました",
+                "Guildrun Demoの起動時に、日本語化MODの翻訳データと\n"
+                "MOD本体の更新を確認する設定になっています。\n\n"
+                "更新がなければ何も表示しません。",
+                MB_OK | MB_ICONINFORMATION,
+            )
+        elif result["status"] == "different":
+            show_message(
+                "設定が一致しません",
+                "Guildrun Demoの起動オプションは見つかりましたが、\n"
+                "このMODの更新確認設定とは一致しませんでした。\n\n"
+                "起動オプション欄の内容をすべて選択し、\n"
+                "もう一度貼り付けてから確認してください。",
+                MB_OK | MB_ICONWARNING,
+            )
+        elif result["status"] == "not_configured":
+            show_message(
+                "まだ設定を確認できません",
+                "Guildrun Demoの起動オプションを確認できませんでした。\n\n"
+                "Steamのプロパティ画面を閉じたあと、\n"
+                "このボタンをもう一度押して設定し直してください。",
+                MB_OK | MB_ICONWARNING,
+            )
+        else:
+            show_message(
+                "Steamの設定を確認できません",
+                "Steamの設定ファイルが見つからないか、読み取れませんでした。\n\n"
+                "起動オプション欄へ貼り付けられていれば設定は利用できますが、\n"
+                "この画面から完了確認はできません。",
+                MB_OK | MB_ICONWARNING,
+            )
+
     def open_repository() -> None:
         result = shell32.ShellExecuteW(
             controls.get("window", 0),
@@ -2127,7 +2361,7 @@ def run_gui() -> int:
             )
             controls["steam_options_button"] = create_control(
                 "BUTTON",
-                "Steam起動オプションをコピー",
+                "ゲーム起動時のMOD更新確認を設定",
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
                 226,
@@ -2175,21 +2409,14 @@ def run_gui() -> int:
             control_id = int(wparam) & 0xFFFF
             if control_id == BUTTON_COPY_STEAM_OPTIONS:
                 try:
-                    copy_text_to_clipboard(steam_launch_options())
+                    configure_steam_update_check()
                 except Exception as exc:
                     show_message(
-                        "コピーできません",
+                        "設定できません",
                         str(exc),
                         MB_OK | MB_ICONERROR,
                     )
                     return 0
-                show_message(
-                    "コピーしました",
-                    "SteamでGuildrun Demoの「プロパティ」を開き、\n"
-                    "「一般」→「起動オプション」へ貼り付けてください。\n\n"
-                    "設定をやめる場合は、起動オプションの内容を削除してください。",
-                    MB_OK | MB_ICONINFORMATION,
-                )
                 return 0
             if (
                 not state["busy"]
