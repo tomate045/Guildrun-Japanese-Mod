@@ -565,6 +565,15 @@ def show_update_notification(result: dict[str, Any]) -> None:
     run_gui(initial_update_result=result)
 
 
+def startup_update_action(result: dict[str, Any]) -> str:
+    content_update = bool(result.get("changed") or result.get("removed"))
+    application_update = bool(result.get("application_update_available"))
+    installer_update = bool(result.get("patcher_update_available"))
+    if content_update and not application_update and not installer_update:
+        return "apply"
+    return "download"
+
+
 def check_only_main(root: Path | None = None) -> int:
     """ゲーム起動時用。更新がある場合だけ通知し、それ以外は黙って終了する。"""
     try:
@@ -1680,27 +1689,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     results: queue.Queue[tuple[str, Any]] = queue.Queue()
     controls: dict[str, int] = {}
     initial_data_available = local_patch_data_available(app_dir().resolve())
-    startup_content_update = bool(
-        initial_update_result
-        and (
-            initial_update_result.get("changed")
-            or initial_update_result.get("removed")
-        )
+    startup_action = (
+        startup_update_action(initial_update_result)
+        if initial_update_result is not None
+        else None
     )
-    startup_application_update = bool(
-        initial_update_result
-        and initial_update_result.get("application_update_available")
-    )
-    startup_installer_update = bool(
-        initial_update_result
-        and initial_update_result.get("patcher_update_available")
-    )
-    startup_direct_update = (
-        initial_data_available
-        and startup_content_update
-        and not startup_application_update
-        and not startup_installer_update
-    )
+    startup_direct_update = startup_action == "apply"
     state = {
         "busy": False,
         "local_game_available": local_game_available(app_dir().resolve()),
@@ -1710,9 +1704,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         "remote_data_version": None,
         "update_available": not initial_data_available,
         "startup_update_mode": startup_direct_update,
-        "startup_installer_mode": bool(
-            initial_update_result and not startup_direct_update
-        ),
+        "startup_installer_mode": startup_action == "download",
     }
     hinstance = kernel32.GetModuleHandleW(None)
     font = gdi32.GetStockObject(DEFAULT_GUI_FONT)
@@ -1843,10 +1835,10 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         state["update_available"] = value
         if state["startup_installer_mode"]:
             label = "最新版のダウンロードページを開く"
-        elif not state["local_data_available"]:
-            label = "翻訳データを取得して日本語化"
         elif value and state["startup_update_mode"]:
             label = "今すぐ更新する（ゲーム終了、ダウンロードして適用）"
+        elif not state["local_data_available"]:
+            label = "翻訳データを取得して日本語化"
         elif value:
             label = "最新版を適用して日本語化"
         else:
