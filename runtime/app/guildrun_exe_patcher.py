@@ -562,33 +562,7 @@ def steam_launch_options(launcher: Path | None = None) -> str:
 
 
 def show_update_notification(result: dict[str, Any]) -> None:
-    if os.name != "nt":
-        return
-    import ctypes
-
-    lines = ["日本語化MODの更新があります。"]
-    if result.get("changed") or result.get("removed"):
-        lines.extend(
-            [
-                "",
-                "ゲーム終了後に「Guildrun日本語化.exe」を起動して、",
-                "最新版を適用してください。",
-            ]
-        )
-    if result.get("patcher_update_available"):
-        lines.extend(
-            [
-                "",
-                "MOD本体の新版もあります。",
-                "GitHubから最新版をダウンロードしてください。",
-            ]
-        )
-    ctypes.windll.user32.MessageBoxW(
-        None,
-        "\n".join(lines),
-        "Guildrun Demo 日本語化MOD",
-        0x00000040,
-    )
+    run_gui(initial_update_result=result)
 
 
 def check_only_main(root: Path | None = None) -> int:
@@ -1052,6 +1026,37 @@ def game_is_running(game_exe: str) -> bool:
     return game_exe.casefold() in result.stdout.casefold()
 
 
+def stop_game_for_update(game_exe: str, timeout_seconds: float = 10.0) -> bool:
+    """起動中のゲームを強制終了し、終了するまで待つ。"""
+    if os.name != "nt" or not game_is_running(game_exe):
+        return False
+    creation_flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+    try:
+        subprocess.run(
+            ["taskkill", "/F", "/IM", game_exe],
+            check=False,
+            capture_output=True,
+            text=True,
+            errors="replace",
+            creationflags=creation_flags,
+        )
+    except OSError as exc:
+        raise RuntimeError(
+            f"{game_exe}へ終了を要求できませんでした。"
+            "\nゲームを手動で終了してから、もう一度実行してください。"
+        ) from exc
+
+    deadline = time.monotonic() + timeout_seconds
+    while time.monotonic() < deadline:
+        if not game_is_running(game_exe):
+            return True
+        time.sleep(0.25)
+    raise RuntimeError(
+        f"{game_exe}を自動で終了できませんでした。"
+        "\nゲームを手動で終了してから、もう一度実行してください。"
+    )
+
+
 def checked_destination(game_dir: Path, relative: Path) -> Path:
     destination = (game_dir / relative).resolve()
     try:
@@ -1454,7 +1459,7 @@ def cli_main(argv: list[str] | None = None) -> int:
     return result
 
 
-def run_gui() -> int:
+def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     if os.name != "nt":
         raise RuntimeError("GUI版はWindows専用です")
 
@@ -1571,6 +1576,18 @@ def run_gui() -> int:
     user32.ShowWindow.argtypes = [wintypes.HWND, ctypes.c_int]
     user32.UpdateWindow.restype = wintypes.BOOL
     user32.UpdateWindow.argtypes = [wintypes.HWND]
+    user32.SetForegroundWindow.restype = wintypes.BOOL
+    user32.SetForegroundWindow.argtypes = [wintypes.HWND]
+    user32.SetWindowPos.restype = wintypes.BOOL
+    user32.SetWindowPos.argtypes = [
+        wintypes.HWND,
+        wintypes.HWND,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_int,
+        ctypes.c_int,
+        wintypes.UINT,
+    ]
     user32.DefWindowProcW.restype = LRESULT
     user32.DefWindowProcW.argtypes = [
         wintypes.HWND,
@@ -1636,6 +1653,11 @@ def run_gui() -> int:
     COLOR_BTNFACE = 15
     IDC_ARROW = 32512
     SW_SHOW = 5
+    HWND_TOPMOST = -1
+    HWND_NOTOPMOST = -2
+    SWP_NOSIZE = 0x0001
+    SWP_NOMOVE = 0x0002
+    SWP_SHOWWINDOW = 0x0040
     MB_OK = 0x00000000
     MB_YESNO = 0x00000004
     MB_ICONERROR = 0x00000010
@@ -1658,6 +1680,27 @@ def run_gui() -> int:
     results: queue.Queue[tuple[str, Any]] = queue.Queue()
     controls: dict[str, int] = {}
     initial_data_available = local_patch_data_available(app_dir().resolve())
+    startup_content_update = bool(
+        initial_update_result
+        and (
+            initial_update_result.get("changed")
+            or initial_update_result.get("removed")
+        )
+    )
+    startup_application_update = bool(
+        initial_update_result
+        and initial_update_result.get("application_update_available")
+    )
+    startup_installer_update = bool(
+        initial_update_result
+        and initial_update_result.get("patcher_update_available")
+    )
+    startup_direct_update = (
+        initial_data_available
+        and startup_content_update
+        and not startup_application_update
+        and not startup_installer_update
+    )
     state = {
         "busy": False,
         "local_game_available": local_game_available(app_dir().resolve()),
@@ -1666,6 +1709,10 @@ def run_gui() -> int:
         "remote_exe_version": None,
         "remote_data_version": None,
         "update_available": not initial_data_available,
+        "startup_update_mode": startup_direct_update,
+        "startup_installer_mode": bool(
+            initial_update_result and not startup_direct_update
+        ),
     }
     hinstance = kernel32.GetModuleHandleW(None)
     font = gdi32.GetStockObject(DEFAULT_GUI_FONT)
@@ -1712,6 +1759,15 @@ def run_gui() -> int:
                 kernel32.GlobalFree(memory)
 
     def configure_steam_update_check() -> None:
+        if not local_game_available(app_dir().resolve()):
+            show_message(
+                "設定できません",
+                "「Guildrun日本語化MOD」フォルダーを、\n"
+                "Guildrun.exeがあるフォルダーの中へ移動してから、\n"
+                "もう一度起動してください。",
+                MB_OK | MB_ICONERROR,
+            )
+            return
         answer = show_message(
             "ゲーム起動時のMOD更新確認",
             "SteamからGuildrun Demoを起動した時に、次の更新を確認する機能です。\n\n"
@@ -1777,12 +1833,20 @@ def run_gui() -> int:
             and state["local_game_available"]
             and state["local_data_available"],
         )
+        user32.EnableWindow(
+            controls["steam_options_button"],
+            enabled and state["local_game_available"],
+        )
         set_text(controls["status"], status)
 
     def set_update_available(value: bool) -> None:
         state["update_available"] = value
-        if not state["local_data_available"]:
+        if state["startup_installer_mode"]:
+            label = "最新版のダウンロードページを開く"
+        elif not state["local_data_available"]:
             label = "翻訳データを取得して日本語化"
+        elif value and state["startup_update_mode"]:
+            label = "今すぐ更新する（ゲーム終了、ダウンロードして適用）"
         elif value:
             label = "最新版を適用して日本語化"
         else:
@@ -1835,6 +1899,11 @@ def run_gui() -> int:
             user32.EnableWindow(
                 controls["existing_patch_button"],
                 game_available and available and not state["busy"],
+            )
+        if "steam_options_button" in controls:
+            user32.EnableWindow(
+                controls["steam_options_button"],
+                game_available and not state["busy"],
             )
         refresh_version_display()
         return available
@@ -1913,11 +1982,20 @@ def run_gui() -> int:
             lambda: patch_operation(bool(warnings)),
         )
 
-    def start_latest_patch() -> None:
+    def start_latest_patch(*, close_game: bool = False) -> None:
+        def operation() -> dict[str, Any]:
+            if close_game:
+                stop_game_for_update(GAME_EXE_FILENAME)
+            return perform_update_check(app_dir().resolve(), apply_updates=True)
+
         begin(
             "latest_patch",
-            "最新版を確認・取得しています…",
-            lambda: perform_update_check(app_dir().resolve(), apply_updates=True),
+            (
+                "ゲームを終了し、最新版を取得しています…"
+                if close_game
+                else "最新版を確認・取得しています…"
+            ),
+            operation,
         )
 
     def start_update_check() -> None:
@@ -2065,12 +2143,13 @@ def run_gui() -> int:
         height: int,
         control_id: int = 0,
         ex_style: int = 0,
+        visible: bool = True,
     ) -> int:
         handle = user32.CreateWindowExW(
             ex_style,
             class_name,
             text,
-            WS_CHILD | WS_VISIBLE | style,
+            WS_CHILD | (WS_VISIBLE if visible else 0) | style,
             x,
             y,
             width,
@@ -2089,17 +2168,27 @@ def run_gui() -> int:
     def window_proc(hwnd: int, message: int, wparam: int, lparam: int) -> int:
         if message == WM_CREATE:
             controls["window"] = int(hwnd)
+            startup_mode = bool(state["startup_update_mode"])
+            startup_notice = startup_mode or bool(state["startup_installer_mode"])
             controls["update_action_button"] = create_control(
                 "BUTTON",
                 (
-                    "更新を確認"
-                    if state["local_data_available"]
-                    else "翻訳データを取得して日本語化"
+                    "今すぐ更新する（ゲーム終了、ダウンロードして適用）"
+                    if startup_mode
+                    else (
+                        "最新版のダウンロードページを開く"
+                        if state["startup_installer_mode"]
+                        else (
+                            "更新を確認"
+                            if state["local_data_available"]
+                            else "翻訳データを取得して日本語化"
+                        )
+                    )
                 ),
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
                 18,
-                270,
+                448 if startup_notice else 270,
                 32,
                 BUTTON_UPDATE_ACTION,
             )
@@ -2112,6 +2201,7 @@ def run_gui() -> int:
                 166,
                 32,
                 BUTTON_EXISTING_PATCH,
+                visible=not startup_notice,
             )
             controls["versions"] = create_control(
                 "STATIC",
@@ -2191,6 +2281,41 @@ def run_gui() -> int:
                 LINK_REPOSITORY,
             )
             refresh_local_data_state()
+            if initial_update_result is not None:
+                set_remote_versions(initial_update_result)
+                content_update = bool(
+                    initial_update_result.get("changed")
+                    or initial_update_result.get("removed")
+                )
+                set_update_available(content_update)
+                lines = ["日本語化MODの更新があります。"]
+                if content_update:
+                    if state["startup_update_mode"]:
+                        lines.extend(
+                            [
+                                "",
+                                "「今すぐ更新する」を押すと、ゲームを強制終了して",
+                                "更新のダウンロードと日本語化を行います。",
+                            ]
+                        )
+                    else:
+                        lines.extend(
+                            [
+                                "",
+                                "アプリの更新を含むため、最新版のMODを",
+                                "GitHubからダウンロードしてください。",
+                            ]
+                        )
+                if initial_update_result.get("patcher_update_available"):
+                    lines.extend(
+                        [
+                            "",
+                            "日本語化MOD本体の新版もあります。",
+                            "GitHubから最新版をダウンロードしてください。",
+                        ]
+                    )
+                set_text(controls["status"], "更新があります。")
+                set_notes("\n".join(lines))
             if state["local_game_available"]:
                 user32.SetFocus(controls["update_action_button"])
             return 0
@@ -2203,6 +2328,16 @@ def run_gui() -> int:
                 int(notification.idFrom) == LINK_REPOSITORY
                 and int(notification.code) in {NM_CLICK, NM_RETURN}
             ):
+                if initial_update_result is not None:
+                    user32.SetWindowPos(
+                        hwnd,
+                        wintypes.HWND(HWND_NOTOPMOST),
+                        0,
+                        0,
+                        0,
+                        0,
+                        SWP_NOMOVE | SWP_NOSIZE,
+                    )
                 open_repository()
                 return 0
         if message == WM_COMMAND:
@@ -2223,8 +2358,32 @@ def run_gui() -> int:
                 and state["local_game_available"]
                 and control_id == BUTTON_UPDATE_ACTION
             ):
+                if state["startup_installer_mode"]:
+                    user32.SetWindowPos(
+                        hwnd,
+                        wintypes.HWND(HWND_NOTOPMOST),
+                        0,
+                        0,
+                        0,
+                        0,
+                        SWP_NOMOVE | SWP_NOSIZE,
+                    )
+                    open_repository()
+                    return 0
                 if state["update_available"]:
-                    start_latest_patch()
+                    close_game = bool(state["startup_update_mode"])
+                    state["startup_update_mode"] = False
+                    if close_game:
+                        user32.SetWindowPos(
+                            hwnd,
+                            wintypes.HWND(HWND_NOTOPMOST),
+                            0,
+                            0,
+                            0,
+                            0,
+                            SWP_NOMOVE | SWP_NOSIZE,
+                        )
+                    start_latest_patch(close_game=close_game)
                 else:
                     start_update_check()
                 return 0
@@ -2286,6 +2445,18 @@ def run_gui() -> int:
         raise RuntimeError("GUIウィンドウを作成できませんでした")
     user32.ShowWindow(hwnd, SW_SHOW)
     user32.UpdateWindow(hwnd)
+    if initial_update_result is not None:
+        position_flags = SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW
+        user32.SetWindowPos(
+            hwnd,
+            wintypes.HWND(HWND_TOPMOST),
+            0,
+            0,
+            0,
+            0,
+            position_flags,
+        )
+        user32.SetForegroundWindow(hwnd)
 
     message = wintypes.MSG()
     while user32.GetMessageW(ctypes.byref(message), None, 0, 0) > 0:
