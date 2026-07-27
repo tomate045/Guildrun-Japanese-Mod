@@ -7,7 +7,7 @@
   "manifest_url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/main/latest.json",
   "repository": "https://github.com/tomate045/Guildrun-Japanese-Mod",
   "installer": {
-    "version": "0.4.11",
+    "version": "0.4.12",
     "url": "https://github.com/tomate045/Guildrun-Japanese-Mod/releases/latest/download/Guildrun-Japanese-Mod.zip"
   },
   "patch_notes": {
