@@ -10,7 +10,7 @@
   "installer": {
     "version": "0.4.15",
     "url": "https://github.com/tomate045/Guildrun-Japanese-Mod/releases/latest/download/Guildrun-Japanese-Mod.zip",
-    "content_sha256": "bd0ac7b0b1ea4ddaea54626b27773ef0f94756f436eabf4abc5270770ff0afb1"
+    "content_sha256": "88cc593488139eacf16fc2668fd261da3e865b094efc9bae762026bcde7405d4"
   },
   "patch_notes": {
     "path": "patch_notes.txt",
