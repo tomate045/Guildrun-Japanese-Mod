@@ -54,6 +54,8 @@ def load_embedded_versions() -> dict[str, str]:
     patterns = {
         "exe_version": r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?",
     }
+    if base is None:
+        patterns["app_version"] = r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?"
     for key, pattern in patterns.items():
         value = str(raw.get(key, ""))
         if not re.fullmatch(pattern, value):
@@ -63,7 +65,11 @@ def load_embedded_versions() -> dict[str, str]:
 
 
 BUILD_VERSIONS = load_embedded_versions()
-PATCHER_VERSION = BUILD_VERSIONS["exe_version"]
+PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
+# 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
+APP_VERSION = "0.4.16"
+if APP_VERSION == "__APP_VERSION__":
+    APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
 RESULT_FILENAME = "Guildrun日本語化_更新確認.txt"
 APPLY_TEMP_PREFIX = ".guildrun_jp_apply_"
@@ -94,7 +100,7 @@ HTTP_TIMEOUT_SECONDS = 30
 MAX_MANIFEST_BYTES = 2 * 1024 * 1024
 MAX_FILE_BYTES = 100 * 1024 * 1024
 MAX_UPDATE_BYTES = 256 * 1024 * 1024
-HTTP_USER_AGENT = f"GuildrunJapaneseMod/{PATCHER_VERSION}"
+HTTP_USER_AGENT = f"GuildrunJapaneseMod/{APP_VERSION}"
 
 
 class PatchCompatibilityError(RuntimeError):
@@ -217,6 +223,20 @@ def validate_manifest(raw: dict[str, Any]) -> dict[str, Any]:
         str(raw.get("data_version", "")),
     ):
         raise RuntimeError("翻訳データのバージョン情報が不正です")
+    installer_for_version = raw.get("installer")
+    fallback_app_version = (
+        installer_for_version.get("version", "")
+        if isinstance(installer_for_version, dict)
+        else ""
+    )
+    remote_app_version = str(
+        raw.get("app_version", fallback_app_version)
+    )
+    if not re.fullmatch(
+        r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?",
+        remote_app_version,
+    ):
+        raise RuntimeError("アプリのバージョン情報が不正です")
     commit = str(raw.get("content_commit", ""))
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise RuntimeError("更新情報のコミットIDが不正です")
@@ -258,7 +278,7 @@ def validate_manifest(raw: dict[str, Any]) -> dict[str, Any]:
         r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?",
         str(installer.get("version", "")),
     ):
-        raise RuntimeError("アプリ本体のバージョン情報が不正です")
+        raise RuntimeError("配布パッケージのバージョン情報が不正です")
     if installer.get("url") != INSTALLER_URL:
         raise RuntimeError("インストーラの配布先が一致しません")
 
@@ -344,6 +364,10 @@ def read_update_state(root: Path) -> dict[str, Any] | None:
 def write_update_state(root: Path, manifest: dict[str, Any]) -> None:
     state = {
         "format": 1,
+        "app_version": manifest.get(
+            "app_version",
+            manifest["installer"]["version"],
+        ),
         "data_version": manifest["data_version"],
         "content_commit": manifest["content_commit"],
         "files": {
@@ -502,13 +526,27 @@ def perform_update_check(
         )
     manifest = fetch_manifest()
     notes = fetch_patch_notes(manifest) if include_patch_notes else ""
-    remote_patcher_version = str(manifest["installer"]["version"])
-    patcher_update_available = (
-        version_numbers(remote_patcher_version) > version_numbers(PATCHER_VERSION)
+    remote_package_version = str(manifest["installer"]["version"])
+    installer_update_available = (
+        version_numbers(remote_package_version) > version_numbers(PACKAGE_VERSION)
+    )
+    remote_app_version = str(
+        manifest.get("app_version", remote_package_version)
+    )
+    app_version_update_available = (
+        version_numbers(remote_app_version) > version_numbers(APP_VERSION)
     )
     remote_data_version = str(manifest["data_version"])
     state = read_update_state(root)
     changed, stale = changed_content_entries(root, manifest, state)
+    if app_version_update_available:
+        changed_paths = {str(entry["path"]) for entry in changed}
+        changed.extend(
+            entry
+            for entry in manifest["files"]
+            if str(entry["path"]) in AUTO_UPDATE_APP_PATHS
+            and str(entry["path"]) not in changed_paths
+        )
     application_content_update = any(
         str(entry["path"]) in AUTO_UPDATE_APP_PATHS for entry in changed
     ) or any(path.as_posix() in AUTO_UPDATE_APP_PATHS for path in stale)
@@ -517,13 +555,14 @@ def perform_update_check(
         return {
             "status": (
                 "update_available"
-                if patcher_update_available or changed or stale
+                if installer_update_available or changed or stale
                 else "current"
             ),
             "data_version": remote_data_version,
-            "patcher_version": remote_patcher_version,
+            "app_version": remote_app_version,
+            "installer_version": remote_package_version,
             "patch_notes": notes,
-            "patcher_update_available": patcher_update_available,
+            "installer_update_available": installer_update_available,
             "application_update_available": application_content_update,
             "changed": [str(entry["path"]) for entry in changed],
             "removed": [path.as_posix() for path in stale],
@@ -558,9 +597,10 @@ def perform_update_check(
     return {
         "status": status,
         "data_version": remote_data_version,
-        "patcher_version": remote_patcher_version,
+        "app_version": remote_app_version,
+        "installer_version": remote_package_version,
         "patch_notes": notes,
-        "patcher_update_available": patcher_update_available,
+        "installer_update_available": installer_update_available,
         "application_updated": application_content_update,
         "changed": [str(entry["path"]) for entry in applied_changed],
         "removed": [path.as_posix() for path in applied_stale],
@@ -591,9 +631,8 @@ def show_update_notification(result: dict[str, Any]) -> None:
 
 def startup_update_action(result: dict[str, Any]) -> str:
     content_update = bool(result.get("changed") or result.get("removed"))
-    application_update = bool(result.get("application_update_available"))
-    installer_update = bool(result.get("patcher_update_available"))
-    if content_update and not application_update and not installer_update:
+    installer_update = bool(result.get("installer_update_available"))
+    if content_update and not installer_update:
         return "apply"
     return "download"
 
@@ -1372,7 +1411,8 @@ def run_patch(
                 shutil.copy2(generated_file, destination)
 
         return {
-            "patcher_version": PATCHER_VERSION,
+            "app_version": APP_VERSION,
+            "package_version": PACKAGE_VERSION,
             "data_version": config.get("data_version", ""),
             "game_dir": str(game_dir),
             "mode": "applied" if direct_apply else "generated",
@@ -1425,7 +1465,7 @@ def cli_main(argv: list[str] | None = None) -> int:
     if args.check_only:
         return check_only_main()
 
-    print(f"Guildrun Demo 日本語化パッチャー {PATCHER_VERSION}")
+    print(f"Guildrun Demo 日本語化アプリ {APP_VERSION}")
     try:
         data_path = (args.data or (app_dir() / DATA_FILENAME)).resolve()
         config = load_config(data_path)
@@ -1724,7 +1764,8 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         "local_game_available": local_game_available(app_dir().resolve()),
         "local_data_available": initial_data_available,
         "local_data_version": read_local_data_version(app_dir().resolve()),
-        "remote_exe_version": None,
+        "remote_app_version": None,
+        "remote_package_version": None,
         "remote_data_version": None,
         "update_available": not initial_data_available,
         "startup_update_mode": startup_direct_update,
@@ -1870,26 +1911,27 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
 
     def version_display_text() -> str:
         local_data_version = state["local_data_version"]
-        exe_line = f"MOD本体: v{PATCHER_VERSION}"
+        app_line = f"アプリ: v{APP_VERSION}"
         data_line = (
             f"翻訳データ（CSV）: v{local_data_version}"
             if local_data_version
             else "翻訳データ（CSV）: なし"
         )
-        remote_exe_version = state["remote_exe_version"]
+        remote_app_version = state["remote_app_version"]
         remote_data_version = state["remote_data_version"]
-        if remote_exe_version and remote_exe_version != PATCHER_VERSION:
-            exe_line += f"　最新版: v{remote_exe_version}"
+        if remote_app_version and remote_app_version != APP_VERSION:
+            app_line += f"　最新版: v{remote_app_version}"
         if remote_data_version and remote_data_version != local_data_version:
             data_line += f"　最新版: v{remote_data_version}"
-        return f"{exe_line}\n{data_line}"
+        return f"{app_line}\n{data_line}"
 
     def refresh_version_display() -> None:
         if "versions" in controls:
             set_text(controls["versions"], version_display_text())
 
     def set_remote_versions(value: dict[str, Any]) -> None:
-        state["remote_exe_version"] = str(value["patcher_version"])
+        state["remote_app_version"] = str(value["app_version"])
+        state["remote_package_version"] = str(value["installer_version"])
         state["remote_data_version"] = str(value["data_version"])
         refresh_version_display()
 
@@ -2039,11 +2081,11 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         set_remote_versions(value)
         set_notes(str(value["patch_notes"]))
         update_status = value["status"]
-        if value.get("patcher_update_available"):
+        if value.get("installer_update_available"):
             show_message(
-                "アプリの新版があります",
-                "日本語化アプリ本体の新しい版があります。\n"
-                "GitHubのページから最新版をダウンロードしてください。\n"
+                "配布パッケージの新版があります",
+                "自動更新できないファイルが更新されています。\n"
+                "GitHubから新しいZIPをダウンロードしてください。\n"
                 f"{REPOSITORY_URL}",
                 MB_OK | MB_ICONINFORMATION,
             )
@@ -2093,7 +2135,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         set_busy(False, "")
         if value["status"] == "update_available":
             content_update = bool(value.get("changed") or value.get("removed"))
-            installer_update = bool(value.get("patcher_update_available"))
+            installer_update = bool(value.get("installer_update_available"))
             application_update = bool(value.get("application_update_available"))
             set_update_available(content_update)
             lines: list[str] = []
@@ -2108,8 +2150,8 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                     )
             if installer_update:
                 lines.append(
-                    "日本語化アプリ本体の新版があります。\n"
-                    f"GitHubから最新版をダウンロードしてください。\n{REPOSITORY_URL}"
+                    "配布パッケージの新版があります。\n"
+                    f"GitHubから新しいZIPをダウンロードしてください。\n{REPOSITORY_URL}"
                 )
             set_text(controls["status"], "更新があります。")
             show_message(
@@ -2313,20 +2355,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                                 "更新のダウンロードと日本語化を行います。",
                             ]
                         )
-                    else:
-                        lines.extend(
-                            [
-                                "",
-                                "アプリの更新を含むため、最新版のMODを",
-                                "GitHubからダウンロードしてください。",
-                            ]
-                        )
-                if initial_update_result.get("patcher_update_available"):
+                if initial_update_result.get("installer_update_available"):
                     lines.extend(
                         [
                             "",
-                            "日本語化MOD本体の新版もあります。",
-                            "GitHubから最新版をダウンロードしてください。",
+                            "配布パッケージの新版もあります。",
+                            "GitHubから新しいZIPをダウンロードしてください。",
                         ]
                     )
                 set_text(controls["status"], "更新があります。")
