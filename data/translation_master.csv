@@ -1969,7 +1969,7 @@ After [Stall ({1}),]<stall> [auto attacks]<bold> deal [{2}+{3}_AttackSpeed]<stat
 
 [忍耐（{1}）]<stall>後、[通常攻撃]<bold>が[追加ダメージ]<damage>[{2}+{3}_AttackSpeed]<statcalc_damage>を与える。"
 PassiveAbilities,9816540992749615,PassiveAbilities.PassiveAbility_10101.Name,Limitless,限界知らず
-PassiveAbilities,9816540992749618,PassiveAbilities.PassiveAbility_10102.Description,Whenever a [Duelist]<duelist> [auto attacks]<bold> it gains [{0}+{1}_Rank]<statcalc_attackspeed> [Attack Speed]<attackspeed> and [{2}+{3}_Rank]<statcalc_attack> [Attack]<attack>. [Backup.]<backup>,[デュエリスト]<duelist>が[通常攻撃]<bold>するたび、そのヒーローの[攻撃速度]<attackspeed>+[{0}+{1}_Rank]<statcalc_attackspeed>、[攻撃力]<attack>+[{2}+{3}_Rank]<statcalc_attack>。[控え有効。]<backup>
+PassiveAbilities,9816540992749618,PassiveAbilities.PassiveAbility_10102.Description,"After [Stall ({4}),]<stall> whenever a [Duelist]<duelist> [auto attacks]<bold> it gains [{0}+{1}_Rank]<statcalc_attackspeed> [Attack Speed]<attackspeed> and [{2}+{3}_Rank]<statcalc_attack> [Attack]<attack>. [Backup.]<backup>",[忍耐（{4}）]<stall>後、[デュエリスト]<duelist>が[通常攻撃]<bold>するたび、そのヒーローの[攻撃速度]<attackspeed>+[{0}+{1}_Rank]<statcalc_attackspeed>、[攻撃力]<attack>+[{2}+{3}_Rank]<statcalc_attack>。[控え有効。]<backup>
 PassiveAbilities,9816540992749617,PassiveAbilities.PassiveAbility_10102.Name,The Mighty,剛力の者
 PassiveAbilities,9816540992749620,PassiveAbilities.PassiveAbility_10103.Description,Gain the unique quest item [Zeus's Thunder]<bold>.,固有クエストアイテム[ゼウスの雷霆]<bold>を得る。
 PassiveAbilities,9816540992749619,PassiveAbilities.PassiveAbility_10103.Name,The Olympic,オリンピアン
@@ -2051,11 +2051,11 @@ PassiveAbilities,9816540996943901,PassiveAbilities.PassiveAbility_101601.Descrip
 
 [投資{2}ごとに、]<bold>[シャードを{3}]<shard>獲得する。"
 PassiveAbilities,9816540996943900,PassiveAbilities.PassiveAbility_101601.Name,The Investor,投資家
-PassiveAbilities,43809116878667784,PassiveAbilities.PassiveAbility_101602.ClassDescription,Gain the [Tank]<tank> class and [40 Defense]<defense>.,[タンク]<tank>クラスと[防御力+40]<defense>を得る。
+PassiveAbilities,43809116878667784,PassiveAbilities.PassiveAbility_101602.ClassDescription,"Gain the [Tank]<tank> class, [40 Defense]<defense>, and [-1 Attack Range]<attackrange>.",[タンク]<tank>クラス、[防御力+40]<defense>、[攻撃射程-1]<attackrange>を得る。
 PassiveAbilities,76066710824673280,PassiveAbilities.PassiveAbility_101602.DataTrackingDescription,[Defense]<defense> Gained: [{0}]<datatracking>,[防御力]<defense>増加量：[{0}]<datatracking>
 PassiveAbilities,9816540996943903,PassiveAbilities.PassiveAbility_101602.Description,"[Blizzard]<bold> applies [{0}+{1}_Defense]<statcalc_shield> more [Shields]<shield> and always targets Gustav.
 
-After [Stall ({2} and Stall {3}),]<stall> permanently gain [{4}+{5}_Rank]<statcalc_defense> [Defense]<defense>.","[ブリザード]<bold>が付与する[シールド]<shield>が[{0}+{1}_Defense]<statcalc_shield>増え、必ずグスタフを標的にする。
+After [Stall ({2} and {3}),]<stall> permanently gain [{4}+{5}_Rank]<statcalc_defense> [Defense]<defense>.","[ブリザード]<bold>が付与する[シールド]<shield>が[{0}+{1}_Defense]<statcalc_shield>増え、必ずグスタフを標的にする。
 
 [忍耐（{2}, {3}）]<stall>後、[防御力]<defense>+[{4}+{5}_Rank]<statcalc_defense>（恒久）。"
 PassiveAbilities,9816540996943902,PassiveAbilities.PassiveAbility_101602.Name,The Glacier,氷河
@@ -2103,7 +2103,7 @@ PassiveAbilities,9816540996943915,PassiveAbilities.PassiveAbility_101802.Descrip
 
 [控え専用：]<backuponly>[戦闘開始時、]<bold>[ヴァンガード]<vanguard>は、このアビリティで増加した[最大HP]<maxhp>をすべて得る。"
 PassiveAbilities,9816540996943914,PassiveAbilities.PassiveAbility_101802.Name,The Glutton,大食漢
-PassiveAbilities,43809116878667787,PassiveAbilities.PassiveAbility_101803.ClassDescription,Gain the [Assassin]<assassin> class and [25 Crit]<crit>.,[アサシン]<assassin>クラスと[クリティカル+25]<crit>を得る。
+PassiveAbilities,43809116878667787,PassiveAbilities.PassiveAbility_101803.ClassDescription,Gain the [Assassin]<assassin> class and [35 Crit]<crit>.,[アサシン]<assassin>クラスと[クリティカル+35]<crit>を得る。
 PassiveAbilities,9816540996943917,PassiveAbilities.PassiveAbility_101803.Description,"On [Crit,]<bold> steal [{0}+{1}_Crit]<statcalc_maxhp> [Health]<health> from the target.",[クリティカル時、]<bold>標的から[HP]<health>を[{0}+{1}_Crit]<statcalc_maxhp>奪う。
 PassiveAbilities,9816540996943916,PassiveAbilities.PassiveAbility_101803.Name,The Brute,荒くれ者
 PassiveAbilities,9816540996943919,PassiveAbilities.PassiveAbility_102001.Description,"[Snowpiercer]<bold> fires {0} more arrows.
@@ -2218,16 +2218,16 @@ Whenever Kai gains [Shields]<shield>, he also gains [{2}+{3}_Rank]<statcalc_atta
 
 カイが[シールド]<shield>を獲得するたび、[攻撃力]<attack>+[{2}+{3}_Rank]<statcalc_attack>。"
 PassiveAbilities,9816540996943948,PassiveAbilities.PassiveAbility_102601.Name,The Unstoppable,止められぬ者
-PassiveAbilities,43809116882862085,PassiveAbilities.PassiveAbility_102602.ClassDescription,Gain the [Tank]<tank> class and [45 Defense]<defense>.,[タンク]<tank>クラスと[防御力+45]<defense>を得る。
+PassiveAbilities,43809116882862085,PassiveAbilities.PassiveAbility_102602.ClassDescription,Gain the [Tank]<tank> class and [30 Defense]<defense>.,[タンク]<tank>クラスと[防御力+30]<defense>を得る。
 PassiveAbilities,9816540996943951,PassiveAbilities.PassiveAbility_102602.Description,"[Resolute Strike]<bold> hits {0} second faster and affects a larger area.
 
 On [cast,]<bold> gain [{1}+{2}_Defense]<statcalc_shield> [lasting]<lasting> [Shields]<shield>.","[不屈の一撃]<bold>が{0}秒早く命中し、効果範囲が広がる。
 
 [アクティブアビリティ発動時、]<bold>[永続]<lasting>[シールド]<shield>を[{1}+{2}_Defense]<statcalc_shield>獲得する。"
 PassiveAbilities,9816540996943950,PassiveAbilities.PassiveAbility_102602.Name,The Bold,大胆なる者
-PassiveAbilities,9816540996943953,PassiveAbilities.PassiveAbility_102603.Description,"For [Rush ({0}),]<rush> gain [{1}+{2}_Crit]<statcalc_crit>.
+PassiveAbilities,9816540996943953,PassiveAbilities.PassiveAbility_102603.Description,"For [Rush ({0}),]<rush> gain [{1}+{2}_Crit]<statcalc_crit> [Crit]<crit>.
 
-Whenever a [Warrior]<warrior> [Crits]<crit> reduce their target's [Defense]<defense> by [{3}+{4}_Rank]<statcalc_defense>. [Backup.]<backup>","[速攻（{0}）]<rush>の間、クリティカル+[{1}+{2}_Crit]<statcalc_crit>。
+Whenever a [Warrior]<warrior> [Crits]<crit> reduce their target's [Defense]<defense> by [{3}+{4}_Rank]<statcalc_defense>. [Backup.]<backup>","[速攻（{0}）]<rush>の間、[クリティカル]<crit>+[{1}+{2}_Crit]<statcalc_crit>。
 
 [ウォリアー]<warrior>が[クリティカル]<crit>を発生させるたび、標的の[防御力]<defense>を[{3}+{4}_Rank]<statcalc_defense>低下させる。[控え有効。]<backup>"
 PassiveAbilities,9816540996943952,PassiveAbilities.PassiveAbility_102603.Name,The Intrepid,勇猛なる者
@@ -2293,7 +2293,7 @@ PassiveAbilities,9816540992749643,PassiveAbilities.PassiveAbility_10503.Name,The
 PassiveAbilities,44096926831476740,PassiveAbilities.PassiveAbility_10601.DataTrackingDescription,[Magic]<magic> Gained: [{0}]<datatracking>.,[魔力]<magic>増加量：[{0}]<datatracking>。
 PassiveAbilities,9816540992749646,PassiveAbilities.PassiveAbility_10601.Description,"On [Stall]<stall> trigger, permanently gain [{0} Magic]<magic>.
 
-After [Stall ({1}, Stall {2}, and Stall {3}),]<stall> gain [+{4}% Magic]<magic> and increase the duration of Requiem Barrage by {5} second.","[忍耐]<stall>発動時、[魔力+{0}]<magic>（恒久）。
+After [Stall ({1}, {2}, and {3}),]<stall> gain [+{4}% Magic]<magic> and increase the duration of Requiem Barrage by {5} second.","[忍耐]<stall>発動時、[魔力+{0}]<magic>（恒久）。
 
 [忍耐（{1}, {2}, {3}）]<stall>後、[魔力+{4}%]<magic>。さらに「鎮魂歌の斉射」の持続時間+{5}秒。"
 PassiveAbilities,9816540992749645,PassiveAbilities.PassiveAbility_10601.Name,The Crescendo,クレッシェンド
@@ -2329,7 +2329,7 @@ After [Stall ({2}),]<stall> increase the amount of [Debuffs]<debuff> on all enem
 
 [忍耐（{2}）]<stall>後、敵全体の[デバフ]<debuff>量を[{3}+{4}_Rank]<statcalc_rank>[%]<rank>増加させる。[控え有効。]<backup>"
 PassiveAbilities,9816540992749659,PassiveAbilities.PassiveAbility_10802.Name,The Fae's Kiss,妖精の口づけ
-PassiveAbilities,43809116878667781,PassiveAbilities.PassiveAbility_10803.ClassDescription,Gain the [Mage]<mage> class and [40 Magic]<magic>.,[メイジ]<mage>クラスと[魔力+40]<magic>を得る。
+PassiveAbilities,43809116878667781,PassiveAbilities.PassiveAbility_10803.ClassDescription,Gain the [Mage]<mage> class and [30 Magic]<magic>.,[メイジ]<mage>クラスと[魔力+30]<magic>を得る。
 PassiveAbilities,9816540992749662,PassiveAbilities.PassiveAbility_10803.Description,"After [Stall ({0}),]<stall> [Sanctuary of Bloom]<bold> also inflicts [{1}+{2}_Magic]<statcalc_frost> [Frost]<frost> and [{3}+{4}_Magic]<statcalc_burn> [Burn]<burn> each second.",[忍耐（{0}）]<stall>後、[花咲く聖域]<bold>が毎秒[凍気]<frost>を[{1}+{2}_Magic]<statcalc_frost>、[炎上]<burn>を[{3}+{4}_Magic]<statcalc_burn>付与する。
 PassiveAbilities,9816540992749661,PassiveAbilities.PassiveAbility_10803.Name,The Earth's Child,大地の子
 PassiveAbilities,9816540992749582,PassiveAbilities.PassiveAbility_109.Description,Gain [{0}+{1}_MaxHealth]<statcalc_hps> [HP/S]<hp/s>.,[秒間HP回復]<hp/s>+[{0}+{1}_MaxHealth]<statcalc_hps>。
@@ -2641,7 +2641,7 @@ Relics,21745596571041807,Relics.Relic_1005.Description,[Mystics]<mystic> gain [{
 Relics,21745596571041806,Relics.Relic_1005.Name,Mystic's Medallion,ミスティックのメダリオン
 Relics,21745596571041809,Relics.Relic_1006.Description,[Mages]<mage> gain [{0} Magic]<magic>.,[メイジ]<mage>の[魔力+{0}]<magic>。
 Relics,21745596571041808,Relics.Relic_1006.Name,Mage's Medallion,メイジのメダリオン
-Relics,21745596571041811,Relics.Relic_1007.Description,"After [Stall ({0} and Stall {1}),]<stall> inflict [{2} Poison]<poison> on all enemies.","[忍耐（{0}, {1}）]<stall>後、敵全体に[毒を{2}]<poison>付与する。"
+Relics,21745596571041811,Relics.Relic_1007.Description,"After [Stall ({0} and {1}),]<stall> inflict [{2} Poison]<poison> on all enemies.","[忍耐（{0}, {1}）]<stall>後、敵全体に[毒を{2}]<poison>付与する。"
 Relics,21745596571041810,Relics.Relic_1007.Name,Poison Bloom,毒花
 Relics,21745596571041813,Relics.Relic_1008.Description,"At [start of combat,]<bold> inflict [{0} Frost]<frost> on all enemies.",[戦闘開始時、]<bold>敵全体に[凍気を{0}]<frost>付与する。
 Relics,21745596571041812,Relics.Relic_1008.Name,Frost Surge,凍気の奔流
@@ -2778,7 +2778,7 @@ Relics,65024501187477551,Relics.Relic_2032.QuestDescription,Inflict [{0} Poison]
 Relics,65024501187477552,Relics.Relic_2032.QuestRewardDescription,"Whenever a Hero inflicts [Poison,]<poison> they gain [{0} Magic]<magic> and [{1} Attack]<attack> per [{2} Poison]<poison> inflicted.",ヒーローが[毒を付与するたび、]<poison>付与した[毒{2}]<poison>につき[魔力+{0}]<magic>、[攻撃力+{1}]<attack>。
 Relics,21745596571041912,Relics.Relic_2033.Description,"Whenever a Hero inflicts [Frost]<frost>, inflict {0}% more.",ヒーローが[凍気]<frost>を付与するとき、付与量が{0}%増える。
 Relics,21745596571041911,Relics.Relic_2033.Name,Frost Amplifier,凍気増幅器
-Relics,21745596571041914,Relics.Relic_2034.Description,"After [Stall ({0}, Stall {1}, and Stall {2}),]<stall> all enemies receive damage equal to {3} times the amount of [Frost]<frost> they have.","[忍耐（{0}, {1}, {2}）]<stall>後、敵全体が自身に付与された[凍気]<frost>の{3}倍に等しいダメージを受ける。"
+Relics,21745596571041914,Relics.Relic_2034.Description,"After [Stall ({0}, {1}, and {2}),]<stall> all enemies receive damage equal to {3} times the amount of [Frost]<frost> they have.","[忍耐（{0}, {1}, {2}）]<stall>後、敵全体が自身に付与された[凍気]<frost>の{3}倍に等しいダメージを受ける。"
 Relics,21745596571041913,Relics.Relic_2034.Name,Frost Catalyst,凍気触媒
 Relics,21745596571041915,Relics.Relic_2035.Name,Frost Conduit,凍気導管
 Relics,65024501187477553,Relics.Relic_2035.QuestDescription,Inflict [{0} Frost]<frost>.,[凍気を合計{0}]<frost>付与する。
@@ -2857,7 +2857,7 @@ Relics,21745596571041950,Relics.Relic_2055.Name,Backline Quickener,後衛加速�
 Relics,21745596571041953,Relics.Relic_2056.Description,Shop [rerolls]<reroll> cost {0} less.,ショップの[リロール]<reroll>費用が{0}減る。
 Relics,21745596571041952,Relics.Relic_2056.Name,Advanced Differentiator,上級差分器
 Relics,21745596571041956,Relics.Relic_2057.DataTrackingDescription,[Rerolls]<reroll> [this Game:]<bold> [globalRerolls]<globaldatatracking>,このラン中の[リロール]<reroll>[回数：]<bold> [globalRerolls]<globaldatatracking>
-Relics,21745596571041955,Relics.Relic_2057.Description,"After [Stall ({0} and Stall {1}),]<bold> give Heroes a [lasting]<lasting> [{2}% Max HP Shield]<shield> for each time you've [rerolled]<reroll> the shop this game.","[忍耐（{0}, {1}）]<bold>後、このラン中にショップを[リロール]<reroll>した回数1回につき、ヒーローが自身の最大HPの{2}%に等しい[永続]<lasting>[シールド]<shield>を獲得する。"
+Relics,21745596571041955,Relics.Relic_2057.Description,"After [Stall ({0} and {1}),]<bold> give Heroes a [lasting]<lasting> [{2}% Max HP Shield]<shield> for each time you've [rerolled]<reroll> the shop this game.","[忍耐（{0}, {1}）]<bold>後、このラン中にショップを[リロール]<reroll>した回数1回につき、ヒーローが自身の最大HPの{2}%に等しい[永続]<lasting>[シールド]<shield>を獲得する。"
 Relics,21745596571041954,Relics.Relic_2057.Name,Protective Differentiator,防護差分器
 Relics,21745596571041957,Relics.Relic_2058.Name,Violence Conduit,武力導管
 Relics,65024501187477561,Relics.Relic_2058.QuestDescription,Auto attack {0} times.,通常攻撃を{0}回行う。
@@ -2924,14 +2924,14 @@ Relics,21745596575236136,Relics.Relic_3019.Name,Trigger Synchrony Activator,ト�
 Relics,21745596575236138,Relics.Relic_3020.Name,Deceleration Ascendancy,減速の昇華
 Relics,65024501187477565,Relics.Relic_3020.QuestDescription,Trigger [Stall]<stall> {0} times.,[忍耐]<stall>を{0}回発動する。
 Relics,65024501187477566,Relics.Relic_3020.QuestRewardDescription,[Stall]<stall> abilities trigger {0} seconds faster.,[忍耐]<stall>アビリティの発動が{0}秒早まる。
-Relics,21745596575236140,Relics.Relic_3021.Description,"After [Stall ({0}, Stall {1}, and Stall {2}),]<stall> give Heroes +{3}% to all their [basic stats]<basicstat>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローの[基本ステータス+{3}%]<basicstat>。"
+Relics,21745596575236140,Relics.Relic_3021.Description,"After [Stall ({0}, {1}, and {2}),]<stall> give Heroes +{3}% to all their [basic stats]<basicstat>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローの[基本ステータス+{3}%]<basicstat>。"
 Relics,21745596575236139,Relics.Relic_3021.Name,Deceleration Apotheosis,減速の神格化
-Relics,21745596575236142,Relics.Relic_3022.Description,"After [Stall ({0}) and Stall ({1}),]<stall> double the amount of [Poison]<poison> on all enemies.","[忍耐（{0}, {1}）]<stall>後、敵全体に付与されている[毒]<poison>を2倍にする。"
+Relics,21745596575236142,Relics.Relic_3022.Description,"After [Stall ({0}) and ({1}),]<stall> double the amount of [Poison]<poison> on all enemies.","[忍耐（{0}, {1}）]<stall>後、敵全体に付与されている[毒]<poison>を2倍にする。"
 Relics,21745596575236141,Relics.Relic_3022.Name,Deceleration Corruptor,減速の侵食装置
-Relics,21745596575236144,Relics.Relic_3023.Description,"After [Stall ({0}, Stall {1}, and Stall {2}),]<stall> Heroes gain [{3}]<shield> [lasting]<lasting> [Shields]<shield>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローが[{3}]<shield>の[永続]<lasting>[シールド]<shield>を獲得する。"
+Relics,21745596575236144,Relics.Relic_3023.Description,"After [Stall ({0}, {1}, and {2}),]<stall> Heroes gain [{3}]<shield> [lasting]<lasting> [Shields]<shield>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローが[{3}]<shield>の[永続]<lasting>[シールド]<shield>を獲得する。"
 Relics,21745596575236143,Relics.Relic_3023.Name,Deceleration Aegis,減速のイージス
 Relics,21745596575236147,Relics.Relic_3024.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [{0}]<datatracking>,[シャード]<shard>の[生成数：]<generate> [{0}]<datatracking>
-Relics,21745596575236146,Relics.Relic_3024.Description,"After [Stall ({0} and Stall {1}),]<stall> gain [{2} Shards]<shard>.","[忍耐（{0}, {1}）]<stall>後、[シャードを{2}]<shard>獲得する。"
+Relics,21745596575236146,Relics.Relic_3024.Description,"After [Stall ({0} and {1}),]<stall> gain [{2} Shards]<shard>.","[忍耐（{0}, {1}）]<stall>後、[シャードを{2}]<shard>獲得する。"
 Relics,21745596575236145,Relics.Relic_3024.Name,Deceleration Filigree,減速フィリグリー
 Relics,21745596575236148,Relics.Relic_3025.Name,Acceleration Ascendancy,加速の昇華
 Relics,65024501187477567,Relics.Relic_3025.QuestDescription,Trigger [Rush]<rush> {0} times.,[速攻]<rush>を{0}回発動する。
@@ -2962,7 +2962,7 @@ Relics,65024501195866113,Relics.Relic_3035.QuestRewardDescription,Heroes gain [+
 Relics,21745596575236169,Relics.Relic_3036.DataTrackingDescription,[Shield]<shield> [Amount:]<bold> [{0}]<datatracking>,[シールド]<shield>[量：]<bold> [{0}]<datatracking>
 Relics,21745596575236168,Relics.Relic_3036.Description,"At [start of combat]<bold> and after [Stall ({0}),]<stall> spend [{1} Shard]<shard> to apply [lasting]<lasting> [Shields]<shield> to all Heroes, then permanently increase the amount of [Shields]<shield> this applies by {2}.",[戦闘開始時]<bold>および[忍耐（{0}）]<stall>後、[シャードを{1}]<shard>消費して味方全員に[永続]<lasting>[シールド]<shield>を付与し、この効果で付与する[シールド]<shield>を恒久的に{2}増加させる。
 Relics,21745596575236167,Relics.Relic_3036.Name,Shield Investment Filigree,シールド投資フィリグリー
-Relics,21745596575236171,Relics.Relic_3037.Description,"Gain interest on saved [Shards]<shard>. At the end each combat, gain [{0} additional Shard per {1} Shards]<shard> in your bank (Max: {2}. Does not count towards [generation]<generate>).",貯めた[シャード]<shard>に利息がつく。各戦闘終了時、所持する[シャード{1}につき追加で{0}シャード]<shard>を獲得する（最大：{2}。[生成]<generate>には数えない）。
+Relics,21745596575236171,Relics.Relic_3037.Description,"Gain interest on saved [Shards]<shard>. At the end of each combat, gain [{0} additional Shard per {1} Shards]<shard> in your bank (Max: {2}. Does not count towards [generation]<generate>).",貯めた[シャード]<shard>に利息がつく。各戦闘終了時、所持する[シャード{1}につき追加で{0}シャード]<shard>を獲得する（最大：{2}。[生成]<generate>には数えない）。
 Relics,21745596575236170,Relics.Relic_3037.Name,Shard Maximizer,シャード最大化装置
 Relics,21745596575236172,Relics.Relic_3038.Name,Shard Ascendancy,シャードの昇華
 Relics,65024501195866114,Relics.Relic_3038.QuestDescription,[Generate]<generate> [{0} Shards]<shards>.,[シャードを{0}]<shards>[生成する]<generate>。
@@ -3154,7 +3154,7 @@ Relics,65024501195866160,Relics.Relic_4034.QuestDescription,Win a combat with on
 Relics,65024501195866161,Relics.Relic_4034.QuestRewardDescription,Increase your team size by {0} (Max: {1}).,チーム人数を{0}増加させる（最大：{1}）。
 Relics,53836991391850500,Relics.Relic_4035.Description,"At [start of combat,]<bold> [Tanks]<tank> and [Vanguards]<vanguard> gain [Shields]<shield> equal to [{0}% of their Max HP]<maxhp>.
 
-After [Stall ({1} and Stall {2}),]<stall> [Tanks]<tank> and [Vanguards]<vanguard> gain [Shields]<shield> equal to [{3}% of their Defense]<defense>.","[戦闘開始時、]<bold>[タンク]<tank>と[ヴァンガード]<vanguard>が[最大HPの{0}%]<maxhp>に等しい[シールド]<shield>を獲得する。
+After [Stall ({1} and {2}),]<stall> [Tanks]<tank> and [Vanguards]<vanguard> gain [Shields]<shield> equal to [{3}% of their Defense]<defense>.","[戦闘開始時、]<bold>[タンク]<tank>と[ヴァンガード]<vanguard>が[最大HPの{0}%]<maxhp>に等しい[シールド]<shield>を獲得する。
 
 [忍耐（{1}, {2}）]<stall>後、[タンク]<tank>と[ヴァンガード]<vanguard>が[防御力の{3}%]<defense>に等しい[シールド]<shield>を獲得する。"
 Relics,53836991391850499,Relics.Relic_4035.Name,Defensive Energy Crystal,防御エネルギークリスタル
@@ -3405,29 +3405,17 @@ Relics,65024501195866162,Relics.Relic_6002.QuestDescription,Win {0} combats.,戦
 Relics,65024501195866163,Relics.Relic_6002.QuestRewardDescription,Gain [{0} Shards]<shard>.,[シャードを{0}]<shard>獲得する。
 Relics,43380839424851984,Relics.Relic_6003.Description,Gain [{0} Shards]<shard>.,[シャードを{0}]<shard>獲得する。
 Relics,43380839424851983,Relics.Relic_6003.Name,Shard Pouch,シャードポーチ
-Relics,43380839424851986,Relics.Relic_6004.Description,"Get {0} random common items.
-
-Start with [{1} fewer Shards]<shard>.","ランダムなコモンアイテムを{0}個獲得する。
-
-開始時の[シャード-{1}]<shard>。"
+Relics,43380839424851986,Relics.Relic_6004.Description,Get {0} random common items.,ランダムなコモンアイテムを{0}個獲得する。
 Relics,43380839424851985,Relics.Relic_6004.Name,Item Windfall,アイテム大当たり
 Relics,43380839424851988,Relics.Relic_6005.Description,Get a random rare relic.,ランダムなレアレリックを獲得する。
 Relics,43380839424851987,Relics.Relic_6005.Name,Mystery Charm,謎めいたチャーム
-Relics,43380839424851990,Relics.Relic_6006.Description,"Get two random items which make a Hero count as having an additional class.
-
-Start with [{0} fewer Shards]<shard>.","装備者が追加クラスを持つものとして扱われるランダムなアイテムを2個獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424851990,Relics.Relic_6006.Description,Get two random items which make a Hero count as having an additional class.,装備者が追加クラスを持つものとして扱われるランダムなアイテムを2個獲得する。
 Relics,43380839424851989,Relics.Relic_6006.Name,Crest Windfall,紋章大当たり
 Relics,43380839424851992,Relics.Relic_6007.Description,The shop shows an additional relic.,ショップに追加でレリックが1つ並ぶ。
 Relics,43380839424851991,Relics.Relic_6007.Name,Relic Bazaar,レリックバザール
 Relics,43380839424851994,Relics.Relic_6008.Description,Items cost [{0} fewer Shards]<shard>.,アイテムの価格が[シャード{0}個分安くなる]<shard>。
 Relics,43380839424851993,Relics.Relic_6008.Name,Item Bazaar,アイテムバザール
-Relics,43380839424851996,Relics.Relic_6009.Description,"Gain [{0} extra Shard]<shard> per surviving Hero at end of combat.
-
-Start with [{1} fewer Shards]<shard>.","戦闘終了時、生存ヒーロー1人につき追加で[シャードを{0}]<shard>獲得する。
-
-開始時の[シャード-{1}]<shard>。"
+Relics,43380839424851996,Relics.Relic_6009.Description,Gain [{0} extra Shard]<shard> per surviving Hero at end of combat.,戦闘終了時、生存ヒーロー1人につき追加で[シャードを{0}]<shard>獲得する。
 Relics,43380839424851995,Relics.Relic_6009.Name,Survivor Charm,生存者のチャーム
 Relics,11913064820228169,Relics.Relic_601.DataTrackingDescription,[Magic]<magic> Gained: [{0}]<datatracking>,[魔力]<magic>増加量：[{0}]<datatracking>
 Relics,11913064820228168,Relics.Relic_601.Description,"After [Stall ({0}),]<stall> [Mages]<mage> permanently gain [{1} Magic]<magic>.",[忍耐（{0}）]<stall>後、[メイジ]<mage>の[魔力+{1}]<magic>（恒久）。
@@ -3468,47 +3456,19 @@ Relics,43380839424852011,Relics.Relic_6017.Description,"Heroes gain [{0}]<datatr
 
 [戦闘に{1}回勝利するごとに、]<bold>この[基本ステータス]<basicstat>増加量が恒久的に{2}%増える。"
 Relics,43380839424852010,Relics.Relic_6017.Name,Legacy Charm,遺産のチャーム
-Relics,43380839424852014,Relics.Relic_6018.Description,"Get an item which benefits [Warriors]<warrior>.
-
-Start with [{0} fewer Shards]<shard>.","[ウォリアー]<warrior>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852014,Relics.Relic_6018.Description,Get an item which benefits [Warriors]<warrior>.,[ウォリアー]<warrior>向けのアイテムを獲得する。
 Relics,43380839424852013,Relics.Relic_6018.Name,Warrior Equipment,ウォリアー装備
-Relics,43380839424852016,Relics.Relic_6019.Description,"Get an item which benefits [Tanks]<tank>.
-
-Start with [{0} fewer Shards]<shard>.","[タンク]<tank>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852016,Relics.Relic_6019.Description,Get an item which benefits [Tanks]<tank>.,[タンク]<tank>向けのアイテムを獲得する。
 Relics,43380839424852015,Relics.Relic_6019.Name,Tank Equipment,タンク装備
-Relics,43380839424852018,Relics.Relic_6020.Description,"Get an item which benefits [Vanguards]<vanguard>.
-
-Start with [{0} fewer Shards]<shard>.","[ヴァンガード]<vanguard>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852018,Relics.Relic_6020.Description,Get an item which benefits [Vanguards]<vanguard>.,[ヴァンガード]<vanguard>向けのアイテムを獲得する。
 Relics,43380839424852017,Relics.Relic_6020.Name,Vanguard Equipment,ヴァンガード装備
-Relics,43380839424852020,Relics.Relic_6021.Description,"Get an item which benefits [Assassins]<assassin>.
-
-Start with [{0} fewer Shards]<shard>.","[アサシン]<assassin>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852020,Relics.Relic_6021.Description,Get an item which benefits [Assassins]<assassin>.,[アサシン]<assassin>向けのアイテムを獲得する。
 Relics,43380839424852019,Relics.Relic_6021.Name,Assassin Equipment,アサシン装備
-Relics,43380839424852022,Relics.Relic_6022.Description,"Get an item which benefits [Duelists]<duelist>.
-
-Start with [{0} fewer Shards]<shard>.","[デュエリスト]<duelist>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852022,Relics.Relic_6022.Description,Get an item which benefits [Duelists]<duelist>.,[デュエリスト]<duelist>向けのアイテムを獲得する。
 Relics,43380839424852021,Relics.Relic_6022.Name,Duelist Equipment,デュエリスト装備
-Relics,43380839424852024,Relics.Relic_6023.Description,"Get an item which benefits [Mystics]<mystic>.
-
-Start with [{0} fewer Shards]<shard>.","[ミスティック]<mystic>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852024,Relics.Relic_6023.Description,Get an item which benefits [Mystics]<mystic>.,[ミスティック]<mystic>向けのアイテムを獲得する。
 Relics,43380839424852023,Relics.Relic_6023.Name,Mystic Equipment,ミスティック装備
-Relics,43380839424852026,Relics.Relic_6024.Description,"Get an item which benefits [Mages]<mage>.
-
-Start with [{0} fewer Shards]<shard>.","[メイジ]<mage>向けのアイテムを獲得する。
-
-開始時の[シャード-{0}]<shard>。"
+Relics,43380839424852026,Relics.Relic_6024.Description,Get an item which benefits [Mages]<mage>.,[メイジ]<mage>向けのアイテムを獲得する。
 Relics,43380839424852025,Relics.Relic_6024.Name,Mage Equipment,メイジ装備
 Relics,43380839424852028,Relics.Relic_6025.Description,Get an item which makes a Hero count as a [Warrior]<warrior> during combat.,戦闘中、ヒーローが[ウォリアー]<warrior>としても扱われるアイテムを獲得する。
 Relics,43380839424852027,Relics.Relic_6025.Name,Warrior Crest,ウォリアーの紋章
@@ -3538,7 +3498,7 @@ Relics,47253256617844762,Relics.Relic_6037.Description,Get a random rare item th
 Relics,47253256617844761,Relics.Relic_6037.Name,Mana Regen Parcel,マナ回復の小包
 Relics,47253256617844764,Relics.Relic_6038.Description,Get a random rare item that gives [Magic]<magic>.,[魔力]<magic>を付与するランダムなレアアイテムを獲得する。
 Relics,47253256617844763,Relics.Relic_6038.Name,Magic Parcel,魔力の小包
-Relics,11913064820228171,Relics.Relic_604.Description,"After [Stall ({0} and Stall {1}),]<stall> [Mages]<mage> gain [{2} Mana]<mana>.","[忍耐（{0}, {1}）]<stall>後、[メイジ]<mage>が[マナを{2}]<mana>獲得する。"
+Relics,11913064820228171,Relics.Relic_604.Description,"After [Stall ({0} and {1}),]<stall> [Mages]<mage> gain [{2} Mana]<mana>.","[忍耐（{0}, {1}）]<stall>後、[メイジ]<mage>が[マナを{2}]<mana>獲得する。"
 Relics,11913064820228170,Relics.Relic_604.Name,Mage's Serenity Banner,メイジの静穏旗
 Relics,11913064820228173,Relics.Relic_621.Description,[Warriors]<warrior> gain [{0} Attack]<attack> and [{1} Crit]<crit>.,[ウォリアー]<warrior>の[攻撃力+{0}]<attack>、[クリティカル+{1}]<crit>。
 Relics,11913064820228172,Relics.Relic_621.Name,Warrior's Precise Reflection,ウォリアーの精密な鏡像
