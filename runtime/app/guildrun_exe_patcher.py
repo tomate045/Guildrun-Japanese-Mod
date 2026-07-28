@@ -67,7 +67,7 @@ def load_embedded_versions() -> dict[str, str]:
 BUILD_VERSIONS = load_embedded_versions()
 PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
 # 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
-APP_VERSION = "0.4.17"
+APP_VERSION = "0.4.18"
 if APP_VERSION == "__APP_VERSION__":
     APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
@@ -720,18 +720,17 @@ def perform_latest_flow(
     if checked.get("installer_update_available"):
         return checked
 
-    if close_game:
-        report("ゲームを終了しています…")
-        stop_game_for_update(GAME_EXE_FILENAME)
-
     if checked["status"] == "update_available":
+        if close_game:
+            report("ゲームを終了しています…")
+            stop_game_for_update(GAME_EXE_FILENAME)
         report(
             "更新が見つかりました。最新版を取得し、"
             "日本語化ファイルを生成します…"
         )
         return perform_update_check(root, apply_updates=True)
 
-    report("最新版を確認しました。日本語化ファイルを生成します…")
+    report("すでに最新版です。")
     return checked
 
 
@@ -2245,6 +2244,21 @@ def run_gui(
             return
         refresh_local_data_state()
         if continue_to_patch:
+            if value.get("status") == "current":
+                text = (
+                    "翻訳データと日本語化MODはすでに最新版です。\n\n"
+                    "日本語化をやり直す場合は、\n"
+                    "「手元のデータで日本語化をやり直す」を押してください。"
+                )
+                set_update_available(False)
+                set_busy(False, "すでに最新版です。")
+                set_notes(text)
+                show_message(
+                    "すでに最新版です",
+                    text,
+                    MB_OK | MB_ICONINFORMATION,
+                )
+                return
             if value.get("application_updated"):
                 if state["auto_continue"]:
                     set_busy(False, "アプリの更新を完了できませんでした。")
