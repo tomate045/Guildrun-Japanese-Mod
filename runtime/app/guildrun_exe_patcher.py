@@ -1761,14 +1761,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             )
             return
         answer = show_message(
-            "ゲーム起動時のMOD更新確認",
-            "SteamからGuildrun Demoを起動した時に、次の更新を確認する機能です。\n\n"
-            "・日本語の翻訳データ\n"
-            "・日本語化MOD本体\n\n"
-            "更新がある時だけ通知します。\n"
-            "この確認だけでダウンロードやゲームファイルの変更は行いません。\n\n"
-            "設定を始めますか？",
-            MB_YESNO | MB_ICONINFORMATION,
+            "起動時の更新確認",
+            "Guildrun DemoをSteamから起動した時に、\n"
+            "翻訳データを含むこのMODの更新があるか確認します。\n\n"
+            "更新がなければ何も表示しません。\n\n"
+            "この機能を設定しますか？",
+            MB_YESNO,
         )
         if answer != IDYES:
             return
@@ -1776,21 +1774,19 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         options = steam_launch_options()
         copy_text_to_clipboard(options)
         show_message(
-            "手順 1/2",
-            "更新確認用の設定をクリップボードへコピーしました。\n\n"
-            "Steamのライブラリで「Guildrun Demo」を右クリックし、\n"
-            "「プロパティ」を開いてください。\n\n"
-            "開けたら、この案内の「OK」を押してください。",
-            MB_OK | MB_ICONINFORMATION,
+            "設定 1/2",
+            "Steamに貼り付ける内容をコピーしました。\n\n"
+            "1. Steamのライブラリで「Guildrun Demo」を右クリック\n"
+            "2. 「プロパティ」を開く\n\n"
+            "開いたら「OK」を押してください。",
+            MB_OK,
         )
         show_message(
-            "手順 2/2",
-            "「一般」画面の下にある「起動オプション」欄へ、\n"
-            "先ほどコピーした内容を貼り付けてください。\n\n"
-            "貼り付けたらプロパティ画面を閉じ、\n"
-            "この案内の「OK」を押してください。\n\n"
-            "起動オプション欄へ貼り付けられていれば設定は完了です。",
-            MB_OK | MB_ICONINFORMATION,
+            "設定 2/2",
+            "「一般」にある「起動オプション」へ、\n"
+            "コピーした内容を貼り付けてください。\n\n"
+            "貼り付けたら設定は完了です。",
+            MB_OK,
         )
 
     def open_repository() -> None:
@@ -2243,7 +2239,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             )
             controls["steam_options_button"] = create_control(
                 "BUTTON",
-                "ゲーム起動時のMOD更新確認を設定",
+                "ゲーム起動時にこのMODの更新を確認する",
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
                 226,
