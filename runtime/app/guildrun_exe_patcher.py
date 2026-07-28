@@ -416,6 +416,8 @@ def apply_content_update(
     manifest: dict[str, Any],
     changed: list[dict[str, Any]],
     stale: list[Path],
+    *,
+    write_state: bool = True,
 ) -> None:
     temp_root = root / f"{CONTENT_UPDATE_TEMP_PREFIX}{uuid.uuid4().hex}"
     download_root = temp_root / "download"
@@ -457,7 +459,10 @@ def apply_content_update(
                 or sha256_file(destination) != str(entry["sha256"])
             ):
                 raise RuntimeError(f"更新後の照合に失敗しました: {relative}")
-        write_update_state(root, manifest)
+        if write_state:
+            write_update_state(root, manifest)
+        else:
+            update_state_path(root).unlink(missing_ok=True)
     except Exception as exc:
         rollback_errors: list[str] = []
         for destination, backup in reversed(replaced):
@@ -524,7 +529,26 @@ def perform_update_check(
             "removed": [path.as_posix() for path in stale],
         }
 
-    if changed or stale:
+    applied_changed = changed
+    applied_stale = stale
+    if application_content_update:
+        applied_changed = [
+            entry
+            for entry in changed
+            if str(entry["path"]) in AUTO_UPDATE_APP_PATHS
+        ]
+        applied_stale = [
+            path for path in stale if path.as_posix() in AUTO_UPDATE_APP_PATHS
+        ]
+        apply_content_update(
+            root,
+            manifest,
+            applied_changed,
+            applied_stale,
+            write_state=False,
+        )
+        status = "application_updated"
+    elif changed or stale:
         apply_content_update(root, manifest, changed, stale)
         status = "content_updated"
     else:
@@ -538,8 +562,8 @@ def perform_update_check(
         "patch_notes": notes,
         "patcher_update_available": patcher_update_available,
         "application_updated": application_content_update,
-        "changed": [str(entry["path"]) for entry in changed],
-        "removed": [path.as_posix() for path in stale],
+        "changed": [str(entry["path"]) for entry in applied_changed],
+        "removed": [path.as_posix() for path in applied_stale],
     }
 
 
@@ -2027,12 +2051,15 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         if continue_to_patch:
             if value.get("application_updated"):
                 set_update_available(False)
-                set_busy(False, "アプリを更新しました。再起動してください。")
+                set_busy(
+                    False,
+                    "アプリを更新しました。再起動後に更新を確認してください。",
+                )
                 show_message(
                     "再起動が必要です",
                     "日本語化アプリを更新しました。\n"
                     "いったんこの画面を閉じ、もう一度起動してから\n"
-                    "「既存ファイルで日本語化」を押してください。",
+                    "「更新を確認」を押してください。",
                     MB_OK | MB_ICONINFORMATION,
                 )
                 return
