@@ -24,7 +24,7 @@ import urllib.request
 import uuid
 import zlib
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import UnityPy
 from UnityPy.enums import ArchiveFlags
@@ -67,7 +67,7 @@ def load_embedded_versions() -> dict[str, str]:
 BUILD_VERSIONS = load_embedded_versions()
 PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
 # 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
-APP_VERSION = "0.4.16"
+APP_VERSION = "0.4.17"
 if APP_VERSION == "__APP_VERSION__":
     APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
@@ -388,6 +388,62 @@ def write_update_state(root: Path, manifest: dict[str, Any]) -> None:
     os.replace(temporary, path)
 
 
+def ensure_remote_versions_not_older(
+    root: Path,
+    remote_app_version: str,
+    remote_data_version: str,
+) -> None:
+    state = read_update_state(root)
+    known_app_versions = [APP_VERSION]
+    known_data_versions: list[str] = []
+    local_data_version = read_local_data_version(root)
+    if local_data_version:
+        known_data_versions.append(local_data_version)
+    if state is not None:
+        for key, destination in (
+            ("app_version", known_app_versions),
+            ("data_version", known_data_versions),
+        ):
+            value = str(state.get(key, ""))
+            if re.fullmatch(
+                r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?",
+                value,
+            ):
+                destination.append(value)
+
+    newest_local_app = max(known_app_versions, key=version_numbers)
+    newest_local_data = (
+        max(known_data_versions, key=version_numbers)
+        if known_data_versions
+        else None
+    )
+    older: list[str] = []
+    if (
+        version_numbers(remote_app_version)
+        < version_numbers(newest_local_app)
+    ):
+        older.append(
+            "アプリ: "
+            f"GitHub v{remote_app_version} / 手元 v{newest_local_app}"
+        )
+    if (
+        newest_local_data is not None
+        and version_numbers(remote_data_version)
+        < version_numbers(newest_local_data)
+    ):
+        older.append(
+            "翻訳データ: "
+            f"GitHub v{remote_data_version} / 手元 v{newest_local_data}"
+        )
+    if older:
+        raise RuntimeError(
+            "GitHub上の更新データが手元より古いため、"
+            "更新を中止しました。\n"
+            + "\n".join(older)
+            + "\n\n公開側の更新が完了してから、もう一度お試しください。"
+        )
+
+
 def changed_content_entries(
     root: Path,
     manifest: dict[str, Any],
@@ -525,7 +581,6 @@ def perform_update_check(
             "もう一度起動してください。"
         )
     manifest = fetch_manifest()
-    notes = fetch_patch_notes(manifest) if include_patch_notes else ""
     remote_package_version = str(manifest["installer"]["version"])
     installer_update_available = (
         version_numbers(remote_package_version) > version_numbers(PACKAGE_VERSION)
@@ -537,6 +592,12 @@ def perform_update_check(
         version_numbers(remote_app_version) > version_numbers(APP_VERSION)
     )
     remote_data_version = str(manifest["data_version"])
+    ensure_remote_versions_not_older(
+        root,
+        remote_app_version,
+        remote_data_version,
+    )
+    notes = fetch_patch_notes(manifest) if include_patch_notes else ""
     state = read_update_state(root)
     changed, stale = changed_content_entries(root, manifest, state)
     if app_version_update_available:
@@ -637,6 +698,69 @@ def startup_update_action(result: dict[str, Any]) -> str:
     return "download"
 
 
+def perform_latest_flow(
+    root: Path,
+    *,
+    close_game: bool = False,
+    progress: Callable[[str], None] | None = None,
+) -> dict[str, Any]:
+    """更新確認から必要なファイルの取得までを一度の操作で進める。"""
+
+    def report(message: str) -> None:
+        if progress is not None:
+            progress(message)
+
+    root = root.resolve()
+    report("更新を確認しています…")
+    checked = perform_update_check(
+        root,
+        apply_updates=False,
+        include_patch_notes=False,
+    )
+    if checked.get("installer_update_available"):
+        return checked
+
+    if close_game:
+        report("ゲームを終了しています…")
+        stop_game_for_update(GAME_EXE_FILENAME)
+
+    if checked["status"] == "update_available":
+        report(
+            "更新が見つかりました。最新版を取得し、"
+            "日本語化ファイルを生成します…"
+        )
+        return perform_update_check(root, apply_updates=True)
+
+    report("最新版を確認しました。日本語化ファイルを生成します…")
+    return checked
+
+
+def update_continuation_command(
+    launcher: Path | None = None,
+) -> list[str]:
+    executable = (launcher or Path(sys.executable)).resolve()
+    if _embed_launcher_base() is not None or launcher is not None:
+        return [
+            str(executable),
+            "-m",
+            "guildrun_exe_patcher",
+            "--continue-update",
+        ]
+    return [
+        str(executable),
+        str(Path(__file__).resolve()),
+        "--continue-update",
+    ]
+
+
+def launch_update_continuation() -> None:
+    subprocess.Popen(
+        update_continuation_command(),
+        cwd=app_dir().resolve(),
+        close_fds=True,
+    )
+
+
 def check_only_main(root: Path | None = None) -> int:
     """ゲーム起動時用。更新がある場合だけ通知し、それ以外は黙って終了する。"""
     try:
@@ -647,7 +771,7 @@ def check_only_main(root: Path | None = None) -> int:
         )
     except Exception:
         # ゲーム起動のたびに通信エラー等を表示しない。
-        # 手動の「更新を確認」では従来どおり詳細を表示する。
+        # 手動の「最新版で日本語化」では従来どおり詳細を表示する。
         return 0
     if result["status"] == "update_available":
         show_update_notification(result)
@@ -1532,7 +1656,11 @@ def cli_main(argv: list[str] | None = None) -> int:
     return result
 
 
-def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
+def run_gui(
+    initial_update_result: dict[str, Any] | None = None,
+    *,
+    auto_continue: bool = False,
+) -> int:
     if os.name != "nt":
         raise RuntimeError("GUI版はWindows専用です")
 
@@ -1708,6 +1836,9 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     WM_COMMAND = 0x0111
     WM_SETFONT = 0x0030
     WM_APP_RESULT = 0x8001
+    WM_USER = 0x0400
+    PBM_SETPOS = WM_USER + 2
+    PBM_SETMARQUEE = WM_USER + 10
     WS_OVERLAPPED = 0x00000000
     WS_CAPTION = 0x00C00000
     WS_SYSMENU = 0x00080000
@@ -1723,9 +1854,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     ES_AUTOVSCROLL = 0x0040
     ES_READONLY = 0x0800
     BS_PUSHBUTTON = 0x00000000
+    PBS_SMOOTH = 0x00000001
+    PBS_MARQUEE = 0x00000008
     COLOR_BTNFACE = 15
     IDC_ARROW = 32512
     SW_SHOW = 5
+    SW_HIDE = 0
     HWND_TOPMOST = -1
     HWND_NOTOPMOST = -2
     SWP_NOSIZE = 0x0001
@@ -1741,6 +1875,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     CF_UNICODETEXT = 13
     GMEM_MOVEABLE = 0x0002
     DEFAULT_GUI_FONT = 17
+    ICC_PROGRESS_CLASS = 0x00000020
     ICC_LINK_CLASS = 0x00008000
     NM_CLICK = ctypes.c_uint(-2).value
     NM_RETURN = ctypes.c_uint(-4).value
@@ -1770,12 +1905,14 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         "update_available": not initial_data_available,
         "startup_update_mode": startup_direct_update,
         "startup_installer_mode": startup_action == "download",
+        "auto_continue": auto_continue,
+        "maintenance_visible": startup_action is None and not auto_continue,
     }
     hinstance = kernel32.GetModuleHandleW(None)
     font = gdi32.GetStockObject(DEFAULT_GUI_FONT)
     common_controls = INITCOMMONCONTROLSEX(
         ctypes.sizeof(INITCOMMONCONTROLSEX),
-        ICC_LINK_CLASS,
+        ICC_LINK_CLASS | ICC_PROGRESS_CLASS,
     )
     if not comctl32.InitCommonControlsEx(ctypes.byref(common_controls)):
         raise RuntimeError("リンク表示を初期化できませんでした")
@@ -1890,20 +2027,31 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             controls["steam_options_button"],
             enabled and state["local_game_available"],
         )
+        if "progress" in controls:
+            user32.ShowWindow(
+                controls["progress"],
+                SW_SHOW if value else SW_HIDE,
+            )
+            user32.SendMessageW(
+                controls["progress"],
+                PBM_SETMARQUEE,
+                1 if value else 0,
+                35,
+            )
+            if not value:
+                user32.SendMessageW(controls["progress"], PBM_SETPOS, 0, 0)
         set_text(controls["status"], status)
 
     def set_update_available(value: bool) -> None:
         state["update_available"] = value
         if state["startup_installer_mode"]:
             label = "最新版のダウンロードページを開く"
-        elif value and state["startup_update_mode"]:
-            label = "今すぐ更新する（ゲーム終了、ダウンロードして適用）"
+        elif state["startup_update_mode"]:
+            label = "今すぐ更新して日本語化"
         elif not state["local_data_available"]:
             label = "翻訳データを取得して日本語化"
-        elif value:
-            label = "最新版を適用して日本語化"
         else:
-            label = "更新を確認"
+            label = "最新版で日本語化"
         set_text(
             controls["update_action_button"],
             label,
@@ -1954,6 +2102,14 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 controls["existing_patch_button"],
                 game_available and available and not state["busy"],
             )
+            user32.ShowWindow(
+                controls["existing_patch_button"],
+                (
+                    SW_SHOW
+                    if available and state["maintenance_visible"]
+                    else SW_HIDE
+                ),
+            )
         if "steam_options_button" in controls:
             user32.EnableWindow(
                 controls["steam_options_button"],
@@ -1961,6 +2117,10 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             )
         refresh_version_display()
         return available
+
+    def post_progress(status: str) -> None:
+        results.put(("progress", {"status": status}))
+        user32.PostMessageW(controls["window"], WM_APP_RESULT, 0, 0)
 
     def background(kind: str, operation: Any) -> None:
         try:
@@ -2037,26 +2197,18 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         )
 
     def start_latest_patch(*, close_game: bool = False) -> None:
-        def operation() -> dict[str, Any]:
-            if close_game:
-                stop_game_for_update(GAME_EXE_FILENAME)
-            return perform_update_check(app_dir().resolve(), apply_updates=True)
-
         begin(
             "latest_patch",
             (
-                "ゲームを終了し、最新版を取得しています…"
+                "更新を確認し、必要に応じてゲームを終了します…"
                 if close_game
-                else "最新版を確認・取得しています…"
+                else "更新を確認しています…"
             ),
-            operation,
-        )
-
-    def start_update_check() -> None:
-        begin(
-            "check_update",
-            "GitHubへ接続して更新を確認しています…",
-            lambda: perform_update_check(app_dir().resolve(), apply_updates=False),
+            lambda: perform_latest_flow(
+                app_dir().resolve(),
+                close_game=close_game,
+                progress=post_progress,
+            ),
         )
 
     def handle_patch(payload: dict[str, Any]) -> None:
@@ -2079,9 +2231,10 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     ) -> None:
         value = payload["value"]
         set_remote_versions(value)
-        set_notes(str(value["patch_notes"]))
-        update_status = value["status"]
+        if value.get("patch_notes"):
+            set_notes(str(value["patch_notes"]))
         if value.get("installer_update_available"):
+            set_busy(False, "新しいZIPへの入れ替えが必要です。")
             show_message(
                 "配布パッケージの新版があります",
                 "自動更新できないファイルが更新されています。\n"
@@ -2089,21 +2242,36 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 f"{REPOSITORY_URL}",
                 MB_OK | MB_ICONINFORMATION,
             )
+            return
         refresh_local_data_state()
         if continue_to_patch:
             if value.get("application_updated"):
-                set_update_available(False)
-                set_busy(
-                    False,
-                    "アプリを更新しました。再起動後に更新を確認してください。",
+                if state["auto_continue"]:
+                    set_busy(False, "アプリの更新を完了できませんでした。")
+                    show_message(
+                        "更新を続行できません",
+                        "自動再起動後もアプリの更新が必要な状態です。\n"
+                        "処理を中止しました。もう一度起動してお試しください。",
+                        MB_OK | MB_ICONERROR,
+                    )
+                    return
+                set_text(
+                    controls["status"],
+                    "アプリを更新しました。更新処理を再開しています…",
                 )
-                show_message(
-                    "再起動が必要です",
-                    "日本語化アプリを更新しました。\n"
-                    "いったんこの画面を閉じ、もう一度起動してから\n"
-                    "「更新を確認」を押してください。",
-                    MB_OK | MB_ICONINFORMATION,
-                )
+                try:
+                    launch_update_continuation()
+                except Exception as exc:
+                    set_busy(False, "アプリを自動再起動できませんでした。")
+                    show_message(
+                        "再起動できません",
+                        "アプリを更新しましたが、自動再起動できませんでした。\n"
+                        "もう一度日本語化アプリを起動してください。\n\n"
+                        f"{exc}",
+                        MB_OK | MB_ICONERROR,
+                    )
+                    return
+                user32.DestroyWindow(controls["window"])
                 return
             if not state["local_data_available"]:
                 set_busy(False, "最新版の取得後も必要なデータが見つかりません。")
@@ -2117,56 +2285,6 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             set_busy(False, "最新版を取得しました。日本語化を開始します。")
             start_patch()
             return
-        if update_status == "content_updated":
-            changed = len(value["changed"])
-            removed = len(value["removed"])
-            detail = f"更新しました（更新 {changed}件"
-            if removed:
-                detail += f" / 削除 {removed}件"
-            detail += "）。"
-            set_busy(False, detail)
-        else:
-            set_busy(False, "現在のファイルは最新版です。")
-
-    def handle_update_check(payload: dict[str, Any]) -> None:
-        value = payload["value"]
-        set_remote_versions(value)
-        set_notes(str(value["patch_notes"]))
-        set_busy(False, "")
-        if value["status"] == "update_available":
-            content_update = bool(value.get("changed") or value.get("removed"))
-            installer_update = bool(value.get("installer_update_available"))
-            application_update = bool(value.get("application_update_available"))
-            set_update_available(content_update)
-            lines: list[str] = []
-            if content_update:
-                lines.append(
-                    "日本語化ファイルの更新があります。\n"
-                    "「最新版を適用して日本語化」を押してください。"
-                )
-                if application_update:
-                    lines.append(
-                        "アプリの更新を含むため、適用後に一度再起動が必要です。"
-                    )
-            if installer_update:
-                lines.append(
-                    "配布パッケージの新版があります。\n"
-                    f"GitHubから新しいZIPをダウンロードしてください。\n{REPOSITORY_URL}"
-                )
-            set_text(controls["status"], "更新があります。")
-            show_message(
-                "更新があります",
-                "\n\n".join(lines),
-                MB_OK | MB_ICONINFORMATION,
-            )
-        else:
-            set_update_available(False)
-            set_text(controls["status"], "現在のファイルは最新版です。")
-            show_message(
-                "更新確認",
-                "現在のファイルは最新版です。",
-                MB_OK | MB_ICONINFORMATION,
-            )
 
     def handle_error(payload: dict[str, Any]) -> None:
         error = payload["error"]
@@ -2181,12 +2299,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 kind, payload = results.get_nowait()
             except queue.Empty:
                 return
-            if kind == "patch":
+            if kind == "progress":
+                set_text(controls["status"], str(payload["status"]))
+            elif kind == "patch":
                 handle_patch(payload)
             elif kind == "latest_patch":
                 handle_applied_update(payload, continue_to_patch=True)
-            elif kind == "check_update":
-                handle_update_check(payload)
             else:
                 handle_error(payload)
 
@@ -2230,13 +2348,13 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             controls["update_action_button"] = create_control(
                 "BUTTON",
                 (
-                    "今すぐ更新する（ゲーム終了、ダウンロードして適用）"
+                    "今すぐ更新して日本語化"
                     if startup_mode
                     else (
                         "最新版のダウンロードページを開く"
                         if state["startup_installer_mode"]
                         else (
-                            "更新を確認"
+                            "最新版で日本語化"
                             if state["local_data_available"]
                             else "翻訳データを取得して日本語化"
                         )
@@ -2245,53 +2363,65 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
                 18,
-                448 if startup_notice else 270,
+                448,
                 32,
                 BUTTON_UPDATE_ACTION,
             )
             controls["existing_patch_button"] = create_control(
                 "BUTTON",
-                "既存ファイルで日本語化",
+                "手元のデータで日本語化をやり直す",
                 BS_PUSHBUTTON | WS_TABSTOP,
-                300,
-                18,
-                166,
+                102,
+                58,
+                280,
                 32,
                 BUTTON_EXISTING_PATCH,
-                visible=not startup_notice,
+                visible=not startup_notice and initial_data_available,
             )
             controls["versions"] = create_control(
                 "STATIC",
                 version_display_text(),
                 0,
                 18,
-                60,
+                100,
                 448,
                 40,
             )
             controls["status"] = create_control(
                 "STATIC",
                 (
-                    (
-                        "操作を選んでください。"
+                    "更新を続けています…"
+                    if state["auto_continue"]
+                    else (
+                        "「最新版で日本語化」を押してください。"
                         if state["local_data_available"]
-                        else "既存データがありません。まず更新を確認してください。"
+                        else "翻訳データを取得して日本語化します。"
                     )
                     if state["local_game_available"]
                     else "MODフォルダーをGuildrun.exeと同じ場所へ移動してください。"
                 ),
                 0,
                 18,
-                104,
+                144,
                 448,
                 20,
+            )
+            controls["progress"] = create_control(
+                "msctls_progress32",
+                "",
+                PBS_SMOOTH | PBS_MARQUEE,
+                18,
+                168,
+                448,
+                18,
+                visible=False,
             )
             controls["notes_label"] = create_control(
                 "STATIC",
                 "更新内容",
                 0,
                 18,
-                128,
+                196,
                 448,
                 20,
             )
@@ -2300,7 +2430,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 "",
                 ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,
                 18,
-                150,
+                218,
                 448,
                 66,
                 0,
@@ -2308,22 +2438,22 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             )
             controls["steam_options_button"] = create_control(
                 "BUTTON",
-                "ゲーム起動時にこのMODの更新を確認する",
+                "ゲーム起動時にこのMODの更新があるか確認する",
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
-                226,
+                294,
                 448,
                 30,
                 BUTTON_COPY_STEAM_OPTIONS,
             )
             controls["notice"] = create_control(
                 "STATIC",
-                "「更新を確認」または「最新版を適用して日本語化」を押すと、\n"
+                "「最新版で日本語化」を押すと、\n"
                 "以下のGitHubリポジトリへアクセスします。\n"
                 "導入手順や詳しい説明もこちらにあります。",
                 0,
                 18,
-                266,
+                334,
                 448,
                 54,
             )
@@ -2332,7 +2462,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 f'<a href="{REPOSITORY_URL}">{REPOSITORY_URL}</a>',
                 WS_TABSTOP,
                 18,
-                322,
+                390,
                 448,
                 22,
                 LINK_REPOSITORY,
@@ -2351,8 +2481,8 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                         lines.extend(
                             [
                                 "",
-                                "「今すぐ更新する」を押すと、ゲームを強制終了して",
-                                "更新のダウンロードと日本語化を行います。",
+                                "「今すぐ更新して日本語化」を押すと、ゲームを強制終了して",
+                                "更新の取得から日本語化まで続けて行います。",
                             ]
                         )
                 if initial_update_result.get("installer_update_available"):
@@ -2367,6 +2497,8 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 set_notes("\n".join(lines))
             if state["local_game_available"]:
                 user32.SetFocus(controls["update_action_button"])
+            if state["auto_continue"]:
+                start_latest_patch()
             return 0
         if message == WM_NOTIFY:
             notification = ctypes.cast(
@@ -2419,22 +2551,19 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                     )
                     open_repository()
                     return 0
-                if state["update_available"]:
-                    close_game = bool(state["startup_update_mode"])
-                    state["startup_update_mode"] = False
-                    if close_game:
-                        user32.SetWindowPos(
-                            hwnd,
-                            wintypes.HWND(HWND_NOTOPMOST),
-                            0,
-                            0,
-                            0,
-                            0,
-                            SWP_NOMOVE | SWP_NOSIZE,
-                        )
-                    start_latest_patch(close_game=close_game)
-                else:
-                    start_update_check()
+                close_game = bool(state["startup_update_mode"])
+                state["startup_update_mode"] = False
+                if close_game:
+                    user32.SetWindowPos(
+                        hwnd,
+                        wintypes.HWND(HWND_NOTOPMOST),
+                        0,
+                        0,
+                        0,
+                        0,
+                        SWP_NOMOVE | SWP_NOSIZE,
+                    )
+                start_latest_patch(close_game=close_game)
                 return 0
             if (
                 not state["busy"]
@@ -2442,7 +2571,15 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
                 and state["local_data_available"]
                 and control_id == BUTTON_EXISTING_PATCH
             ):
-                start_patch()
+                answer = show_message(
+                    "日本語化をやり直す",
+                    "保存済みの翻訳データを使って、日本語化をやり直します。\n"
+                    "更新の確認やダウンロードは行いません。\n\n"
+                    "続けますか？",
+                    MB_YESNO | MB_ICONQUESTION,
+                )
+                if answer == IDYES:
+                    start_patch()
                 return 0
         if message == WM_APP_RESULT:
             handle_results()
@@ -2475,7 +2612,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
     width = 500
-    height = 410
+    height = 478
     hwnd = user32.CreateWindowExW(
         WS_EX_DLGMODALFRAME,
         class_name,
@@ -2494,7 +2631,7 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
         raise RuntimeError("GUIウィンドウを作成できませんでした")
     user32.ShowWindow(hwnd, SW_SHOW)
     user32.UpdateWindow(hwnd)
-    if initial_update_result is not None:
+    if initial_update_result is not None or auto_continue:
         position_flags = SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW
         user32.SetWindowPos(
             hwnd,
@@ -2506,6 +2643,8 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
             position_flags,
         )
         user32.SetForegroundWindow(hwnd)
+        if initial_update_result is not None:
+            user32.MessageBeep(MB_ICONINFORMATION)
 
     message = wintypes.MSG()
     while user32.GetMessageW(ctypes.byref(message), None, 0, 0) > 0:
@@ -2516,11 +2655,12 @@ def run_gui(initial_update_result: dict[str, Any] | None = None) -> int:
 
 def main() -> int:
     internal = argparse.ArgumentParser(add_help=False)
+    internal.add_argument("--continue-update", action="store_true")
     internal_args, remaining = internal.parse_known_args()
 
     if remaining:
         return cli_main(remaining)
-    return run_gui()
+    return run_gui(auto_continue=internal_args.continue_update)
 
 
 def entrypoint() -> int:
