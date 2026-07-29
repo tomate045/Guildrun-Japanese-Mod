@@ -11,6 +11,7 @@ import os
 import queue
 import re
 import shutil
+import ssl
 import struct
 import subprocess
 import sys
@@ -23,6 +24,7 @@ import urllib.parse
 import urllib.request
 import uuid
 import zlib
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Callable
 
@@ -67,7 +69,7 @@ def load_embedded_versions() -> dict[str, str]:
 BUILD_VERSIONS = load_embedded_versions()
 PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
 # 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
-APP_VERSION = "0.4.18"
+APP_VERSION = "0.4.19"
 if APP_VERSION == "__APP_VERSION__":
     APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
@@ -109,6 +111,66 @@ class PatchCompatibilityError(RuntimeError):
 
 class ApplyRollbackError(RuntimeError):
     pass
+
+
+class GitHubCertificateError(RuntimeError):
+    pass
+
+
+@lru_cache(maxsize=1)
+def github_ssl_context() -> ssl.SSLContext:
+    """GitHub通信に使う検証済みSSLコンテキストを生成して再利用する。"""
+    try:
+        import truststore
+    except ImportError:
+        context = ssl.create_default_context()
+    else:
+        context = truststore.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+
+    try:
+        import certifi
+    except ImportError:
+        pass
+    else:
+        # create_default_context(cafile=...)にはしない。先に読み込まれた
+        # Windowsのシステム証明書を維持したまま、公開CAを補助的に追加する。
+        context.load_verify_locations(cafile=certifi.where())
+
+    if context.verify_mode != ssl.CERT_REQUIRED or not context.check_hostname:
+        raise RuntimeError("安全なHTTPS通信に必要な証明書確認を有効にできません")
+    return context
+
+
+def is_certificate_verification_error(error: BaseException) -> bool:
+    pending: list[BaseException] = [error]
+    seen: set[int] = set()
+    while pending:
+        current = pending.pop()
+        if id(current) in seen:
+            continue
+        seen.add(id(current))
+        if isinstance(current, ssl.SSLCertVerificationError):
+            return True
+        reason = getattr(current, "reason", None)
+        if isinstance(reason, BaseException):
+            pending.append(reason)
+        if current.__cause__ is not None:
+            pending.append(current.__cause__)
+        if current.__context__ is not None:
+            pending.append(current.__context__)
+    return False
+
+
+def certificate_error_guidance() -> str:
+    return (
+        "GitHubとの安全な接続を確認できませんでした。\n\n"
+        "証明書の確認は、安全のため無効にできません。\n"
+        "VPN、プロキシ、セキュリティソフトのHTTPS検査が\n"
+        "影響している可能性があります。\n\n"
+        "ブラウザでGitHubを開けるか確認し、可能であれば\n"
+        "別の回線でもう一度お試しください。\n"
+        f"{REPOSITORY_URL}"
+    )
 
 
 def sha256(data: bytes) -> str:
@@ -183,6 +245,7 @@ def download_bytes(
         with urllib.request.urlopen(
             request,
             timeout=HTTP_TIMEOUT_SECONDS,
+            context=github_ssl_context(),
         ) as response:
             length = response.headers.get("Content-Length")
             if length is not None and int(length) > max_bytes:
@@ -193,6 +256,8 @@ def download_bytes(
             f"GitHubからの取得に失敗しました（HTTP {exc.code}）"
         ) from exc
     except urllib.error.URLError as exc:
+        if is_certificate_verification_error(exc):
+            raise GitHubCertificateError(certificate_error_guidance()) from exc
         raise RuntimeError(f"GitHubへ接続できません: {exc.reason}") from exc
     if len(payload) > max_bytes:
         raise RuntimeError("ダウンロード対象が許容サイズを超えています")
