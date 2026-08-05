@@ -2,9 +2,9 @@
   "format": 3,
   "product": "Guildrun Demo Japanese Localization MOD",
   "channel": "stable",
-  "app_version": "0.4.19",
-  "data_version": "1.0.16",
-  "content_commit": "bce4c83f239efc81bdda056692e126dd40bb6e6f",
+  "app_version": "0.4.20",
+  "data_version": "1.0.17",
+  "content_commit": "2599abcd3e78ed1820dfb4454633ab8ad6917bf2",
   "manifest_url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/main/latest.json",
   "repository": "https://github.com/tomate045/Guildrun-Japanese-Mod",
   "installer": {
@@ -14,24 +14,24 @@
   },
   "patch_notes": {
     "path": "patch_notes.txt",
-    "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/patch_notes.txt",
-    "size": 219,
-    "sha256": "2e1e38ec70d6707a47f59a9e5223ceb5b246c4d80d0cffe228df636c83f14432"
+    "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/patch_notes.txt",
+    "size": 384,
+    "sha256": "ef3890d62beb7adcefa05dd01aa383464ddd086e8ba5a28cc6a78c0ff19e3864"
   },
   "files": [
     {
       "path": "data/config.json",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/config.json",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/config.json",
       "size": 1479,
-      "sha256": "0bb957ac2b555dd063927561bee5a1eca94fbba82c21e960eb4b9cf9eb0b9d5c"
+      "sha256": "a60cba3aabffd0a399a2b9f5449164e19654cd1cb6ce43f771992ca0a20021ce"
     },
     {
       "path": "data/fonts/NotoSansJP-Black.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-Black.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-Black.ttf",
       "size": 5440956,
       "sha256": "290a8fbc5ab2a5dda285c300127dd7b0af73baae1484cf3883b210c1e281fd6a"
     },
@@ -39,7 +39,7 @@
       "path": "data/fonts/NotoSansJP-Bold.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-Bold.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-Bold.ttf",
       "size": 5445700,
       "sha256": "f99717cafba472be7ee473ad8c24aa01145fcc4997bfdc065e022d1ed2f70df8"
     },
@@ -47,7 +47,7 @@
       "path": "data/fonts/NotoSansJP-ExtraBold.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-ExtraBold.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-ExtraBold.ttf",
       "size": 5443180,
       "sha256": "998119c8631a5130421de39b6a3c0b95448bc4421323bc60ff14fcc8530d3c04"
     },
@@ -55,7 +55,7 @@
       "path": "data/fonts/NotoSansJP-ExtraLight.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-ExtraLight.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-ExtraLight.ttf",
       "size": 5454392,
       "sha256": "8c8183a1e50bc49c8306c3640a1a1b797ab5941726b60dffd334d9b868351e42"
     },
@@ -63,7 +63,7 @@
       "path": "data/fonts/NotoSansJP-Light.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-Light.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-Light.ttf",
       "size": 5453956,
       "sha256": "39394e2b64aa89f7635fd7ddc9d9e92f5b661c95d4ae11c088e8687a67534f86"
     },
@@ -71,7 +71,7 @@
       "path": "data/fonts/NotoSansJP-Medium.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-Medium.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-Medium.ttf",
       "size": 5446916,
       "sha256": "ef25e1f6d8a96267b8ae6b9c11210d88556fea3983a1ff3b107b9a27122d9b07"
     },
@@ -79,7 +79,7 @@
       "path": "data/fonts/NotoSansJP-Regular.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-Regular.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-Regular.ttf",
       "size": 5450308,
       "sha256": "f32915916d2d6f35bb0d3d7ef0784504914bf0235afb02eec552bd14d06d3552"
     },
@@ -87,7 +87,7 @@
       "path": "data/fonts/NotoSansJP-SemiBold.ttf",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/fonts/NotoSansJP-SemiBold.ttf",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/fonts/NotoSansJP-SemiBold.ttf",
       "size": 5444352,
       "sha256": "6bd57dfa5ba1a4503bfab7488ef0dc6117e3867147e982369c27556864f5618d"
     },
@@ -95,31 +95,31 @@
       "path": "data/manifest.json",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/manifest.json",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/manifest.json",
       "size": 1019,
-      "sha256": "3df078e8d015c4e3cdb807303137f045510a8d755e9c792ac80fcc5cbf8dfe57"
+      "sha256": "73ced13b501eb9ac07f1d02c0aa96f63647aa383b9d33e3eba21a3433dc17856"
     },
     {
       "path": "data/translation_master.csv",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/data/translation_master.csv",
-      "size": 684382,
-      "sha256": "fd31fb12d92f85ae0ca8e6b126885d1955837282be8fdf0436da621d0e805a8f"
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/data/translation_master.csv",
+      "size": 684690,
+      "sha256": "fd5f9bb7ec8d3c905d60ef81ec4ac84a7930c10c4021a2cd0be46348d7116307"
     },
     {
       "path": "runtime/app/guildrun_exe_patcher.py",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/runtime/app/guildrun_exe_patcher.py",
-      "size": 103303,
-      "sha256": "cc0b97b3ab414358f06cfae1aade3f0035ff26383a02825e3a04887a671f8e13"
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/runtime/app/guildrun_exe_patcher.py",
+      "size": 113979,
+      "sha256": "447e31f556ae00523bc65edf13527b9e233a05890f6a9321cc099dcd2e46c645"
     },
     {
       "path": "runtime/app/sitecustomize.py",
       "role": "content",
       "update": "automatic",
-      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/bce4c83f239efc81bdda056692e126dd40bb6e6f/runtime/app/sitecustomize.py",
+      "url": "https://raw.githubusercontent.com/tomate045/Guildrun-Japanese-Mod/2599abcd3e78ed1820dfb4454633ab8ad6917bf2/runtime/app/sitecustomize.py",
       "size": 1285,
       "sha256": "f1469ae8b3f5ddade0a5551489aecb200c2424f67eb7e229aa04905c3bdafa25"
     }
