@@ -69,7 +69,7 @@ def load_embedded_versions() -> dict[str, str]:
 BUILD_VERSIONS = load_embedded_versions()
 PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
 # 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
-APP_VERSION = "0.4.19"
+APP_VERSION = "0.4.20"
 if APP_VERSION == "__APP_VERSION__":
     APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
@@ -77,6 +77,7 @@ RESULT_FILENAME = "Guildrun日本語化_更新確認.txt"
 APPLY_TEMP_PREFIX = ".guildrun_jp_apply_"
 APPLY_STATE_FILENAME = "apply_state.json"
 UPDATE_STATE_FILENAME = ".guildrun_jp_update_state.json"
+PREFERENCES_FILENAME = ".guildrun_jp_preferences.json"
 CONTENT_UPDATE_TEMP_PREFIX = ".guildrun_jp_content_update_"
 PRESERVED_LOCAL_CONTENT_PATHS = {"OFL.txt"}
 AUTO_UPDATE_APP_PATHS = {
@@ -182,6 +183,80 @@ def app_dir() -> Path:
     if base is not None:
         return base
     return Path(__file__).resolve().parent
+
+
+def default_preferences() -> dict[str, Any]:
+    return {
+        "format": 1,
+        "hero_names_english": False,
+        "applied_hero_names_english": False,
+    }
+
+
+def preferences_path(root: Path) -> Path:
+    return root / PREFERENCES_FILENAME
+
+
+def read_preferences(root: Path) -> dict[str, Any]:
+    defaults = default_preferences()
+    path = preferences_path(root)
+    if not path.is_file():
+        return defaults
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return defaults
+    if not isinstance(raw, dict) or raw.get("format") != 1:
+        return defaults
+    result = defaults.copy()
+    for key in ("hero_names_english", "applied_hero_names_english"):
+        value = raw.get(key)
+        if isinstance(value, bool):
+            result[key] = value
+    return result
+
+
+def write_preferences(root: Path, preferences: dict[str, Any]) -> None:
+    payload = default_preferences()
+    for key in ("hero_names_english", "applied_hero_names_english"):
+        value = preferences.get(key)
+        if not isinstance(value, bool):
+            raise RuntimeError(f"表示設定が不正です: {key}")
+        payload[key] = value
+    path = preferences_path(root)
+    temporary = path.with_name(f"{path.name}.{uuid.uuid4().hex}.tmp")
+    try:
+        temporary.write_text(
+            json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+        os.replace(temporary, path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def set_hero_name_preference(root: Path, enabled: bool) -> dict[str, Any]:
+    preferences = read_preferences(root)
+    preferences["hero_names_english"] = enabled
+    write_preferences(root, preferences)
+    return preferences
+
+
+def mark_hero_name_preference_applied(
+    root: Path,
+    enabled: bool,
+) -> dict[str, Any]:
+    preferences = read_preferences(root)
+    preferences["hero_names_english"] = enabled
+    preferences["applied_hero_names_english"] = enabled
+    write_preferences(root, preferences)
+    return preferences
+
+
+def hero_name_preference_changed(preferences: dict[str, Any]) -> bool:
+    return bool(preferences["hero_names_english"]) != bool(
+        preferences["applied_hero_names_english"]
+    )
 
 
 def sha256_file(path: Path) -> str:
@@ -942,8 +1017,81 @@ def load_config(data_path: Path) -> dict[str, Any]:
     return config
 
 
+def collect_hero_names(rows: list[dict[str, str]]) -> list[tuple[str, str]]:
+    names: list[tuple[str, str]] = []
+    seen_english: set[str] = set()
+    seen_japanese: set[str] = set()
+    for row in rows:
+        if row.get("table") != "Heroes" or not re.fullmatch(
+            r"Heroes\.Hero_\d+\.Name",
+            row.get("key", ""),
+        ):
+            continue
+        english = row.get("english", "")
+        japanese = row.get("japanese", "")
+        if not english or not japanese:
+            raise RuntimeError("ヒーロー名の英語または日本語が空です")
+        if english in seen_english or japanese in seen_japanese:
+            raise RuntimeError(f"ヒーロー名が重複しています: {english}/{japanese}")
+        seen_english.add(english)
+        seen_japanese.add(japanese)
+        names.append((english, japanese))
+    if not names:
+        raise RuntimeError("翻訳dataからヒーロー名を取得できません")
+    return sorted(names, key=lambda item: len(item[1]), reverse=True)
+
+
+def source_mentions_hero(source: str, english_name: str) -> bool:
+    return re.search(
+        rf"(?<![A-Za-z]){re.escape(english_name)}(?![A-Za-z])",
+        source,
+    ) is not None
+
+
+def key_mentions_hero(key: str, english_name: str) -> bool:
+    return english_name in key.split(".")
+
+
+def replace_japanese_hero_name(
+    translated: str,
+    japanese_name: str,
+    english_name: str,
+) -> str:
+    # Short names such as サウ and ミン can also occur inside ordinary katakana
+    # words.  Hero set titles are the one intentional no-separator form in the
+    # current localization data.
+    pattern = re.compile(
+        rf"(?<![ァ-ヿ]){re.escape(japanese_name)}(?=$|[^ァ-ヿ]|セット)"
+    )
+    return pattern.sub(lambda _match: english_name, translated)
+
+
+def replace_hero_names(
+    row: dict[str, str],
+    hero_names: list[tuple[str, str]],
+) -> str:
+    source = row.get("english", "")
+    key = row.get("key", "")
+    translated = row.get("japanese", "")
+    for english_name, japanese_name in hero_names:
+        if japanese_name not in translated:
+            continue
+        if source_mentions_hero(source, english_name) or key_mentions_hero(
+            key,
+            english_name,
+        ):
+            translated = replace_japanese_hero_name(
+                translated,
+                japanese_name,
+                english_name,
+            )
+    return translated
+
+
 def load_data(
-    data_path: Path, config: dict[str, Any]
+    data_path: Path,
+    config: dict[str, Any],
+    english_hero_names: bool = False,
 ) -> tuple[dict[str, Any], dict[int, dict[str, str]], dict[str, bytes]]:
     manifest = json.loads((data_path / "manifest.json").read_text(encoding="utf-8"))
     if manifest.get("format") != 1:
@@ -960,6 +1108,7 @@ def load_data(
     master_bytes = payloads[translation_file]
     with io.StringIO(master_bytes.decode("utf-8-sig"), newline="") as handle:
         rows = list(csv.DictReader(handle))
+    hero_names = collect_hero_names(rows) if english_hero_names else []
     translations: dict[int, dict[str, str]] = {}
     for row in rows:
         entry_id = int(row["id"])
@@ -967,7 +1116,11 @@ def load_data(
             raise RuntimeError(f"翻訳data内でIDが重複しています: {entry_id}")
         translations[entry_id] = {
             "english": row.get("english", ""),
-            "japanese": row.get("japanese", ""),
+            "japanese": (
+                replace_hero_names(row, hero_names)
+                if english_hero_names
+                else row.get("japanese", "")
+            ),
         }
     fonts = {
         name.removeprefix("fonts/"): payload
@@ -1516,6 +1669,7 @@ def run_patch(
     direct_apply: bool,
     allow_size_warnings: bool,
     non_interactive: bool,
+    english_hero_names: bool = False,
 ) -> dict[str, Any]:
     paths = {key: Path(value) for key, value in config["paths"].items()}
     localization = config["localization"]
@@ -1529,7 +1683,11 @@ def run_patch(
     missing = [str(path) for path in required if not (game_dir / path).is_file()]
     if missing:
         raise RuntimeError("必要なゲームファイルがありません:\n" + "\n".join(missing))
-    manifest, translations, fonts = load_data(data_path, config)
+    manifest, translations, fonts = load_data(
+        data_path,
+        config,
+        english_hero_names=english_hero_names,
+    )
     size_warnings = check_expected_sizes(game_dir, config)
     if direct_apply:
         temp_root = Path(tempfile.mkdtemp(prefix=APPLY_TEMP_PREFIX, dir=game_dir))
@@ -1602,6 +1760,7 @@ def run_patch(
             "app_version": APP_VERSION,
             "package_version": PACKAGE_VERSION,
             "data_version": config.get("data_version", ""),
+            "hero_names_english": english_hero_names,
             "game_dir": str(game_dir),
             "mode": "applied" if direct_apply else "generated",
             "output_dir": None if direct_apply else str(output_root),
@@ -1648,6 +1807,20 @@ def cli_main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--allow-size-warnings", action="store_true")
     parser.add_argument("--non-interactive", action="store_true")
+    hero_name_group = parser.add_mutually_exclusive_group()
+    hero_name_group.add_argument(
+        "--hero-names-english",
+        dest="hero_names_english",
+        action="store_const",
+        const=True,
+    )
+    hero_name_group.add_argument(
+        "--hero-names-japanese",
+        dest="hero_names_english",
+        action="store_const",
+        const=False,
+    )
+    parser.set_defaults(hero_names_english=None)
     args = parser.parse_args(argv)
 
     if args.check_only:
@@ -1665,8 +1838,18 @@ def cli_main(argv: list[str] | None = None) -> int:
         )
         direct_apply = args.output is None
         output_root = args.output.resolve() if args.output else None
+        preferences = read_preferences(app_dir().resolve())
+        english_hero_names = (
+            bool(preferences["hero_names_english"])
+            if args.hero_names_english is None
+            else bool(args.hero_names_english)
+        )
         print(f"ゲーム: {game_dir}")
         print(f"データ: {data_path}")
+        print(
+            "ヒーロー名: "
+            + ("英語" if english_hero_names else "日本語")
+        )
         if direct_apply:
             print("動作: 生成・検証後にゲームへ直接適用")
         else:
@@ -1679,7 +1862,13 @@ def cli_main(argv: list[str] | None = None) -> int:
             direct_apply,
             args.allow_size_warnings,
             args.non_interactive,
+            english_hero_names,
         )
+        if direct_apply:
+            mark_hero_name_preference_applied(
+                app_dir().resolve(),
+                english_hero_names,
+            )
         print(json.dumps(report, ensure_ascii=False, indent=2))
         if direct_apply:
             print(
@@ -1918,6 +2107,11 @@ def run_gui(
     ES_AUTOVSCROLL = 0x0040
     ES_READONLY = 0x0800
     BS_PUSHBUTTON = 0x00000000
+    BS_AUTOCHECKBOX = 0x00000003
+    BM_GETCHECK = 0x00F0
+    BM_SETCHECK = 0x00F1
+    BST_UNCHECKED = 0
+    BST_CHECKED = 1
     PBS_SMOOTH = 0x00000001
     PBS_MARQUEE = 0x00000008
     COLOR_BTNFACE = 15
@@ -1948,6 +2142,7 @@ def run_gui(
     BUTTON_EXISTING_PATCH = 1002
     LINK_REPOSITORY = 1003
     BUTTON_COPY_STEAM_OPTIONS = 1004
+    BUTTON_HERO_NAMES_ENGLISH = 1005
 
     results: queue.Queue[tuple[str, Any]] = queue.Queue()
     controls: dict[str, int] = {}
@@ -1958,6 +2153,7 @@ def run_gui(
         else None
     )
     startup_direct_update = startup_action == "apply"
+    preferences = read_preferences(app_dir().resolve())
     state = {
         "busy": False,
         "local_game_available": local_game_available(app_dir().resolve()),
@@ -1971,6 +2167,10 @@ def run_gui(
         "startup_installer_mode": startup_action == "download",
         "auto_continue": auto_continue,
         "maintenance_visible": startup_action is None and not auto_continue,
+        "hero_names_english": bool(preferences["hero_names_english"]),
+        "applied_hero_names_english": bool(
+            preferences["applied_hero_names_english"]
+        ),
     }
     hinstance = kernel32.GetModuleHandleW(None)
     font = gdi32.GetStockObject(DEFAULT_GUI_FONT)
@@ -2091,6 +2291,11 @@ def run_gui(
             controls["steam_options_button"],
             enabled and state["local_game_available"],
         )
+        if "hero_names_english" in controls:
+            user32.EnableWindow(
+                controls["hero_names_english"],
+                enabled and state["local_game_available"],
+            )
         if "progress" in controls:
             user32.ShowWindow(
                 controls["progress"],
@@ -2108,12 +2313,15 @@ def run_gui(
 
     def set_update_available(value: bool) -> None:
         state["update_available"] = value
+        hero_name_mode_changed = hero_name_preference_changed(state)
         if state["startup_installer_mode"]:
             label = "最新版のダウンロードページを開く"
         elif state["startup_update_mode"]:
             label = "今すぐ更新して日本語化"
         elif not state["local_data_available"]:
             label = "翻訳データを取得して日本語化"
+        elif hero_name_mode_changed:
+            label = "表示設定を反映して日本語化"
         else:
             label = "最新版で日本語化"
         set_text(
@@ -2179,6 +2387,11 @@ def run_gui(
                 controls["steam_options_button"],
                 game_available and not state["busy"],
             )
+        if "hero_names_english" in controls:
+            user32.EnableWindow(
+                controls["hero_names_english"],
+                game_available and not state["busy"],
+            )
         refresh_version_display()
         return available
 
@@ -2230,6 +2443,7 @@ def run_gui(
             True,
             allow_size_warnings,
             True,
+            bool(state["hero_names_english"]),
         )
 
     def start_patch() -> None:
@@ -2278,13 +2492,32 @@ def run_gui(
     def handle_patch(payload: dict[str, Any]) -> None:
         value = payload["value"]
         warning_count = len(value.get("size_warnings", []))
+        preference_warning = ""
+        try:
+            preferences = mark_hero_name_preference_applied(
+                app_dir().resolve(),
+                bool(state["hero_names_english"]),
+            )
+            state["applied_hero_names_english"] = bool(
+                preferences["applied_hero_names_english"]
+            )
+        except OSError as exc:
+            preference_warning = (
+                "\n\nヒーロー名の表示設定を保存できませんでした。"
+                f"\n{exc}"
+            )
+        set_update_available(bool(state["update_available"]))
         set_busy(False, "日本語化が完了しました。")
         text = (
             "日本語化が完了しました。\n"
             "ゲーム内で「日本語（MOD）」を選択してください。"
         )
+        text += "\nヒーロー名: " + (
+            "英語" if state["hero_names_english"] else "日本語"
+        )
         if warning_count:
             text += f"\n\nサイズ差異の警告: {warning_count}件"
+        text += preference_warning
         set_notes(text)
         show_message("完了", text, MB_OK | MB_ICONINFORMATION)
 
@@ -2310,6 +2543,10 @@ def run_gui(
         refresh_local_data_state()
         if continue_to_patch:
             if value.get("status") == "current":
+                if hero_name_preference_changed(state):
+                    set_busy(False, "表示設定を反映して日本語化を開始します。")
+                    start_patch()
+                    return
                 text = (
                     "翻訳データと日本語化MODはすでに最新版です。\n\n"
                     "日本語化をやり直す場合は、\n"
@@ -2457,12 +2694,32 @@ def run_gui(
                 BUTTON_EXISTING_PATCH,
                 visible=not startup_notice and initial_data_available,
             )
+            controls["hero_names_english"] = create_control(
+                "BUTTON",
+                "ヒーロー名を英語で表示（説明文・ロアを含む）",
+                BS_AUTOCHECKBOX | WS_TABSTOP,
+                18,
+                98,
+                448,
+                24,
+                BUTTON_HERO_NAMES_ENGLISH,
+            )
+            user32.SendMessageW(
+                controls["hero_names_english"],
+                BM_SETCHECK,
+                (
+                    BST_CHECKED
+                    if state["hero_names_english"]
+                    else BST_UNCHECKED
+                ),
+                0,
+            )
             controls["versions"] = create_control(
                 "STATIC",
                 version_display_text(),
                 0,
                 18,
-                100,
+                130,
                 448,
                 40,
             )
@@ -2481,7 +2738,7 @@ def run_gui(
                 ),
                 0,
                 18,
-                144,
+                174,
                 448,
                 20,
             )
@@ -2490,7 +2747,7 @@ def run_gui(
                 "",
                 PBS_SMOOTH | PBS_MARQUEE,
                 18,
-                168,
+                198,
                 448,
                 18,
                 visible=False,
@@ -2500,7 +2757,7 @@ def run_gui(
                 "更新内容",
                 0,
                 18,
-                196,
+                226,
                 448,
                 20,
             )
@@ -2509,7 +2766,7 @@ def run_gui(
                 "",
                 ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL,
                 18,
-                218,
+                248,
                 448,
                 66,
                 0,
@@ -2520,7 +2777,7 @@ def run_gui(
                 "ゲーム起動時にこのMODの更新があるか確認する",
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
-                294,
+                324,
                 448,
                 30,
                 BUTTON_COPY_STEAM_OPTIONS,
@@ -2532,7 +2789,7 @@ def run_gui(
                 "導入手順や詳しい説明もこちらにあります。",
                 0,
                 18,
-                334,
+                364,
                 448,
                 54,
             )
@@ -2541,7 +2798,7 @@ def run_gui(
                 f'<a href="{REPOSITORY_URL}">{REPOSITORY_URL}</a>',
                 WS_TABSTOP,
                 18,
-                390,
+                420,
                 448,
                 22,
                 LINK_REPOSITORY,
@@ -2602,6 +2859,53 @@ def run_gui(
                 return 0
         if message == WM_COMMAND:
             control_id = int(wparam) & 0xFFFF
+            if (
+                not state["busy"]
+                and control_id == BUTTON_HERO_NAMES_ENGLISH
+            ):
+                previous = bool(state["hero_names_english"])
+                enabled = (
+                    int(
+                        user32.SendMessageW(
+                            controls["hero_names_english"],
+                            BM_GETCHECK,
+                            0,
+                            0,
+                        )
+                    )
+                    == BST_CHECKED
+                )
+                try:
+                    preferences = set_hero_name_preference(
+                        app_dir().resolve(),
+                        enabled,
+                    )
+                except OSError as exc:
+                    user32.SendMessageW(
+                        controls["hero_names_english"],
+                        BM_SETCHECK,
+                        BST_CHECKED if previous else BST_UNCHECKED,
+                        0,
+                    )
+                    show_message(
+                        "表示設定を保存できません",
+                        str(exc),
+                        MB_OK | MB_ICONERROR,
+                    )
+                    return 0
+                state["hero_names_english"] = bool(
+                    preferences["hero_names_english"]
+                )
+                state["applied_hero_names_english"] = bool(
+                    preferences["applied_hero_names_english"]
+                )
+                set_update_available(state["update_available"])
+                if hero_name_preference_changed(state):
+                    set_text(
+                        controls["status"],
+                        "表示設定を反映するには日本語化を実行してください。",
+                    )
+                return 0
             if control_id == BUTTON_COPY_STEAM_OPTIONS:
                 try:
                     configure_steam_update_check()
@@ -2691,7 +2995,7 @@ def run_gui(
     screen_width = user32.GetSystemMetrics(0)
     screen_height = user32.GetSystemMetrics(1)
     width = 500
-    height = 478
+    height = 508
     hwnd = user32.CreateWindowExW(
         WS_EX_DLGMODALFRAME,
         class_name,

@@ -152,7 +152,7 @@ On [kill,]<bold> gain [{5}+{6}_Rank]<statcalc_shard> [Shards]<shard>.","[{0}+{1}
 
 [敵撃破時、]<bold>[{5}+{6}_Rank]<statcalc_shard>の[シャード]<shard>を獲得する。"
 ActiveAbilities,2266028864946177,ActiveAbilities.ActiveAbility_24.Name,Devour,貪食
-ActiveAbilities,2266028873334784,ActiveAbilities.ActiveAbility_28.Description,"Charge up a mighty attack, gaining [{0}+{1}_Attack+{2}_Magic]<statcalc_shield> [Shields]<shield>. After {3} seconds, deal [{4}+{5}_Attack]<statcalc_damage> damage plus [bonus damage]<damage> equal to Kai's [remaining Shields]<shield> to surrounding enemies.",力を溜め、[{0}+{1}_Attack+{2}_Magic]<statcalc_shield>の[シールド]<shield>を獲得する。{3}秒後、周囲の敵へ[{4}+{5}_Attack]<statcalc_damage>ダメージに加え、カイに[残っているシールド]<shield>と同じ量の[追加ダメージ]<damage>を与える。
+ActiveAbilities,2266028873334784,ActiveAbilities.ActiveAbility_28.Description,"Charge up a mighty attack, gaining [{0}+{1}_Attack+{2}_Magic]<statcalc_shield> [Shields]<shield>. After {3} seconds, deal [{4}+{5}_Attack]<statcalc_damage> damage plus [bonus damage]<damage> equal to Kai's [remaining Shields]<shield> to surrounding enemies.",力を溜め、[{0}+{1}_Attack+{2}_Magic]<statcalc_shield>の[シールド]<shield>を獲得する。{3}秒後、[{4}+{5}_Attack]<statcalc_damage>ダメージに加え、カイの[残りシールド]<shield>と同じ量の[追加ダメージ]<damage>を周囲の敵へ与える。
 ActiveAbilities,2266028869140485,ActiveAbilities.ActiveAbility_28.Name,Resolute Strike,不屈の一撃
 ActiveAbilities,2266028873334786,ActiveAbilities.ActiveAbility_29.Description,"Bless the lowest [% Max HP]<maxhp> Hero, applying [{0}+{1}|{2}|{3}|{4}_Magic]<statcalc_shield> [Shields]<shield> for [{5}+{6}_ManaRegen]<statcalc_manaregen> seconds and [healing]<heal> them for half that amount.
 
@@ -229,7 +229,7 @@ Crossroads,58577755065802753,Crossroads.Crossroads_32.Name,Random Event,ラン�
 Crossroads,59338577379581952,Crossroads.Crossroads_33.Name,Random Event,ランダムイベント
 Crossroads,7199880976777234,Crossroads.Crossroads_50.Name,First Campfire,最初の焚き火
 Crossroads,40019224604311552,Crossroads.Crossroads_53.Name,Second Campfire,2つ目の焚き火
-Crossroads,64673481836068864,Crossroads.RegularEncounter.Description,Face the next encounter as is.,次の戦闘へ、そのまま挑む。
+Crossroads,64673481836068864,Crossroads.RegularEncounter.Description,Face the next encounter as is.,次の戦闘にそのまま挑む。
 Crossroads,64673481823485952,Crossroads.RegularEncounter.Title,Regular Encounter,通常戦
 Enemies,7200113362190336,Enemies.Enemy_10.Name,TestCrab,テスト用カニ
 Enemies,7200113383161863,Enemies.Enemy_1000.Name,Crab,カニ
@@ -1704,7 +1704,7 @@ The first time each combat the holder reaches [{1}% Max HP]<maxhp>, gain [{2} Sh
 
 各戦闘で初めて装備者のHPが[最大HPの{1}%]<maxhp>に達したとき、[シャードを{2}]<shard>獲得する。"
 Items,21745534101078099,Items.Item_709.Name,Sacrificial Scythe,生贄の大鎌
-Items,21745534101078102,Items.Item_710.Description,"For [Rush ({0}),]<rush> gain [Stealth]<stealth>.",[速攻（{0}）]<rush>の間、[ステルス]<stealth>を得る。
+Items,21745534101078102,Items.Item_710.Description,"At [start of combat]<bold> and [every {0} seconds,]<bold> gain [Stealth]<stealth> for {1} seconds.",[戦闘開始時]<bold>および[{0}秒ごとに、]<bold>{1}秒間[ステルス]<stealth>を得る。
 Items,47331241740599298,Items.Item_710.Name,Rogue's Cowl,ローグの頭巾
 Items,21745534101078103,Items.Item_711.Name,Scroll of Violence,暴力の巻物
 Items,65024537346572323,Items.Item_711.QuestDescription,Auto attack {0} times.,通常攻撃を{0}回行う。
@@ -1741,7 +1741,7 @@ Items,21745534101078121,Items.Item_723.Description,"On [Crit,]<crit> reduce the 
 Items,21745534101078120,Items.Item_723.Name,Serrated Dagger,鋸刃のダガー
 Items,21745534101078122,Items.Item_724.Name,Executioner's Blade,処刑人の刃
 Items,65024537354960899,Items.Item_724.QuestDescription,[Crit]<crit> {0} times.,[クリティカル]<crit>を{0}回発生させる。
-Items,65024537354960900,Items.Item_724.QuestRewardDescription,damage from the holder executes enemies below [{0}% Max HP]<maxhp>.,装備者のダメージは、HPが[最大HPの{0}%]<maxhp>未満の敵を即座に倒す。
+Items,65024537354960900,Items.Item_724.QuestRewardDescription,Damage from the holder executes enemies below [{0}% Max HP]<maxhp>.,装備者のダメージは、HPが[最大HPの{0}%]<maxhp>未満の敵を即座に倒す。
 Items,21745534101078124,Items.Item_725.Description,"After [Stall ({0}),]<stall> gain [+{1}% basic stats]<basicstat>.",[忍耐（{0}）]<stall>後、[基本ステータス+{1}%]<basicstat>。
 Items,21745534101078123,Items.Item_725.Name,Tranquil Eye,静穏の瞳
 Items,21745534101078127,Items.Item_726.DataTrackingDescription,[Stall]<stall> [Triggered:]<bold> [totalStallTriggers]<globaldatatracking>,[忍耐]<stall>の[発動回数：]<bold> [totalStallTriggers]<globaldatatracking>
@@ -1760,7 +1760,7 @@ Items,21745534101078136,Items.Item_731.Description,"At [start of combat,]<bold> 
 Items,21745534101078135,Items.Item_731.Name,Lone Wolf's Bow,孤狼の弓
 Items,21745534101078138,Items.Item_732.Description,"At [start of combat,]<bold> if the holder is the only Hero in the back {0} rows they gain [{1} Starting Mana]<startingmana> and [{2} Crit]<crit>.",[戦闘開始時、]<bold>後方{0}列にいるヒーローが装備者だけなら、[開始時マナ+{1}]<startingmana>、[クリティカル+{2}]<crit>。
 Items,21745534101078137,Items.Item_732.Name,Wizard's Focus,魔術師の焦点具
-Items,21745534101078140,Items.Item_733.Description,"Whenever the holder [Shields]<shield> another Hero, damage all enemies equal to {0}% of the [Shield]<shield> applied.",装備者が他のヒーローへ[シールド]<shield>を付与するたび、敵全体に付与した[シールド]<shield>の{0}%に等しいダメージを与える。
+Items,21745534101078140,Items.Item_733.Description,"Whenever the holder [Shields]<shield> another Hero, damage all enemies equal to {0}% of the [Shield]<shield> applied.",装備者が他のヒーローに[シールド]<shield>を付与するたび、その[シールド]<shield>の{0}%に等しいダメージを敵全体へ与える。
 Items,21745534101078139,Items.Item_733.Name,Shattering Charm,破砕の護符
 Items,21745534101078142,Items.Item_734.Description,"At [start of combat,]<bold> set the holder's [Attack]<attack> and [Magic]<magic> to the higher of the two.",[戦闘開始時、]<bold>装備者の[攻撃力]<attack>と[魔力]<magic>を、どちらも高いほうの値にする。
 Items,21745534101078141,Items.Item_734.Name,Adaptive Sword,適応の剣
@@ -1825,21 +1825,21 @@ Lore,746891903030,Lore.Hero.CurrentWork.Grace,"The bookish one in a family of at
 Lore,746896097286,Lore.Hero.CurrentWork.Gustav,"He came up through academia, with three published papers before he turned twenty one, and Aegis hired him straight out of his post-doc. He runs the numbers behind crystal refining, making each batch yield more usable energy than the last, and his models are why Aegis's supply chain has stayed a step ahead of every competitor for six straight quarters.",学究の道を歩み、21歳になる前に3本の論文を発表。博士研究員を終えると、すぐにイージスへ迎えられた。結晶精製の計算を担い、バッチごとに利用可能なエネルギーの収率を高めている。イージスの供給網が6四半期連続で競合の一歩先を行けたのは、彼のモデルがあってこそだ。
 Lore,746891903005,Lore.Hero.CurrentWork.Hoyoung,"Even by a marksman's standard he's reliable to a degree that's rare, and no one can trace where he learned it: no paper trail, no prior guild, no training on record. He keeps to himself, says only what needs saying, and the shot lines up every time. He's covering a younger brother's tuition; once it's paid, he may leave the way he arrived.",射手の基準で見ても、異例なほど確実に仕事をこなす。だが、その技をどこで身につけたのかは誰にも追えない。書類上の経歴も、以前の所属ギルドも、訓練記録もない。寡黙で、必要なことしか口にせず、それでも狙いは毎回ぴたりと定まる。弟の学費を稼いでおり、払い終えれば、来たときと同じように姿を消すのかもしれない。
 Lore,746891903025,Lore.Hero.CurrentWork.Irini,"A champion athlete, until a shoulder injury ended her career. Her powers awakened soon after, healing her - but making her too strong to fairly compete against ordinary people. Frontline signed her soon after. The performance guild built an entire marketing campaign around her: a champion everyone wrote off, coming back stronger than ever. In the rifts she's known for her ambition and explosive power.",肩の故障で競技人生を絶たれるまでは、チャンピオンとして活躍していた。その直後に覚醒し、傷は治ったものの、普通の人々と公平に競えないほど強くなってしまった。ほどなくフロントラインと契約。誰もが終わったと思った王者が、かつて以上に強くなって帰ってくる――ギルドは彼女を中心に大々的な宣伝を打った。リフトでは、野心と爆発的な力で知られている。
-Lore,746891902995,Lore.Hero.CurrentWork.Kai,"One of the guild's shotcallers. He leads on charm more than rank, and keeps the team together when a fight turns. He made his name soloing a guardian before his squad could catch up, and he's been pushing past what the playbook recommends ever since.",ギルドの戦術指揮を担う一人。地位よりも人を惹きつける力で皆を率い、戦況が崩れかけてもチームをまとめ上げる。仲間が追いつく前にガーディアンを単独で仕留めて名を上げ、それ以来ずっと、定石が止める一線の先へ踏み込み続けている。
+Lore,746891902995,Lore.Hero.CurrentWork.Kai,"One of the guild's shotcallers. He leads on charm more than rank, and keeps the team together when a fight turns. He made his name soloing a guardian before his squad could catch up, and he's been pushing past what the playbook recommends ever since.",ギルドの戦術指揮を担う一人。地位よりも人を惹きつける力で皆を率い、戦況が崩れかけてもチームをまとめ上げる。仲間が追いつく前にガーディアンを単独で仕留めて名を上げ、それ以来ずっと、定石の先へ踏み込み続けている。
 Lore,746891903075,Lore.Hero.CurrentWork.Karsu,"She's a frost duelist: patient, exact, and the one who actually finishes the fights everyone else in the punk guild loves starting. She came over from Aegis Global, Dragomir's department officially, and whatever she walked away with isn't on any record. A Temple offered her a contract on the spot.",彼女は凍気を操るデュエリスト。辛抱強く、正確で、パンクな仲間たちが始めた戦いにきっちり決着をつける役だ。以前はイージス・グローバル、それも正式にはドラゴミールの部門にいた。だが、彼女が何を持ち出して去ったのかは、どの記録にも残っていない。ア・テンプルはその場で契約を持ちかけた。
 Lore,746891903020,Lore.Hero.CurrentWork.Logan,"Logan survived a rift that got all members of his previous team killed. Since then he fights with one goal: end every fight as fast as possible. No showing off, no wasted moves, no casualties. Frontline loves marketing its stars - Logan gives them nothing to work with, and doesn't care.",以前の仲間を全員失ったリフトで、ローガンだけが生還した。それ以来、目的はただ一つ。すべての戦いを可能な限り早く終わらせること。見せ場も、無駄な動きも、犠牲者も要らない。フロントラインはスターを売り出すのが大好きだが、ローガンは宣伝材料を何一つ与えず、気にも留めていない。
 Lore,746891903010,Lore.Hero.CurrentWork.Ming,"He's a frontliner with a particular kind of fire: solid, dependable, quiet in the briefing. Ming owns what fits in one bag and has never needed more. Guilds kept offering him a career path; he kept politely losing the paperwork. The Hunt is lenient enough to keep him on anyway - knowing full well that one morning, his bag will be gone.",ミンは独特の情熱を秘めた前衛だ。堅実で頼りになり、作戦説明中は寡黙。持ち物は鞄一つに収まり、それ以上を必要としたこともない。ギルドは何度も出世の道を提示したが、彼はそのたび丁寧に書類を「なくして」きた。ザ・ハントは、それでも彼を置いておくほど寛容だ。ある朝、鞄ごと姿を消しているかもしれないと承知したうえで。
 Lore,746896097296,Lore.Hero.CurrentWork.Niklas,"He's who Aegis sends when something has to move quietly: officially an acquisitions lead, unofficially their smuggler-in-chief. Self-made, and long decided that fairness is a luxury for people who can afford to lose. Nothing leaves a rift in his presence without a cut for him.",何かを人知れず動かす必要があるとき、イージスが送り込むのが彼だ。表向きは調達責任者、実態は密輸の総元締め。自力でのし上がり、公平さなど負ける余裕のある者だけが買える贅沢だと、とっくに見切っている。彼の前でリフトから持ち出される物には、必ず彼の取り分がつく。
 Lore,746891903015,Lore.Hero.CurrentWork.Nyx,"Nyx slipped past three rift lockdowns before The Hunt gave up chasing the kid and signed them instead. Now the youngest breaker on any roster: too quick to catch, too vicious to ignore. Nyx has no family on file, no address, no home. They don't trust The Hunt enough to sleep at their guild house. But every time there's a fight, the kid is always already there.",ニュクスは3度もリフトの封鎖をすり抜けた。追い回すのを諦めたザ・ハントは、その子を捕まえる代わりに契約した。今や、どの名簿を見ても最年少のブレイカー。捕まえるには素早すぎ、無視するには獰猛すぎる。家族も住所も住まいも登録されていない。ザ・ハントを信用しきれず、ギルドハウスで眠ることもない。それでも戦いが始まれば、いつも誰より先にそこにいる。
 Lore,746891903045,Lore.Hero.CurrentWork.Pimenta,"She's the guardian who plants herself in front of her people to protect them. The poison spreads from her, buying everyone the time they need. She met Sal on the Gaia forum, trading notes, and after six months of bickering they noticed they were writing love letters. Their shared goal, once the crisis ends: a cottage with a rose garden.",仲間の前に立ちはだかり、身を挺して守るガーディアン。彼女から広がる毒が、皆に必要な時間を稼ぐ。ガイアのフォーラムでサウと出会い、情報を交換した。半年間言い争った末、二人は自分たちが書いていたのは恋文だったと気づいた。危機が去ったら、バラ園のある小さな家で暮らす。それが二人の共通の夢だ。
-Lore,746891903050,Lore.Hero.CurrentWork.Pollen,"Nobody at Gaia is entirely sure where she came from. She turned up at their second meeting and never left, because her strange ideas about rifts kept turning out to be right. Her senses run stronger than anyone's: colors carry meaning, music has flavor, and a rift sings to her in a structure only she can hear. Gaia treats her as something between a daughter and a researcher.",彼女がどこから来たのか、ガイアの誰にもよく分かっていない。2回目の会合にふらりと現れ、そのまま居ついた。リフトについて語る奇妙な発想が、ことごとく正しいと分かったからだ。彼女の感覚は誰よりも鋭い。色には意味があり、音楽には味があり、リフトは彼女にしか聞き取れない構造で歌う。ガイアは彼女を、娘と研究者の中間のように扱っている。
+Lore,746891903050,Lore.Hero.CurrentWork.Pollen,"Nobody at Gaia is entirely sure where she came from. She turned up at their second meeting and never left, because her strange ideas about rifts kept turning out to be right. Her senses run stronger than anyone's: colors carry meaning, music has flavor, and a rift sings to her in a structure only she can hear. Gaia treats her as something between a daughter and a researcher.",彼女がどこから来たのか、ガイアの誰にもよく分かっていない。2回目の会合にふらりと現れ、そのまま居ついた。リフトについての奇妙な考えが、ことごとく正しいと分かったからだ。彼女の感覚は誰よりも鋭い。色には意味があり、音楽には味があり、リフトは彼女にしか聞き取れない構造で歌う。ガイアは彼女を、娘と研究者の中間のような存在として扱っている。
 Lore,746891903095,Lore.Hero.CurrentWork.Ratna,"Ratna works in public relations for L'Héritage, smoothing over disasters and getting government support and favorable extraction rights signed. The chairman takes her calls when he won't take anyone else's. She works a rift the same way she works a room: watching who's in it, who's worth knowing, what it needs from her next.",レリタージュで広報を担当し、不祥事を丸く収め、政府の支援と有利な採掘権の認可を取りつけている。会長が誰の電話にも出ないときでさえ、彼女からの連絡には応じる。ラトナは社交の場と同じようにリフトを読む。誰がいるのか、誰と知り合う価値があるのか、次に自分へ何が求められるのかを見極めるのだ。
 Lore,746891903035,Lore.Hero.CurrentWork.Reyna,"Frontline brought her in as a trainer, and she's one of the best they've had: Junior breakers come out of her sessions looking like fighters. What drives her: a pitch for a sanctioned tournament for Awakened, opponents finally worth the trouble.",フロントラインは彼女をトレーナーとして迎えた。歴代でも指折りの腕前で、彼女の訓練を終えた新人ブレイカーは、戦士の顔つきになって戻ってくる。彼女を突き動かすのは、覚醒者の公式大会を実現する構想だ。ようやく骨のある相手と戦える舞台を求めている。
-Lore,746891903070,Lore.Hero.CurrentWork.Rip,"He's a frontliner with a reputation for tearing the heart out of whatever he kills, a habit left over from his old job on a cleanup crew hauling monster carcasses He Awakened mid-shift; A Temple was the only guild that showed up to recruit him. Behind the mask he's entirely sane. Most teammates need time to work that out.",仕留めた獲物の心臓を引きずり出すことで悪名高い前衛。その癖は、モンスターの死骸を運ぶ処理班にいた頃の名残だ。作業中に覚醒し、勧誘に現れた唯一のギルドがア・テンプルだった。仮面の下の彼は、まったく正気だ。仲間の多くは、それを理解するまでに少し時間がかかる。
+Lore,746891903070,Lore.Hero.CurrentWork.Rip,"He's a frontliner with a reputation for tearing the heart out of whatever he kills, a habit left over from his old job on a cleanup crew hauling monster carcasses. He Awakened mid-shift; A Temple was the only guild that showed up to recruit him. Behind the mask he's entirely sane. Most teammates need time to work that out.",仕留めた獲物の心臓を引きずり出すことで悪名高い前衛。その癖は、モンスターの死骸を運ぶ処理班にいた頃の名残だ。作業中に覚醒し、勧誘に現れた唯一のギルドがア・テンプルだった。仮面の下の彼は、まったく正気だ。仲間の多くは、それを理解するまでに少し時間がかかる。
 Lore,746891903040,Lore.Hero.CurrentWork.Rowan,"He's the wall the rest of the team forms up behind. Rowan spent six years mining crystals out of rifts for a mining company. The more crystals they took, the more the rifts started acting strange. He couldn't prove mining was the cause, but he believed it. Gaia was the first to say out loud what his gut already knew: take less, listen more.",仲間が背後に陣形を組むための壁。ローワンは鉱山会社で6年間、リフトから結晶を掘り出していた。採れば採るほど、リフトの挙動はおかしくなっていった。採掘が原因だと証明はできなかったが、彼はそう確信していた。『奪う量を減らし、もっと耳を傾けるべきだ』――胸の内で分かっていたことを、初めて声にしたのがガイアだった。
 Lore,746891903055,Lore.Hero.CurrentWork.Sal,"She has always been keeping small things since she was a child: pressed flowers, faded photographs, small acts of preservation. Her Awakening carries the same instinct: frost that can shatter but also preserve, depending what's needed. It's the same frost that slows the poison in Pimenta's veins.",幼い頃から、小さな物を残しておく子だった。押し花、色褪せた写真――ささやかな保存の積み重ね。覚醒した力にも同じ本能が宿っている。必要に応じて、砕くことも保存することもできる凍気。それは、ピメンタの体内を巡る毒を遅らせる凍気でもある。
-Lore,746891903060,Lore.Hero.CurrentWork.Skorn,"An eye for an eye - except Skorn takes two; Hit him and get hit back. He's built his whole fighting style around one insane conviction: nothing in any rift can take more pain than he can. So far, nothing has. Every scar is a fight where the monster blinked first.",目には目を――ただしスコルンは二発返す。殴られれば、必ず殴り返す。彼の戦い方は、常軌を逸した一つの信念からできている。どんなリフトの怪物も、自分より痛みに耐えられるはずがない。今のところ、彼より痛みに耐えた怪物はいない。傷跡の一つひとつが、怪物のほうから目を逸らした戦いの証だ。
-Lore,746891903090,Lore.Hero.CurrentWork.Tilly,"Tilly looks like the sweetest thing L'Héritage ever put in front of a camera - right up until the flails start spinning. What follows is fast, heavy, and disturbingly cheerful. L'Héritage adores the contrast on camera. Off camera, even her coaches keep a respectful distance.",カメラの前に立つティリーは、レリタージュが世に送り出した中でいちばん愛らしく見える――フレイルが回り始めるまでは。その後に続くのは、速く、重く、ぞっとするほど楽しげな猛攻だ。レリタージュは画面に映えるその落差をこよなく愛している。カメラが止まれば、コーチでさえ彼女とは礼儀正しく距離を取る。
+Lore,746891903060,Lore.Hero.CurrentWork.Skorn,"An eye for an eye - except Skorn takes two; Hit him and get hit back. He's built his whole fighting style around one insane conviction: nothing in any rift can take more pain than he can. So far, nothing has. Every scar is a fight where the monster blinked first.",目には目を――ただしスコルンは二発返す。殴られれば、必ず殴り返す。彼は、どんなリフトの怪物も自分ほど痛みに耐えられはしない、という常軌を逸した信念を軸に、戦い方のすべてを築いている。今のところ、例外はいない。傷跡の一つひとつが、怪物のほうから目を逸らした戦いの証だ。
+Lore,746891903090,Lore.Hero.CurrentWork.Tilly,"Tilly looks like the sweetest thing L'Héritage ever put in front of a camera - right up until the flails start spinning. What follows is fast, heavy, and disturbingly cheerful. L'Héritage adores the contrast on camera. Off camera, even her coaches keep a respectful distance.",カメラの前に立つティリーは、レリタージュが世に送り出した誰よりも愛らしく見える――フレイルが回り始めるまでは。その後に続く猛攻は、速く、重く、ぞっとするほど楽しげだ。レリタージュは画面に映えるその落差をこよなく愛している。カメラが止まれば、コーチでさえ彼女とは礼儀正しく距離を取る。
 Lore,746891903000,Lore.Hero.CurrentWork.Yuuna,"She marks the dangerous targets, opens angles for everyone else, and takes her own mistakes personally. The Hunt values her reliability and has made peace with how little she reveals about herself.",危険な標的へ印をつけ、仲間が攻め込む角度を作り、自分の失敗は重く受け止める。ザ・ハントは彼女の確実な仕事ぶりを高く買い、彼女が素性をほとんど明かさないことも受け入れている。
 Lore,746891903080,Lore.Hero.CurrentWork.Zuri,"The old stories say you shouldn't look a gorgon in the eye. Zuri built a career on the opposite: everyone looks. Cameras, sponsors, monsters - her gaze stops them all where they stand, some more literally than others. L'Héritage trained her for both audiences, and she's never once blinked first.",古い物語は、ゴルゴンの目を見るなと説く。ズーリはその逆を仕事にした。誰もが彼女を見る。カメラも、スポンサーも、モンスターも――彼女の視線はそのすべてを釘づけにする。文字どおり動けなくなる者もいる。レリタージュはどちらの観客にも応えられるよう彼女を鍛え、彼女は一度たりとも先に目を逸らしていない。
 Lore,746891903086,Lore.Hero.Motivation.Aria,The voices grow restless between fights. She's looking for a guild that keeps them singing.,戦いの合間、声たちは落ち着きを失う。ずっと歌わせてくれるギルドを探している。
@@ -1897,12 +1897,12 @@ Lore,746896097280,Lore.Hero.Quote.Dragomir,You'll want me here. Trust me.,私を
 Lore,746896097290,Lore.Hero.Quote.Fiona,I've got all we need here with me.,必要なものは全部、持ってきたよ。
 Lore,746891903064,Lore.Hero.Quote.Funke,Let me do things my way.,俺のやり方でやらせろ。
 Lore,746891903029,Lore.Hero.Quote.Grace,Me? Really? I.. I'll try my best.,私が？ 本当に？ わ、分かりました。精いっぱい頑張ります。
-Lore,746896097285,Lore.Hero.Quote.Gustav,I've been wanting to test a scenario like this.,こういう状況を試してみたかった。
+Lore,746896097285,Lore.Hero.Quote.Gustav,I've been wanting to test a scenario like this.,こういうケースを検証してみたかった。
 Lore,746891903004,Lore.Hero.Quote.Hoyoung,Everything is lining up.,すべて狙いどおりだ。
 Lore,746891903024,Lore.Hero.Quote.Irini,They said I'd never do this again.,もう二度と無理だって、みんな言ってた。
 Lore,746891902994,Lore.Hero.Quote.Kai,Don't have all the fun without me.,俺抜きで楽しみ尽くすなよ。
 Lore,746891903074,Lore.Hero.Quote.Karsu,I'm not here to talk.,話をしに来たんじゃない。
-Lore,746891903019,Lore.Hero.Quote.Logan,I don't fight for sport. I fight to end this.,スポーツのために戦うんじゃない。終わらせるためだ。
+Lore,746891903019,Lore.Hero.Quote.Logan,I don't fight for sport. I fight to end this.,遊びで戦うんじゃない。終わらせるためだ。
 Lore,746891903009,Lore.Hero.Quote.Ming,So this is where the world sends me next.,次はここへ流れ着いたか。
 Lore,746896097295,Lore.Hero.Quote.Niklas,Looks like you know a deal when you see one.,取引の価値が分かるようだな。
 Lore,746891903014,Lore.Hero.Quote.Nyx,Yeah. I know I'm small. Get over it.,そうだよ。小さいのは分かってる。もういいだろ。
@@ -2221,13 +2221,13 @@ PassiveAbilities,9816540996943948,PassiveAbilities.PassiveAbility_102601.Name,Th
 PassiveAbilities,43809116882862085,PassiveAbilities.PassiveAbility_102602.ClassDescription,Gain the [Tank]<tank> class and [30 Defense]<defense>.,[タンク]<tank>クラスと[防御力+30]<defense>を得る。
 PassiveAbilities,9816540996943951,PassiveAbilities.PassiveAbility_102602.Description,"[Resolute Strike]<bold> hits {0} second faster and affects a larger area.
 
-On [cast,]<bold> gain [{1}+{2}_Defense]<statcalc_shield> [lasting]<lasting> [Shields]<shield>.","[不屈の一撃]<bold>が{0}秒早く命中し、効果範囲が広がる。
+On [cast]<bold> after [Stall ({3}),]<stall> gain [{1}+{2}_Defense]<statcalc_shield> [lasting]<lasting> [Shields]<shield>.","[不屈の一撃]<bold>が{0}秒早く命中し、効果範囲が広がる。
 
-[アクティブアビリティ発動時、]<bold>[永続]<lasting>[シールド]<shield>を[{1}+{2}_Defense]<statcalc_shield>獲得する。"
+[忍耐（{3}）]<stall>後、[アクティブアビリティ発動時、]<bold>[永続]<lasting>[シールド]<shield>を[{1}+{2}_Defense]<statcalc_shield>獲得する。"
 PassiveAbilities,9816540996943950,PassiveAbilities.PassiveAbility_102602.Name,The Bold,大胆なる者
-PassiveAbilities,9816540996943953,PassiveAbilities.PassiveAbility_102603.Description,"For [Rush ({0}),]<rush> gain [{1}+{2}_Crit]<statcalc_crit> [Crit]<crit>.
+PassiveAbilities,9816540996943953,PassiveAbilities.PassiveAbility_102603.Description,"On [Crit]<crit> for [Rush ({0}),]<rush> permanently gain [{1}+{2}_Rank]<statcalc_attack> [Attack]<attack> and [{5}+{6}_Attack]<statcalc_shield> [lasting]<lasting> [Shields]<shield>.
 
-Whenever a [Warrior]<warrior> [Crits]<crit> reduce their target's [Defense]<defense> by [{3}+{4}_Rank]<statcalc_defense>. [Backup.]<backup>","[速攻（{0}）]<rush>の間、[クリティカル]<crit>+[{1}+{2}_Crit]<statcalc_crit>。
+Whenever a [Warrior]<warrior> [Crits]<crit> reduce their target's [Defense]<defense> by [{3}+{4}_Rank]<statcalc_defense>. [Backup.]<backup>","[速攻（{0}）]<rush>の間に[クリティカル]<crit>が発生するたび、[攻撃力]<attack>+[{1}+{2}_Rank]<statcalc_attack>（恒久）。さらに[永続]<lasting>[シールド]<shield>を[{5}+{6}_Attack]<statcalc_shield>獲得する。
 
 [ウォリアー]<warrior>が[クリティカル]<crit>を発生させるたび、標的の[防御力]<defense>を[{3}+{4}_Rank]<statcalc_defense>低下させる。[控え有効。]<backup>"
 PassiveAbilities,9816540996943952,PassiveAbilities.PassiveAbility_102603.Name,The Intrepid,勇猛なる者
@@ -2290,7 +2290,7 @@ After [Stall ({4}),]<stall> [auto attacks]<bold> deal [{5}+{6}_Crit+{7}_Defense]
 
 [忍耐（{4}）]<stall>後、[通常攻撃]<bold>が[追加ダメージ]<damage>[{5}+{6}_Crit+{7}_Defense]<statcalc_damage>を与え、[{5}+{6}_Crit+{7}_Defense]<statcalc_heal>だけHPを[回復]<heal>する。"
 PassiveAbilities,9816540992749643,PassiveAbilities.PassiveAbility_10503.Name,The Bladedancer,剣舞の者
-PassiveAbilities,44096926831476740,PassiveAbilities.PassiveAbility_10601.DataTrackingDescription,[Magic]<magic> Gained: [{0}]<datatracking>.,[魔力]<magic>増加量：[{0}]<datatracking>。
+PassiveAbilities,44096926831476740,PassiveAbilities.PassiveAbility_10601.DataTrackingDescription,[Magic]<magic> Gained: [{0}]<datatracking>.,[魔力]<magic>増加量：[{0}]<datatracking>
 PassiveAbilities,9816540992749646,PassiveAbilities.PassiveAbility_10601.Description,"On [Stall]<stall> trigger, permanently gain [{0} Magic]<magic>.
 
 After [Stall ({1}, {2}, and {3}),]<stall> gain [+{4}% Magic]<magic> and increase the duration of Requiem Barrage by {5} second.","[忍耐]<stall>発動時、[魔力+{0}]<magic>（恒久）。
@@ -2337,15 +2337,15 @@ PassiveAbilities,9816540992749581,PassiveAbilities.PassiveAbility_109.Name,Regen
 PassiveAbilities,47806553833594880,PassiveAbilities.PassiveAbility_10901.DataTrackingDescription,"[Items Consumed:]<bold> [{0}]<datatracking>
 [Shards]<shard> [Generated:]<generate> [{1}]<datatracking>","[消費したアイテム：]<bold> [{0}]<datatracking>
 [シャード]<shard>の[生成数：]<generate> [{1}]<datatracking>"
-PassiveAbilities,9816540992749664,PassiveAbilities.PassiveAbility_10901.Description,"When Niklas [survives]<bold> combat, consume the item in his left-most item slot. Permanently gain {0}% of its stats and gain [Shards]<shard> equal to [{1}% its value]<rhd>.
+PassiveAbilities,9816540992749664,PassiveAbilities.PassiveAbility_10901.Description,"Niklas has an extra item slot. When he [survives]<bold> combat, consume the item in his leftmost item slot to permanently gain {0}% of its stats and [Shards]<shard> equal to [{1}% of its value]<rhd>.
 
-For [Rush ({2}),]<rush> [auto attacks]<bold> inflict [{3}+{4}_MaxHealth]<statcalc_burn> [Burn]<burn> per equipped item.","ニクラスが戦闘を[生き延びたとき、]<bold>一番左のアイテムを消費する。そのステータスの{0}%を恒久的に得て、[価格の{1}%]<rhd>に等しい[シャード]<shard>を獲得する。
+For [Rush ({2}),]<rush> [auto attacks]<bold> inflict [{3}+{4}_MaxHealth]<statcalc_burn> [Burn]<burn> per equipped item.","アイテムスロット+1。ニクラスが戦闘を[生き延びたとき、]<bold>一番左のアイテムを消費する。そのステータスの{0}%を恒久的に得て、[価格の{1}%]<rhd>に等しい[シャード]<shard>を獲得する。
 
 [速攻（{2}）]<rush>の間、[通常攻撃]<bold>が装備中のアイテム1個につき[炎上]<burn>を[{3}+{4}_MaxHealth]<statcalc_burn>付与する。"
 PassiveAbilities,9816540992749663,PassiveAbilities.PassiveAbility_10901.Name,Red Hot Deals,激アツ取引
-PassiveAbilities,9816540992749666,PassiveAbilities.PassiveAbility_10902.Description,"Gain two item slots.
+PassiveAbilities,9816540992749666,PassiveAbilities.PassiveAbility_10902.Description,"Gain an item slot.
 
-For [Rush ({0}),]<rush> gain [{1}+{2}_MaxHealth]<statcalc_shield> [Shields]<shield> per equipped item.","アイテムスロット+2。
+For [Rush ({0}),]<rush> gain [{1}+{2}_MaxHealth]<statcalc_shield> [Shields]<shield> per equipped item.","アイテムスロット+1。
 
 [速攻（{0}）]<rush>の間、装備中のアイテム1個につき[シールド]<shield>を[{1}+{2}_MaxHealth]<statcalc_shield>獲得する。"
 PassiveAbilities,9816540992749665,PassiveAbilities.PassiveAbility_10902.Name,The Executive,重役
@@ -2552,7 +2552,7 @@ RankModifiers,11912747974115401,RankModifiers.RankModifier_282.Name,Stalled Cold
 RankModifiers,46193532317859844,RankModifiers.RankModifier_283.DataTrackingDescription,[Magic]<magic> Gained: [283]<datatracking>,[魔力]<magic>増加量：[283]<datatracking>
 RankModifiers,11912747974115404,RankModifiers.RankModifier_283.Description,"After [Stall ({0}),]<stall> permanently gain [{1} Magic]<magic>.",[忍耐（{0}）]<stall>後、[魔力+{1}]<magic>（恒久）。
 RankModifiers,11912747974115403,RankModifiers.RankModifier_283.Name,Stalled Growth,忍耐の成長
-RankModifiers,11912747974115406,RankModifiers.RankModifier_284.Description,"After [Stall ({0}, Stall {1}, and Stall {2}),]<stall> gain [{3} Mana]<mana>.","[忍耐（{0}, {1}, {2}）]<stall>後、[マナを{3}]<mana>獲得する。"
+RankModifiers,11912747974115406,RankModifiers.RankModifier_284.Description,"After [Stall ({0}, {1}, and {2}),]<stall> gain [{3} Mana]<mana>.","[忍耐（{0}, {1}, {2}）]<stall>後、[マナを{3}]<mana>獲得する。"
 RankModifiers,11912747974115405,RankModifiers.RankModifier_284.Name,Instacast,即時詠唱
 RankModifiers,11912747974115408,RankModifiers.RankModifier_285.Description,Gain [{0} Mana Regen]<manaregen> and [{1} Starting Mana]<startingmana>.,[マナ回復+{0}]<manaregen>、[開始時マナ+{1}]<startingmana>。
 RankModifiers,11912747974115407,RankModifiers.RankModifier_285.Name,Fast Cast,高速詠唱
@@ -2617,7 +2617,7 @@ RankModifiers,11912747969921208,RankModifiers.RankModifier_93.Description,"On [S
 RankModifiers,11912747969921207,RankModifiers.RankModifier_93.Name,Stalled Defense,忍耐の防御
 RankModifiers,11912747969921210,RankModifiers.RankModifier_94.Description,"When [auto attacked,]<bold> gain [{0} Defense]<defense>.",[通常攻撃を受けたとき、]<bold>[防御力+{0}]<defense>。
 RankModifiers,11912747969921209,RankModifiers.RankModifier_94.Name,Resolute,不屈
-RankModifiers,11912747969921212,RankModifiers.RankModifier_95.Description,"After [Stall ({0}, Stall {1}, Stall {2}, Stall {3}, and Stall {4}):]<stall> [Taunt]<taunt> all enemies.","[忍耐（{0}, {1}, {2}, {3}, {4}）後：]<stall>敵全体を[挑発]<taunt>する。"
+RankModifiers,11912747969921212,RankModifiers.RankModifier_95.Description,"After [Stall ({0}, {1}, {2}, {3}, and {4}):]<stall> [Taunt]<taunt> all enemies.","[忍耐（{0}, {1}, {2}, {3}, {4}）後：]<stall>敵全体を[挑発]<taunt>する。"
 RankModifiers,11912747969921211,RankModifiers.RankModifier_95.Name,Distraction,目くらまし
 RankModifiers,11912747969921214,RankModifiers.RankModifier_96.Description,[Tanks]<tank> gain [+{0}% Defense]<defense> against damage from enemies with [Frost]<frost>. [Backup]<backup>.,[タンク]<tank>が[凍気]<frost>状態の敵から受けるダメージに対し、[防御力+{0}%]<defense>。[控え有効]<backup>。
 RankModifiers,11912747969921213,RankModifiers.RankModifier_96.Name,Freezing Presence,凍気の加護
@@ -2738,7 +2738,7 @@ Relics,21745596571041881,Relics.Relic_2017.Name,Multiclass Conduit,マルチク�
 Relics,65024501187477541,Relics.Relic_2017.QuestDescription,Win a combat with {0} or more combined [classes]<class> in play.,合計{0}種類以上の[クラス]<class>を出撃させて戦闘に勝利する。
 Relics,65024501187477542,Relics.Relic_2017.QuestRewardDescription,Get {0} random Crest items. Crest items make a Hero count as having an additional class.,ランダムな紋章アイテムを{0}個獲得する。紋章アイテムを装備したヒーローは、追加クラスを持つものとして扱われる。
 Relics,21745596571041884,Relics.Relic_2018.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [{0}]<datatracking>,[シャード]<shard>の[生成数：]<generate> [{0}]<datatracking>
-Relics,21745596571041883,Relics.Relic_2018.Description,"[Every {0}]<bold> [Stall]<stall> [triggers,]<bold> gain [{1} Shard]<shard>.",[{0}回ごとに]<bold>[忍耐]<stall>が[発動すると、]<bold>[シャードを{1}]<shard>獲得する。
+Relics,21745596571041883,Relics.Relic_2018.Description,"[Every {0}]<bold> [Stall]<stall> [triggers,]<bold> gain [{1} Shard]<shard>.",[忍耐]<stall>が[{0}回]<bold>[発動するたび、]<bold>[シャードを{1}]<shard>獲得する。
 Relics,21745596571041882,Relics.Relic_2018.Name,Deceleration Nexus,減速中枢
 Relics,21745596571041886,Relics.Relic_2019.Description,"On [Stall]<stall> [trigger,]<bold> give Heroes a [{0}% Max HP Shield]<shield> and [{1} Mana]<mana>.",[忍耐]<stall>[発動時、]<bold>ヒーローに[最大HPの{0}%に等しいシールド]<shield>と[マナを{1}]<mana>付与する。
 Relics,21745596571041885,Relics.Relic_2019.Name,Deceleration Reactor,減速反応炉
@@ -2746,7 +2746,7 @@ Relics,21745596571041887,Relics.Relic_2020.Name,Deceleration Conduit,減速導�
 Relics,65024501187477543,Relics.Relic_2020.QuestDescription,Trigger [Stall]<stall> {0} times.,[忍耐]<stall>を{0}回発動する。
 Relics,65024501187477544,Relics.Relic_2020.QuestRewardDescription,[Stall]<stall> abilities trigger {0} seconds faster.,[忍耐]<stall>アビリティの発動が{0}秒早まる。
 Relics,21745596571041890,Relics.Relic_2021.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [{0}]<datatracking>,[シャード]<shard>の[生成数：]<generate> [{0}]<datatracking>
-Relics,21745596571041889,Relics.Relic_2021.Description,"[Every {0}]<bold> [Rush]<rush> [triggers,]<bold> gain [{1} Shard]<shard>.",[{0}回ごとに]<bold>[速攻]<rush>が[発動すると、]<bold>[シャードを{1}]<shard>獲得する。
+Relics,21745596571041889,Relics.Relic_2021.Description,"[Every {0}]<bold> [Rush]<rush> [triggers,]<bold> gain [{1} Shard]<shard>.",[速攻]<rush>が[{0}回]<bold>[発動するたび、]<bold>[シャードを{1}]<shard>獲得する。
 Relics,21745596571041888,Relics.Relic_2021.Name,Acceleration Nexus,加速中枢
 Relics,21745596571041892,Relics.Relic_2022.Description,"On [Rush]<rush> [trigger,]<bold> give Heroes [{0} Crit]<crit> and [{1} Attack Speed]<attackspeed>.",[速攻]<rush>[発動時、]<bold>ヒーローの[クリティカル+{0}]<crit>、[攻撃速度+{1}]<attackspeed>。
 Relics,21745596571041891,Relics.Relic_2022.Name,Acceleration Reactor,加速反応炉
@@ -2894,7 +2894,7 @@ Relics,21745596575236117,Relics.Relic_3009.Description,"After [Stall ({0}),]<sta
 Relics,21745596575236116,Relics.Relic_3009.Name,Duelist's Profusion Filigree,デュエリストの奔流フィリグリー
 Relics,21745596575236119,Relics.Relic_3010.Description,"For [Rush ({0}),]<rush> [Duelists]<duelist> gain [{1} Attack Speed]<attackspeed>.",[速攻（{0}）]<rush>の間、[デュエリスト]<duelist>の[攻撃速度+{1}]<attackspeed>。
 Relics,21745596575236118,Relics.Relic_3010.Name,Duelist's Fury Filigree,デュエリストの憤怒フィリグリー
-Relics,21745596575236121,Relics.Relic_3011.Description,"Whenever a [Mystic]<mystic> [Shields]<shield> a Hero, damage their nearest enemy for {0}% of the [Shield]<shield> applied.",[ミスティック]<mystic>がヒーローへ[シールド]<shield>を付与するたび、最も近い敵に付与した[シールド]<shield>の{0}%に等しいダメージを与える。
+Relics,21745596575236121,Relics.Relic_3011.Description,"Whenever a [Mystic]<mystic> [Shields]<shield> a Hero, damage their nearest enemy for {0}% of the [Shield]<shield> applied.",[ミスティック]<mystic>がヒーローに[シールド]<shield>を付与するたび、その[シールド]<shield>の{0}%に等しいダメージを、そのヒーローに最も近い敵へ与える。
 Relics,21745596575236120,Relics.Relic_3011.Name,Mystic's Inundation Prism,ミスティックの氾濫プリズム
 Relics,21745596575236123,Relics.Relic_3012.Description,"Whenever a [Mystic]<mystic> [casts]<bold> after [Stall ({0}),]<stall> they give the nearest Hero [Magic]<magic> and [Attack]<attack> equal to [{1}% of their Mana Regen]<manaregen>.",[忍耐（{0}）]<stall>後、[ミスティック]<mystic>が[アビリティを発動する]<bold>たび、最も近いヒーローに自身の[マナ回復の{1}%]<manaregen>に等しい[魔力]<magic>と[攻撃力]<attack>を付与する。
 Relics,21745596575236122,Relics.Relic_3012.Name,Mystic's Prosperity Filigree,ミスティックの繁栄フィリグリー
@@ -2917,16 +2917,16 @@ Relics,21745596575236135,Relics.Relic_3018.Description,"[Every other]<bold> [Sta
 Relics,21745596575236134,Relics.Relic_3018.Name,Trigger Bounty Activator,トリガー報奨起動装置
 Relics,21745596575236137,Relics.Relic_3019.Description,"[Every {0}]<bold> [Stall]<stall> [triggers,]<bold> [Stun]<stun> all enemies for {1} seconds.
 
-[Every {2}]<bold> [Rush]<rush> [triggers,]<bold> [Stun]<stun> all enemies for {3} seconds.","[{0}回ごとに]<bold>[忍耐]<stall>が[発動すると、]<bold>敵全体を{1}秒間[スタン]<stun>させる。
+[Every {2}]<bold> [Rush]<rush> [triggers,]<bold> [Stun]<stun> all enemies for {3} seconds.","[忍耐]<stall>が[{0}回]<bold>[発動するたび、]<bold>敵全体を{1}秒間[スタン]<stun>させる。
 
-[{2}回ごとに]<bold>[速攻]<rush>が[発動すると、]<bold>敵全体を{3}秒間[スタン]<stun>させる。"
+[速攻]<rush>が[{2}回]<bold>[発動するたび、]<bold>敵全体を{3}秒間[スタン]<stun>させる。"
 Relics,21745596575236136,Relics.Relic_3019.Name,Trigger Synchrony Activator,トリガー同調起動装置
 Relics,21745596575236138,Relics.Relic_3020.Name,Deceleration Ascendancy,減速の昇華
 Relics,65024501187477565,Relics.Relic_3020.QuestDescription,Trigger [Stall]<stall> {0} times.,[忍耐]<stall>を{0}回発動する。
 Relics,65024501187477566,Relics.Relic_3020.QuestRewardDescription,[Stall]<stall> abilities trigger {0} seconds faster.,[忍耐]<stall>アビリティの発動が{0}秒早まる。
 Relics,21745596575236140,Relics.Relic_3021.Description,"After [Stall ({0}, {1}, and {2}),]<stall> give Heroes +{3}% to all their [basic stats]<basicstat>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローの[基本ステータス+{3}%]<basicstat>。"
 Relics,21745596575236139,Relics.Relic_3021.Name,Deceleration Apotheosis,減速の神格化
-Relics,21745596575236142,Relics.Relic_3022.Description,"After [Stall ({0}) and ({1}),]<stall> double the amount of [Poison]<poison> on all enemies.","[忍耐（{0}, {1}）]<stall>後、敵全体に付与されている[毒]<poison>を2倍にする。"
+Relics,21745596575236142,Relics.Relic_3022.Description,"After [Stall ({0}, {1}, and {2}),]<stall> double the amount of [Poison]<poison> on all enemies.","[忍耐（{0}, {1}, {2}）]<stall>後、敵全体に付与されている[毒]<poison>を2倍にする。"
 Relics,21745596575236141,Relics.Relic_3022.Name,Deceleration Corruptor,減速の侵食装置
 Relics,21745596575236144,Relics.Relic_3023.Description,"After [Stall ({0}, {1}, and {2}),]<stall> Heroes gain [{3}]<shield> [lasting]<lasting> [Shields]<shield>.","[忍耐（{0}, {1}, {2}）]<stall>後、ヒーローが[{3}]<shield>の[永続]<lasting>[シールド]<shield>を獲得する。"
 Relics,21745596575236143,Relics.Relic_3023.Name,Deceleration Aegis,減速のイージス
@@ -3058,7 +3058,7 @@ Relics,21745596575236219,Relics.Relic_4004.Description,"Heroes gain [{0} Attack 
 
 Whenever a [Duelist]<duelist> [auto attacks]<bold>, they deal {1} [bonus damage]<damage> for each time they have auto attacked this combat.","ヒーローの[攻撃速度+{0}]<attackspeed>。
 
-[デュエリスト]<duelist>が[通常攻撃する]<bold>たび、この戦闘中に通常攻撃した回数1回につき[追加ダメージを{1}]<damage>与える。"
+[デュエリスト]<duelist>が[通常攻撃する]<bold>たび、この戦闘中に自身が行った通常攻撃1回につき[追加ダメージを{1}]<damage>与える。"
 Relics,21745596575236218,Relics.Relic_4004.Name,Duelist's Momentum Engine,デュエリストの勢いエンジン
 Relics,21745596575236221,Relics.Relic_4005.Description,"Heroes gain [{0} Mana Regen]<manaregen>.
 
@@ -3379,7 +3379,7 @@ Relics,11913064820228097,Relics.Relic_567.Description,"Whenever a [Duelist]<duel
 Relics,11913064816034040,Relics.Relic_567.Name,Duelist's Chill Banner,デュエリストの冷気旗
 Relics,11913064820228117,Relics.Relic_568.Description,"Whenever a [Duelist]<duelist> auto attacks, they inflict [{0} Burn]<burn> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象に[炎上を{0}]<burn>付与する。
 Relics,11913064820228098,Relics.Relic_568.Name,Duelist's Flame Banner,デュエリストの炎旗
-Relics,11913064820228119,Relics.Relic_571.Description,"Whenever a [Duelist]<duelist> auto attacks, they gain [{0} Attack Speed]<attackspeed> and [{1} Attack]<attack> per type of [Debuff]<debuff> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象の[デバフ]<debuff>1種類につき[攻撃速度+{0}]<attackspeed>、[攻撃力+{1}]<attack>。
+Relics,11913064820228119,Relics.Relic_571.Description,"Whenever a [Duelist]<duelist> auto attacks, they gain [{0} Attack Speed]<attackspeed> per type of [Debuff]<debuff> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象の[デバフ]<debuff>1種類につき[攻撃速度+{0}]<attackspeed>。
 Relics,11913064820228118,Relics.Relic_571.Name,Duelist's Outbreak Banner,デュエリストの感染旗
 Relics,11913064820228126,Relics.Relic_581.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [{0}]<datatracking>,[シャード]<shard>の[生成数：]<generate> [{0}]<datatracking>
 Relics,11913064820228125,Relics.Relic_581.Description,"Every {0} times a [Mystic]<mystic> [casts]<bold>, gain [{1} Shard]<shard>.",[ミスティック]<mystic>が[アビリティを{0}回発動する]<bold>たび、[シャードを{1}]<shard>獲得する。
@@ -3693,7 +3693,7 @@ Relics,60439820575432704,Relics.Relic_798.Name,Debt,借金
 Relics,62493966749130752,Relics.Relic_799.Description,Heroes gain [{0} Max HP]<maxhp>.,ヒーローの[最大HP+{0}]<maxhp>。
 Relics,62493966677827584,Relics.Relic_799.Name,Strange Yellow Fruit,奇妙な黄色い果実
 Relics,66474939157307392,Relics.Relic_900.Description,Enemies gain [{0}% basic stats]<basicstat>.,敵の[基本ステータス+{0}%]<basicstat>。
-Relics,66474939090198528,Relics.Relic_900.Name,The Red Rift,赤のリフト
+Relics,66474939090198528,Relics.Relic_900.Name,The Red Rift,レッドリフト
 RunEndSummary,898717319293,UI.EndScreen.Titles.Aegis,{0:choose(Feminine|Masculine|Neutral):The Aegis|The Aegis|The Aegis},{0:choose(Feminine|Masculine|Neutral):イージス|イージス|イージス}
 RunEndSummary,898717319296,UI.EndScreen.Titles.Aegis.Mage,{0:choose(Feminine|Masculine|Neutral):The Bubble|The Bubble|The Bubble},{0:choose(Feminine|Masculine|Neutral):泡の守り|泡の守り|泡の守り}
 RunEndSummary,898717319295,UI.EndScreen.Titles.Aegis.Mystic,{0:choose(Feminine|Masculine|Neutral):The Warden|The Warden|The Warden},{0:choose(Feminine|Masculine|Neutral):結界守|結界守|結界守}
@@ -4177,8 +4177,8 @@ UI,55275582371004416,UI.Difficulty.CurrentWinStreak,Current Win Streak,現在の
 UI,71305342326800384,UI.Difficulty.EndlessBonus,Endless mode score bonus: +{0},エンドレスモードスコアボーナス：+{0}
 UI,55275582371004419,UI.Difficulty.LockedDecription,Beat the previous difficulty mode to unlock.,一つ前の難易度をクリアすると解放。
 UI,55275582371004420,UI.Difficulty.Modifiers,Difficulty Modifiers,難易度補正
-UI,55275582371004417,UI.Difficulty.RiftMode,The Red Rift,赤のリフト
-UI,55275582371004418,UI.Difficulty.RiftModeDescription,Take on a highly dangerous contract to close the <b>Red Rift.</b>\n\n- Complete all <b>6 challenges</b> and defeat the final boss to seal the Red Rift and earn your spot on the <b>Win Streak Leaderboard.</b>\n- Failing a challenge ends your run in defeat and <b>resets your win streak</b>.\n- Enemies in the Red Rift have <b>increased stats</b>.\n- Red Rift runs do not continue into <b>Endless Mode</b>. ,極めて危険な契約に挑み、<b>赤のリフト</b>を閉じる。\n\n・<b>6つのチャレンジ</b>をすべて達成して最終ボスを倒すと、赤のリフトを封印し、<b>連勝ランキング</b>へ名を刻める。\n・チャレンジに失敗するとランは敗北で終了し、<b>連勝数がリセット</b>される。\n・赤のリフトの敵は<b>ステータスが強化</b>されている。\n・赤のリフトのランは<b>エンドレスモード</b>へ移行しない。
+UI,55275582371004417,UI.Difficulty.RiftMode,The Red Rift,レッドリフト
+UI,55275582371004418,UI.Difficulty.RiftModeDescription,Take on a highly dangerous contract to close the <b>Red Rift.</b>\n\n- Complete all <b>6 challenges</b> and defeat the final boss to seal the Red Rift and earn your spot on the <b>Win Streak Leaderboard.</b>\n- Failing a challenge ends your run in defeat and <b>resets your win streak</b>.\n- Enemies in the Red Rift have <b>increased stats</b>.\n- Red Rift runs do not continue into <b>Endless Mode</b>. ,極めて危険な契約に挑み、<b>レッドリフト</b>を閉じる。\n\n・<b>6つのチャレンジ</b>をすべて達成して最終ボスを倒すと、レッドリフトを封印し、<b>連勝ランキング</b>へ名を刻める。\n・チャレンジに失敗するとランは敗北で終了し、<b>連勝数がリセット</b>される。\n・レッドリフトの敵は<b>ステータスが強化</b>されている。\n・レッドリフトのランは<b>エンドレスモード</b>へ移行しない。
 UI,43294476776112135,UI.Difficulty.S,Difficulty: S,難易度：S
 UI,43294476776112136,UI.Difficulty.S.Description,Heroes can only equip 1 item per rank.,ヒーローが装備できるアイテムは、ランクごとに1個のみ。
 UI,43294476776112137,UI.Difficulty.SS,Difficulty: SS,難易度：SS
@@ -4191,7 +4191,7 @@ UI,64027222985015296,UI.EndScreen.Defeat,Defeat,敗北
 UI,76328939000823810,UI.EndScreen.Difficulty,Difficulty,難易度
 UI,60371974664458242,UI.EndScreen.Endless,Endless,エンドレス
 UI,60371974664458241,UI.EndScreen.EndlessFloor,Endless #{floor},エンドレス #{floor}
-UI,76328939000823808,UI.EndScreen.NewLeaderboardRank,New Leaderboard Rank,ランキングを更新
+UI,76328939000823808,UI.EndScreen.NewLeaderboardRank,New Leaderboard Rank,更新後の順位
 UI,60371974664458240,UI.EndScreen.NewRun,New Run,新しいラン
 UI,76328938996629504,UI.EndScreen.Score,Score,スコア
 UI,60371974601543680,UI.EndScreen.Summary,Summary,概要
@@ -4317,7 +4317,7 @@ UI,64027298696396811,UI.Keyword.Stun.ExtraInformation,[Stun:]<stun> A [Stunned]<
 UI,64027298696396812,UI.Keyword.Taunt.ExtraInformation,[Taunt:]<taunt> A [Taunted]<taunt> character changes their target to the enemy who [Taunted]<taunt> them.,[挑発：]<taunt> [挑発]<taunt>されたキャラクターは、攻撃対象を[挑発]<taunt>してきた敵へ変更する。
 UI,64027298696396819,UI.Keyword.Trh.ExtraInformation,"Fiona's [The Right Hand]<bold> creates rarer items as Fiona's [rank]<rank> increases. [Rank B]<bold> = Common, [Rank A]<bold> = Rare, [Rank S]<bold> = Epic.",フィオナの[右腕]<bold>で作られるアイテムは、フィオナの[ランク]<rank>が高いほどレアリティが上がる。[ランクB]<bold>＝コモン、[ランクA]<bold>＝レア、[ランクS]<bold>＝エピック。
 UI,64027298696396820,UI.Keyword.Wad.ExtraInformation,"Niklas's [Wheel and Deal]<bold> creates rarer items as his [rank]<rank> increases. [Rank B]<bold> = Common, [Rank A]<bold> = Rare,  [Rank S]<bold> = Epic.",ニクラスの[回して稼げ！]<bold>で作られるアイテムは、ニクラスの[ランク]<rank>が高いほどレアリティが上がる。[ランクB]<bold>＝コモン、[ランクA]<bold>＝レア、[ランクS]<bold>＝エピック。
-UI,54921430628818944,UI.Leaderboard.ChallengeModeTitle,Red Rift,赤のリフト
+UI,54921430628818944,UI.Leaderboard.ChallengeModeTitle,Red Rift,レッドリフト
 UI,69385795919282176,UI.Leaderboard.ChallengeStreak,Your current streak: {0},現在の連勝数：{0}
 UI,43266879589580801,UI.Leaderboard.Floor,Floor,フロア
 UI,75206989642436608,UI.Leaderboard.FriendList,Friend List,フレンド
@@ -4370,7 +4370,7 @@ UI,75258349993824256,UI.MetaProgression.Title,Progression,進行度
 UI,43324482344583170,UI.NoSaveWarning,Abandon Run?,ランを放棄しますか？
 UI,43324482344583171,UI.NoSaveWarning.Description,Quitting now will lose all progress. Are you sure you want to quit?,今終了すると進行状況はすべて失われます。本当に終了しますか？
 UI,12991570283053070,UI.Node.ActBoss.Description,Current Act Boss: {0},現在のアクトボス：{0}
-UI,65382536707702784,UI.Node.ActBoss.RelicDescription,Each combat before the Act Boss is under the influence of {0}:,アクトボス以前の各戦闘は{0}の影響下にある：
+UI,65382536707702784,UI.Node.ActBoss.RelicDescription,Each combat before the Act Boss is under the influence of {0}:,アクトボス戦前の各戦闘は{0}の影響を受ける：
 UI,12991570283053069,UI.Node.ActBoss.Title,Act Boss,アクトボス
 UI,12991570283053074,UI.Node.Battle.Description,Battle enemies to gain Shards and access to the shop.,敵と戦ってシャードを獲得し、ショップを利用する。
 UI,12991570283053073,UI.Node.Battle.Title,Battle,戦闘
@@ -4402,15 +4402,15 @@ UI,13408344992366594,UI.Rarity_Epic,Epic,エピック
 UI,13408344958812160,UI.Rarity_None,None,なし
 UI,13408344992366593,UI.Rarity_Rare,Rare,レア
 UI,69502680845385728,UI.RiftAnchorNotEquiped,You must equip the Rift Seal to a Hero before entering combat.,戦闘へ入る前に、リフトシールをヒーローへ装備してください。
-UI,55595965099933696,UI.RiftSealingProtocol,Red Rift,赤のリフト
+UI,55595965099933696,UI.RiftSealingProtocol,Red Rift,レッドリフト
 UI,65454338859466755,UI.RiftSealingProtocol.Act1KeyFragment,Purchase the Act 1 Key Fragment,アクト1の鍵の欠片を購入
 UI,65454338859466756,UI.RiftSealingProtocol.Act2KeyFragment,Purchase the Act 2 Key Fragment,アクト2の鍵の欠片を購入
-UI,65089750536159233,UI.RiftSealingProtocol.Defeat,Red Rift Failed,赤のリフト失敗
+UI,65089750536159233,UI.RiftSealingProtocol.Defeat,Red Rift Failed,レッドリフト失敗
 UI,65484484777738247,UI.RiftSealingProtocol.Failed.Description,You failed a mission. Do you want to abandon the run and return to the main menu?,ミッションに失敗しました。ランを放棄してメインメニューへ戻りますか？
-UI,65484484777738246,UI.RiftSealingProtocol.Failed.Title,Red Rift Failed,赤のリフト失敗
+UI,65484484777738246,UI.RiftSealingProtocol.Failed.Title,Red Rift Failed,レッドリフト失敗
 UI,65454338859466758,UI.RiftSealingProtocol.HeroDeath,Hero death limit: {0},ヒーロー死亡上限：{0}
 UI,76602472096464896,UI.RiftSealingProtocol.MissionFailed,Mission Failed,ミッション失敗
-UI,65454338859466752,UI.RiftSealingProtocol.MissionsProgress,Red Rift Missions - {0},赤のリフト・ミッション－{0}
+UI,65454338859466752,UI.RiftSealingProtocol.MissionsProgress,Red Rift Missions - {0},レッドリフト・ミッション－{0}
 UI,65454338859466757,UI.RiftSealingProtocol.RiftAnchor,Charge the Rift Seal ({0}),リフトシールをチャージ（{0}）
 UI,65454338859466754,UI.RiftSealingProtocol.SkipCampfire,Skip a Campfire reward,焚き火の報酬をスキップ
 UI,65454338859466753,UI.RiftSealingProtocol.SkipChallenge,Skip a Challenge Combat reward,チャレンジ戦の報酬をスキップ
