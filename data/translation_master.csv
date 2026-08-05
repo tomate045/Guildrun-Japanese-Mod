@@ -2225,6 +2225,7 @@ On [cast]<bold> after [Stall ({3}),]<stall> gain [{1}+{2}_Defense]<statcalc_shie
 
 [忍耐（{3}）]<stall>後、[アクティブアビリティ発動時、]<bold>[永続]<lasting>[シールド]<shield>を[{1}+{2}_Defense]<statcalc_shield>獲得する。"
 PassiveAbilities,9816540996943950,PassiveAbilities.PassiveAbility_102602.Name,The Bold,大胆なる者
+PassiveAbilities,83960963810713600,PassiveAbilities.PassiveAbility_102603.DataTrackingDescription,[Attack]<attack> Gained: [{0}]<datatracking>,[攻撃力]<attack>増加量：[{0}]<datatracking>
 PassiveAbilities,9816540996943953,PassiveAbilities.PassiveAbility_102603.Description,"On [Crit]<crit> for [Rush ({0}),]<rush> permanently gain [{1}+{2}_Rank]<statcalc_attack> [Attack]<attack> and [{5}+{6}_Attack]<statcalc_shield> [lasting]<lasting> [Shields]<shield>.
 
 Whenever a [Warrior]<warrior> [Crits]<crit> reduce their target's [Defense]<defense> by [{3}+{4}_Rank]<statcalc_defense>. [Backup.]<backup>","[速攻（{0}）]<rush>の間に[クリティカル]<crit>が発生するたび、[攻撃力]<attack>+[{1}+{2}_Rank]<statcalc_attack>（恒久）。さらに[永続]<lasting>[シールド]<shield>を[{5}+{6}_Attack]<statcalc_shield>獲得する。
