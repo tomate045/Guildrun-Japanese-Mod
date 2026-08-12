@@ -1,6 +1,6 @@
 {
   "format": 1,
-  "data_version": "1.0.18",
+  "data_version": "1.0.19",
   "game": {
     "exe": "Guildrun.exe"
   },
@@ -36,6 +36,6 @@
     "crc_search_bytes": 256
   },
   "expected_sizes": {
-    "Guildrun_Data/StreamingAssets/aa/StandaloneWindows64/localization-string-tables-english(en)_assets_all.bundle": 93722
+    "Guildrun_Data/StreamingAssets/aa/StandaloneWindows64/localization-string-tables-english(en)_assets_all.bundle": 93813
   }
 }

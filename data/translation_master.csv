@@ -117,7 +117,11 @@ ActiveAbilities,2266028856557570,ActiveAbilities.ActiveAbility_18.Description,"E
 ActiveAbilities,2266028856557569,ActiveAbilities.ActiveAbility_18.Name,Rampage,暴走
 ActiveAbilities,2266028810420225,ActiveAbilities.ActiveAbility_2.Description,Fire an arrow at the farthest enemy. It deals [{0}+{1}_Attack+{2}_Magic]<statcalc_damage> damage and gains [{3}+{4}_Crit+{5}_Rank]<statcalc_crit> additional [Crit]<crit>.,最も遠い敵へ矢を放つ。[{0}+{1}_Attack+{2}_Magic]<statcalc_damage>ダメージを与え、追加で[{3}+{4}_Crit+{5}_Rank]<statcalc_crit>の[クリティカル]<crit>を得る。
 ActiveAbilities,2266028810420224,ActiveAbilities.ActiveAbility_2.Name,Killshot,致命の一矢
-ActiveAbilities,2266028860751872,ActiveAbilities.ActiveAbility_20.Description,Loose a volley of {0} arrows at nearby enemies. Each arrow deals [{1}+{2}_Attack+{3}_Magic]<statcalc_damage> damage and inflicts [{4}+{5}_AttackSpeed]<statcalc_frost> [Frost]<frost>.,周囲の敵へ{0}本の矢を一斉に放つ。矢1本につき[{1}+{2}_Attack+{3}_Magic]<statcalc_damage>ダメージと[{4}+{5}_AttackSpeed]<statcalc_frost>の[凍気]<frost>を与える。
+ActiveAbilities,2266028860751872,ActiveAbilities.ActiveAbility_20.Description,"Loose a volley of [{0}+{6}_AttackSpeed]<statcalc_attackspeed> arrows at nearby enemies. Each arrow deals [{1}+{2}_Attack+{3}_Magic]<statcalc_damage> damage and inflicts [{4}+{5}_Rank]<statcalc_frost> [Frost]<frost>.
+
+[Max Arrows:]<bold> {7}","周囲の敵へ[{0}+{6}_AttackSpeed]<statcalc_attackspeed>本の矢を一斉に放つ。矢1本につき[{1}+{2}_Attack+{3}_Magic]<statcalc_damage>ダメージと[{4}+{5}_Rank]<statcalc_frost>の[凍気]<frost>を与える。
+
+[矢の上限：]<bold> {7}"
 ActiveAbilities,2266028856557573,ActiveAbilities.ActiveAbility_20.Name,Snowpiercer,雪穿ち
 ActiveAbilities,2266028923666432,ActiveAbilities.ActiveAbility_20101.Description,Deal [{0}+{1}_Magic]<statcalc_magic> damage and inflict [{2}+{3}_Magic]<statcalc_burn> [Burn]<burn> to all enemies.,すべての敵へ[{0}+{1}_Magic]<statcalc_magic>ダメージを与え、[{2}+{3}_Magic]<statcalc_burn>の[炎上]<burn>を付与する。
 ActiveAbilities,2266028919472131,ActiveAbilities.ActiveAbility_20101.Name,Flame Breath,炎のブレス
@@ -1952,9 +1956,9 @@ PassiveAbilities,9816540992749669,PassiveAbilities.PassiveAbility_101001.Name,Th
 PassiveAbilities,43809116878667783,PassiveAbilities.PassiveAbility_101002.ClassDescription,Gain the [Vanguard]<vanguard> class and [200 Max HP]<maxhp>.,[ヴァンガード]<vanguard>クラスと[最大HP+200]<maxhp>を得る。
 PassiveAbilities,9816540992749672,PassiveAbilities.PassiveAbility_101002.Description,"On [cast,]<bold> gain [{0}+{1}_MaxHealth]<statcalc_shield> [Shields]<shield>.
 
-Whenever an enemy damages a [Shielded]<shield> Hero, inflict [{2}+{3}_Rank]<statcalc_burn> [Burn]<burn> on that enemy per [{4} Shields]<shield> removed. [Backup.]<backup>","[アクティブアビリティ発動時、]<bold>[シールド]<shield>を[{0}+{1}_MaxHealth]<statcalc_shield>獲得する。
+Whenever an enemy damages a [Shielded]<shield> Hero, inflict [{2}+{3}_Rank]<statcalc_burn> [Burn]<burn> on that enemy. [Backup.]<backup>","[アクティブアビリティ発動時、]<bold>[シールド]<shield>を[{0}+{1}_MaxHealth]<statcalc_shield>獲得する。
 
-敵が[シールド中]<shield>のヒーローへダメージを与えるたび、失われた[シールド{4}]<shield>ごとに、その敵へ[炎上]<burn>を[{2}+{3}_Rank]<statcalc_burn>付与する。[控え有効。]<backup>"
+敵が[シールド中]<shield>のヒーローへダメージを与えるたび、その敵へ[炎上]<burn>を[{2}+{3}_Rank]<statcalc_burn>付与する。[控え有効。]<backup>"
 PassiveAbilities,9816540992749671,PassiveAbilities.PassiveAbility_101002.Name,The Lustrous,輝ける者
 PassiveAbilities,44096926831476743,PassiveAbilities.PassiveAbility_101003.DataTrackingDescription,[Tycoon Stacks:]<bold> [{0}]<datatracking>,[大物スタック：]<bold> [{0}]<datatracking>
 PassiveAbilities,9816540992749674,PassiveAbilities.PassiveAbility_101003.Description,"Every {0} [casts,]<bold> gain a [Tycoon]<bold> stack.
@@ -1999,7 +2003,11 @@ PassiveAbilities,9816540996943878,PassiveAbilities.PassiveAbility_101202.Name,Th
 PassiveAbilities,9816540996943881,PassiveAbilities.PassiveAbility_101203.Description,"At [start of combat,]<bold> for each [Tank]<tank> in combat inflict [{0}+{1}_Rank]<statcalc_poison> [Poison]<poison> on all enemies and give [{2}+{3}_Rank]<statcalc_defense> [Defense]<defense> to all Heroes. [Backup.]<backup>",[戦闘開始時、]<bold>戦闘中の[タンク]<tank>1体につき、敵全体へ[毒]<poison>を[{0}+{1}_Rank]<statcalc_poison>付与し、味方全員の[防御力]<defense>+[{2}+{3}_Rank]<statcalc_defense>。[控え有効。]<backup>
 PassiveAbilities,9816540996943880,PassiveAbilities.PassiveAbility_101203.Name,The Bristleguard,棘の守護者
 PassiveAbilities,44096926831476745,PassiveAbilities.PassiveAbility_101301.DataTrackingDescription,[Rush]<rush> [Triggered:]<bold> [totalRushTriggers]<globaldatatracking>,[速攻]<rush>の[発動回数：]<bold> [totalRushTriggers]<globaldatatracking>
-PassiveAbilities,9816540996943883,PassiveAbilities.PassiveAbility_101301.Description,"For [Rush ({0}),]<rush> [Warriors]<warrior> gain [{1}+{2}_Rank]<statcalc_attack> [Attack]<attack> and [{3}+{4}_Rank]<statcalc_defense> [Defense]<defense> per [Rush]<rush> trigger this game. [Backup.]<backup>",[速攻（{0}）]<rush>の間、このラン中の[速攻]<rush>発動1回につき、[ウォリアー]<warrior>の[攻撃力]<attack>+[{1}+{2}_Rank]<statcalc_attack>、[防御力]<defense>+[{3}+{4}_Rank]<statcalc_defense>。[控え有効。]<backup>
+PassiveAbilities,9816540996943883,PassiveAbilities.PassiveAbility_101301.Description,"Gain an item slot.
+
+For [Rush ({0}),]<rush> [Warriors]<warrior> gain [{1}+{2}_Rank]<statcalc_attack> [Attack]<attack> and [{3}+{4}_Rank]<statcalc_defense> [Defense]<defense> per [Rush]<rush> trigger this game. [Backup.]<backup>","アイテムスロット+1。
+
+[速攻（{0}）]<rush>の間、このラン中の[速攻]<rush>発動1回につき、[ウォリアー]<warrior>の[攻撃力]<attack>+[{1}+{2}_Rank]<statcalc_attack>、[防御力]<defense>+[{3}+{4}_Rank]<statcalc_defense>。[控え有効。]<backup>"
 PassiveAbilities,9816540996943882,PassiveAbilities.PassiveAbility_101301.Name,The Iron,鉄人
 PassiveAbilities,9816540996943885,PassiveAbilities.PassiveAbility_101302.Description,"Whenever Logan deals damage with [Execution,]<bold> he gains [lasting]<lasting> [Shields]<shield> equal to [{0}+{1}_Rank]<statcalc_shield>% of the damage dealt. ",ローガンが[処刑]<bold>でダメージを与えるたび、与えたダメージの[{0}+{1}_Rank]<statcalc_shield>%に等しい[永続]<lasting>[シールド]<shield>を獲得する。
 PassiveAbilities,9816540996943884,PassiveAbilities.PassiveAbility_101302.Name,The Juggernaut,不壊の猛進者
@@ -2104,11 +2112,11 @@ PassiveAbilities,9816540996943915,PassiveAbilities.PassiveAbility_101802.Descrip
 [控え専用：]<backuponly>[戦闘開始時、]<bold>[ヴァンガード]<vanguard>は、このアビリティで増加した[最大HP]<maxhp>をすべて得る。"
 PassiveAbilities,9816540996943914,PassiveAbilities.PassiveAbility_101802.Name,The Glutton,大食漢
 PassiveAbilities,43809116878667787,PassiveAbilities.PassiveAbility_101803.ClassDescription,Gain the [Assassin]<assassin> class and [35 Crit]<crit>.,[アサシン]<assassin>クラスと[クリティカル+35]<crit>を得る。
-PassiveAbilities,9816540996943917,PassiveAbilities.PassiveAbility_101803.Description,"On [Crit,]<bold> steal [{0}+{1}_Crit]<statcalc_maxhp> [Health]<health> from the target.",[クリティカル時、]<bold>標的から[HP]<health>を[{0}+{1}_Crit]<statcalc_maxhp>奪う。
+PassiveAbilities,9816540996943917,PassiveAbilities.PassiveAbility_101803.Description,"On [Crit,]<crit> steal [{0}+{1}_Crit]<statcalc_maxhp> [Health]<health> from the target.",[クリティカル時、]<crit>標的から[HP]<health>を[{0}+{1}_Crit]<statcalc_maxhp>奪う。
 PassiveAbilities,9816540996943916,PassiveAbilities.PassiveAbility_101803.Name,The Brute,荒くれ者
-PassiveAbilities,9816540996943919,PassiveAbilities.PassiveAbility_102001.Description,"[Snowpiercer]<bold> fires {0} more arrows.
+PassiveAbilities,9816540996943919,PassiveAbilities.PassiveAbility_102001.Description,"On [auto attack,]<bold> reduce Karsu's [Max Mana]<mana> by {0} (Min: {4}).
 
-After [Stall ({1}),]<stall> [Snowpiercer]<bold> arrows gain [{2}+{3}_Rank]<statcalc_crit> [Crit]<crit>.","[雪穿ち]<bold>が放つ矢+{0}本。
+After [Stall ({1}),]<stall> [Snowpiercer]<bold> arrows gain [{2}+{3}_Rank]<statcalc_crit> [Crit]<crit>.","[通常攻撃時、]<bold>カルスの[最大マナ]<mana>-{0}（最小：{4}）。
 
 [忍耐（{1}）]<stall>後、[雪穿ち]<bold>の矢に[クリティカル]<crit>+[{2}+{3}_Rank]<statcalc_crit>。"
 PassiveAbilities,9816540996943918,PassiveAbilities.PassiveAbility_102001.Name,The Falling Snow,降り積もる雪
@@ -2338,9 +2346,9 @@ PassiveAbilities,9816540992749581,PassiveAbilities.PassiveAbility_109.Name,Regen
 PassiveAbilities,47806553833594880,PassiveAbilities.PassiveAbility_10901.DataTrackingDescription,"[Items Consumed:]<bold> [{0}]<datatracking>
 [Shards]<shard> [Generated:]<generate> [{1}]<datatracking>","[消費したアイテム：]<bold> [{0}]<datatracking>
 [シャード]<shard>の[生成数：]<generate> [{1}]<datatracking>"
-PassiveAbilities,9816540992749664,PassiveAbilities.PassiveAbility_10901.Description,"Niklas has an extra item slot. When he [survives]<bold> combat, consume the item in his leftmost item slot to permanently gain {0}% of its stats and [Shards]<shard> equal to [{1}% of its value]<rhd>.
+PassiveAbilities,9816540992749664,PassiveAbilities.PassiveAbility_10901.Description,"Niklas has an extra item slot. When he [survives]<bold> combat, consume the item in his leftmost item slot to permanently gain [{0}+{5}_Rank]<statcalc_rank>% of its stats and [Shards]<shard> equal to [{1}% of its value]<rhd>.
 
-For [Rush ({2}),]<rush> [auto attacks]<bold> inflict [{3}+{4}_MaxHealth]<statcalc_burn> [Burn]<burn> per equipped item.","アイテムスロット+1。ニクラスが戦闘を[生き延びたとき、]<bold>一番左のアイテムを消費する。そのステータスの{0}%を恒久的に得て、[価格の{1}%]<rhd>に等しい[シャード]<shard>を獲得する。
+For [Rush ({2}),]<rush> [auto attacks]<bold> inflict [{3}+{4}_MaxHealth]<statcalc_burn> [Burn]<burn> per equipped item.","アイテムスロット+1。ニクラスが戦闘を[生き延びたとき、]<bold>一番左のアイテムを消費する。そのステータスの[{0}+{5}_Rank]<statcalc_rank>%を恒久的に得て、[価格の{1}%]<rhd>に等しい[シャード]<shard>を獲得する。
 
 [速攻（{2}）]<rush>の間、[通常攻撃]<bold>が装備中のアイテム1個につき[炎上]<burn>を[{3}+{4}_MaxHealth]<statcalc_burn>付与する。"
 PassiveAbilities,9816540992749663,PassiveAbilities.PassiveAbility_10901.Name,Red Hot Deals,激アツ取引
@@ -2961,7 +2969,7 @@ Relics,21745596575236166,Relics.Relic_3035.Name,Shield Ascendancy,シールド�
 Relics,65024501195866112,Relics.Relic_3035.QuestDescription,Apply [{0} Shields]<shield>.,[シールドを合計{0}]<shield>付与する。
 Relics,65024501195866113,Relics.Relic_3035.QuestRewardDescription,Heroes gain [+{0}% Defense]<defense> and [+{1}% Crit]<crit> while [Shielded]<shield>.,[シールド]<shield>を持つ間、ヒーローの[防御力+{0}%]<defense>、[クリティカル+{1}%]<crit>。
 Relics,21745596575236169,Relics.Relic_3036.DataTrackingDescription,[Shield]<shield> [Amount:]<bold> [{0}]<datatracking>,[シールド]<shield>[量：]<bold> [{0}]<datatracking>
-Relics,21745596575236168,Relics.Relic_3036.Description,"At [start of combat]<bold> and after [Stall ({0}),]<stall> spend [{1} Shard]<shard> to apply [lasting]<lasting> [Shields]<shield> to all Heroes, then permanently increase the amount of [Shields]<shield> this applies by {2}.",[戦闘開始時]<bold>および[忍耐（{0}）]<stall>後、[シャードを{1}]<shard>消費して味方全員に[永続]<lasting>[シールド]<shield>を付与し、この効果で付与する[シールド]<shield>を恒久的に{2}増加させる。
+Relics,21745596575236168,Relics.Relic_3036.Description,"At [start of combat]<bold> and after [Stall ({0}),]<stall> spend [{1} Shard]<shard> to apply {3} [lasting]<lasting> [Shields]<shield> to all Heroes, then permanently increase the amount of [Shields]<shield> this applies by {2}.",[戦闘開始時]<bold>および[忍耐（{0}）]<stall>後、[シャードを{1}]<shard>消費して味方全員に[永続]<lasting>[シールド]<shield>を{3}付与し、この効果で付与する[シールド]<shield>を恒久的に{2}増加させる。
 Relics,21745596575236167,Relics.Relic_3036.Name,Shield Investment Filigree,シールド投資フィリグリー
 Relics,21745596575236171,Relics.Relic_3037.Description,"Gain interest on saved [Shards]<shard>. At the end of each combat, gain [{0} additional Shard per {1} Shards]<shard> in your bank (Max: {2}. Does not count towards [generation]<generate>).",貯めた[シャード]<shard>に利息がつく。各戦闘終了時、所持する[シャード{1}につき追加で{0}シャード]<shard>を獲得する（最大：{2}。[生成]<generate>には数えない）。
 Relics,21745596575236170,Relics.Relic_3037.Name,Shard Maximizer,シャード最大化装置
@@ -3693,7 +3701,11 @@ Relics,60439820575432705,Relics.Relic_798.Description,"At [start of combat,]<bol
 Relics,60439820575432704,Relics.Relic_798.Name,Debt,借金
 Relics,62493966749130752,Relics.Relic_799.Description,Heroes gain [{0} Max HP]<maxhp>.,ヒーローの[最大HP+{0}]<maxhp>。
 Relics,62493966677827584,Relics.Relic_799.Name,Strange Yellow Fruit,奇妙な黄色い果実
-Relics,66474939157307392,Relics.Relic_900.Description,Enemies gain [{0}% basic stats]<basicstat>.,敵の[基本ステータス+{0}%]<basicstat>。
+Relics,66474939157307392,Relics.Relic_900.Description,"Enemies gain [{0}% basic stats]<basicstat>.
+
+The [Act {1} Boss]<bold> resists [Frost,]<frost> reducing its effects by {2}%.","敵の[基本ステータス+{0}%]<basicstat>。
+
+[アクト{1}ボス]<bold>は[凍気]<frost>に耐性を持ち、その効果を{2}%軽減する。"
 Relics,66474939090198528,Relics.Relic_900.Name,The Red Rift,レッドリフト
 RunEndSummary,898717319293,UI.EndScreen.Titles.Aegis,{0:choose(Feminine|Masculine|Neutral):The Aegis|The Aegis|The Aegis},{0:choose(Feminine|Masculine|Neutral):イージス|イージス|イージス}
 RunEndSummary,898717319296,UI.EndScreen.Titles.Aegis.Mage,{0:choose(Feminine|Masculine|Neutral):The Bubble|The Bubble|The Bubble},{0:choose(Feminine|Masculine|Neutral):泡の守り|泡の守り|泡の守り}
