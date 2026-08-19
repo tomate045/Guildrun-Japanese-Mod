@@ -69,7 +69,7 @@ def load_embedded_versions() -> dict[str, str]:
 BUILD_VERSIONS = load_embedded_versions()
 PACKAGE_VERSION = BUILD_VERSIONS["exe_version"]
 # 配布時にversions.jsonのapp_versionへ置換する。開発実行時は同じ設定元を読む。
-APP_VERSION = "0.4.20"
+APP_VERSION = "0.4.21"
 if APP_VERSION == "__APP_VERSION__":
     APP_VERSION = BUILD_VERSIONS["app_version"]
 DATA_FILENAME = "data"
@@ -737,6 +737,7 @@ def perform_update_check(
         remote_app_version,
         remote_data_version,
     )
+    localization_applied = metadata_localization_applied(root)
     notes = fetch_patch_notes(manifest) if include_patch_notes else ""
     state = read_update_state(root)
     changed, stale = changed_content_entries(root, manifest, state)
@@ -765,6 +766,7 @@ def perform_update_check(
             "patch_notes": notes,
             "installer_update_available": installer_update_available,
             "application_update_available": application_content_update,
+            "localization_applied": localization_applied,
             "changed": [str(entry["path"]) for entry in changed],
             "removed": [path.as_posix() for path in stale],
         }
@@ -803,6 +805,7 @@ def perform_update_check(
         "patch_notes": notes,
         "installer_update_available": installer_update_available,
         "application_updated": application_content_update,
+        "localization_applied": localization_applied,
         "changed": [str(entry["path"]) for entry in applied_changed],
         "removed": [path.as_posix() for path in applied_stale],
     }
@@ -831,7 +834,11 @@ def show_update_notification(result: dict[str, Any]) -> None:
 
 
 def startup_update_action(result: dict[str, Any]) -> str:
-    content_update = bool(result.get("changed") or result.get("removed"))
+    content_update = bool(
+        result.get("changed")
+        or result.get("removed")
+        or result.get("localization_applied") is False
+    )
     installer_update = bool(result.get("installer_update_available"))
     if content_update and not installer_update:
         return "apply"
@@ -869,6 +876,13 @@ def perform_latest_flow(
             "日本語化ファイルを生成します…"
         )
         return perform_update_check(root, apply_updates=True)
+
+    if checked.get("localization_applied") is False:
+        if close_game:
+            report("ゲームを終了しています…")
+            stop_game_for_update(GAME_EXE_FILENAME)
+        report("日本語化が解除されているため、適用し直します…")
+        return {**checked, "status": "localization_not_applied"}
 
     report("すでに最新版です。")
     return checked
@@ -912,7 +926,10 @@ def check_only_main(root: Path | None = None) -> int:
         # ゲーム起動のたびに通信エラー等を表示しない。
         # 手動の「最新版で日本語化」では従来どおり詳細を表示する。
         return 0
-    if result["status"] == "update_available":
+    if (
+        result["status"] == "update_available"
+        or result.get("localization_applied") is False
+    ):
         show_update_notification(result)
     return 0
 
@@ -1000,6 +1017,40 @@ def read_local_data_version(root: Path) -> str | None:
     if not re.fullmatch(r"\d+\.\d+\.\d+(?:-[A-Za-z0-9_.-]+)?", version):
         return None
     return version
+
+
+def metadata_localization_applied(root: Path) -> bool | None:
+    """言語名だけを見て、日本語化が現在も適用されているか判定する。"""
+    if not local_patch_data_available(root):
+        return None
+    game_dir = find_game_dir(root, GAME_EXE_FILENAME)
+    if game_dir is None:
+        return None
+    try:
+        config = load_config(root / DATA_FILENAME)
+        relative = Path(str(config["paths"]["metadata"]))
+        if relative.is_absolute() or ".." in relative.parts:
+            return None
+        payload = (game_dir / relative).read_bytes()
+        localization = config["localization"]
+        old_name = str(localization["old_locale_name"]).encode("utf-8")
+        new_name = str(localization["new_locale_name"]).encode("utf-8")
+    except (
+        OSError,
+        UnicodeError,
+        json.JSONDecodeError,
+        KeyError,
+        TypeError,
+        RuntimeError,
+    ):
+        return None
+    old_count = payload.count(old_name)
+    new_count = payload.count(new_name)
+    if old_count == 0 and new_count == 1:
+        return True
+    if old_count == 1 and new_count == 0:
+        return False
+    return None
 
 
 def load_config(data_path: Path) -> dict[str, Any]:
@@ -2229,8 +2280,8 @@ def run_gui(
         answer = show_message(
             "起動時の更新確認",
             "Guildrun DemoをSteamから起動した時に、\n"
-            "翻訳データを含むこのMODの更新があるか確認します。\n\n"
-            "更新がなければ何も表示しません。\n\n"
+            "このMODの更新と、日本語化が解除されていないかを確認します。\n\n"
+            "更新がなく、日本語化も適用されていれば何も表示しません。\n\n"
             "この機能を設定しますか？",
             MB_YESNO,
         )
@@ -2774,7 +2825,7 @@ def run_gui(
             )
             controls["steam_options_button"] = create_control(
                 "BUTTON",
-                "ゲーム起動時にこのMODの更新があるか確認する",
+                "ゲーム起動時に更新・日本語化の状態を確認する",
                 BS_PUSHBUTTON | WS_TABSTOP,
                 18,
                 324,
@@ -2810,8 +2861,20 @@ def run_gui(
                     initial_update_result.get("changed")
                     or initial_update_result.get("removed")
                 )
-                set_update_available(content_update)
-                lines = ["日本語化MODの更新があります。"]
+                installer_update = bool(
+                    initial_update_result.get("installer_update_available")
+                )
+                localization_missing = (
+                    initial_update_result.get("localization_applied") is False
+                )
+                set_update_available(content_update or localization_missing)
+                lines = [
+                    (
+                        "日本語化MODの更新があります。"
+                        if content_update or installer_update
+                        else "ゲームのアップデートにより、日本語化が解除されています。"
+                    )
+                ]
                 if content_update:
                     if state["startup_update_mode"]:
                         lines.extend(
@@ -2821,6 +2884,14 @@ def run_gui(
                                 "更新の取得から日本語化まで続けて行います。",
                             ]
                         )
+                elif localization_missing and state["startup_update_mode"]:
+                    lines.extend(
+                        [
+                            "",
+                            "「今すぐ更新して日本語化」を押すと、ゲームを強制終了して",
+                            "保存済みの最新版で日本語化を適用し直します。",
+                        ]
+                    )
                 if initial_update_result.get("installer_update_available"):
                     lines.extend(
                         [
@@ -2829,7 +2900,14 @@ def run_gui(
                             "GitHubから新しいZIPをダウンロードしてください。",
                         ]
                     )
-                set_text(controls["status"], "更新があります。")
+                set_text(
+                    controls["status"],
+                    (
+                        "更新があります。"
+                        if content_update or installer_update
+                        else "日本語化が解除されています。"
+                    ),
+                )
                 set_notes("\n".join(lines))
             if state["local_game_available"]:
                 user32.SetFocus(controls["update_action_button"])
