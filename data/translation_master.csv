@@ -85,7 +85,7 @@ ActiveAbilities,42635389067460614,ActiveAbilities.ActiveAbility_119.Description,
 [毎秒、]<bold>嵐の中にいるすべての敵へ[{1}+{2}_Magic]<statcalc_damage>ダメージを与え、[{3}+{4}_Magic]<statcalc_burn>の[炎上]<burn>を付与する。"
 ActiveAbilities,42635389067460613,ActiveAbilities.ActiveAbility_119.Name,Fire Storm,炎の嵐
 ActiveAbilities,44096916278607873,ActiveAbilities.ActiveAbility_12.DataTrackingDescription,[Stall]<stall> [Triggered:]<bold> [totalStallTriggers]<globaldatatracking>,[忍耐]<stall>の[発動回数：]<bold> [totalStallTriggers]<globaldatatracking>
-ActiveAbilities,2266028843974656,ActiveAbilities.ActiveAbility_12.Description,"[Taunt]<taunt> all enemies and gain [{0}+{1}_Defense+{2}_Magic]<statcalc_shield> [Shields]<shield> per [Stall]<stall> triggered this game. After {3} seconds, deal damage to all enemies targeting Skorn equal to {4}% of his remaining [Shield]<shield>.",すべての敵を[挑発]<taunt>し、このラン中に[忍耐]<stall>が発動した回数1回につき、[{0}+{1}_Defense+{2}_Magic]<statcalc_shield>の[シールド]<shield>を獲得する。{3}秒後、スコルンを攻撃対象にしているすべての敵へ、スコルンに残っている[シールド]<shield>の{4}%に相当するダメージを与える。
+ActiveAbilities,2266028843974656,ActiveAbilities.ActiveAbility_12.Description,"[Taunt]<taunt> all enemies. Gain [{5}+{6}_Rank]<statcalc_shield> [Shields]<shield> plus [{0}+{1}_Defense+{2}_Magic]<statcalc_shield> [Shields]<shield> per [Stall]<stall> triggered this game. After {3} seconds, deal damage to all enemies targeting Skorn equal to {4}% of his remaining [Shields]<shield>.",すべての敵を[挑発]<taunt>する。[シールド]<shield>を[{5}+{6}_Rank]<statcalc_shield>獲得し、さらにこのラン中に[忍耐]<stall>が発動した回数1回につき、[シールド]<shield>を[{0}+{1}_Defense+{2}_Magic]<statcalc_shield>獲得する。{3}秒後、スコルンを攻撃対象にしているすべての敵へ、スコルンに残っている[シールド]<shield>の{4}%に相当するダメージを与える。
 ActiveAbilities,2266028839780353,ActiveAbilities.ActiveAbility_12.Name,Come At Me!,かかってこい！
 ActiveAbilities,2266028843974658,ActiveAbilities.ActiveAbility_13.Description,Swing a crushing axe to deal [{0}+{1}|{2}|{3}|{4}_Attack+{5}_Magic]<statcalc_damage> damage. Logan gains power by dealing damage with this ability.,大斧を振り抜き、[{0}+{1}|{2}|{3}|{4}_Attack+{5}_Magic]<statcalc_damage>ダメージを与える。このアビリティでダメージを与えるたび、ローガンは力を増していく。
 ActiveAbilities,63373000857747456,ActiveAbilities.ActiveAbility_13.FullQuestDescription,"[Quest]<quest>: Deal [{0}, {1}, {2}] damage with this ability.",[クエスト]<quest>：このアビリティで[{0}、{1}、{2}]ダメージを与える。
@@ -196,9 +196,9 @@ ActiveAbilities,2266028827197443,ActiveAbilities.ActiveAbility_8.Name,Sanctuary 
 ActiveAbilities,44096916278607872,ActiveAbilities.ActiveAbility_9.DataTrackingDescription,[Items Created:]<bold> [{0}]<datatracking>,[作成したアイテム：]<bold> [{0}]<datatracking>
 ActiveAbilities,2266028835586048,ActiveAbilities.ActiveAbility_9.Description,"Swing a mace to deal [{0}+{1}_MaxHealth+{2}_Attack+{3}_Magic]<statcalc_damage> damage and [Stun]<stun> for {4} seconds.
 
-This ability has a {5}% chance to create a [random item]<wad>.","メイスを振り回して[{0}+{1}_MaxHealth+{2}_Attack+{3}_Magic]<statcalc_damage>ダメージを与え、{4}秒間[スタン]<stun>させる。
+Every {5} [casts]<bold>, create a [random item]<wad>.","メイスを振り回して[{0}+{1}_MaxHealth+{2}_Attack+{3}_Magic]<statcalc_damage>ダメージを与え、{4}秒間[スタン]<stun>させる。
 
-このアビリティは{5}%の確率で[ランダムなアイテム]<wad>を1個作成する。"
+アビリティを{5}回[発動するたび、]<bold>[ランダムなアイテム]<wad>を1個作成する。"
 ActiveAbilities,2266028831391745,ActiveAbilities.ActiveAbility_9.Name,Wheel and Deal,回して稼げ！
 Comics,1346903867410,Comics.Defeat.Panel2.1,Hey,あの
 Comics,1346903867411,Comics.Defeat.Panel3.1,...are you spacing out?,……聞いていますか？
@@ -1994,9 +1994,7 @@ PassiveAbilities,9816540996943877,PassiveAbilities.PassiveAbility_101201.Descrip
 PassiveAbilities,9816540996943876,PassiveAbilities.PassiveAbility_101201.Name,Retribution,報復
 PassiveAbilities,9816540996943879,PassiveAbilities.PassiveAbility_101202.Description,"Whenever Skorn inflicts [Poison,]<poison> he inflicts an equal amount of [Frost]<frost>.
 
-
 Whenever Skorn inflicts [Frost,]<frost> he gains [{0}+{1}_Rank]<statcalc_shield> [Shields]<shield>.","スコルンが[毒]<poison>を付与するたび、同量の[凍気]<frost>も付与する。
-
 
 スコルンが[凍気]<frost>を付与するたび、[シールド]<shield>を[{0}+{1}_Rank]<statcalc_shield>獲得する。"
 PassiveAbilities,9816540996943878,PassiveAbilities.PassiveAbility_101202.Name,The Winter's Bite,冬の牙
@@ -2360,7 +2358,7 @@ For [Rush ({0}),]<rush> gain [{1}+{2}_MaxHealth]<statcalc_shield> [Shields]<shie
 PassiveAbilities,9816540992749665,PassiveAbilities.PassiveAbility_10902.Name,The Executive,重役
 PassiveAbilities,43809116878667782,PassiveAbilities.PassiveAbility_10903.ClassDescription,Gain the [Tank]<tank> class and [30 Defense]<defense>.,[タンク]<tank>クラスと[防御力+30]<defense>を得る。
 PassiveAbilities,44096926831476741,PassiveAbilities.PassiveAbility_10903.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [globalShardsGenerated]<globaldatatracking>,[シャード]<shard>[生成数：]<generate> [globalShardsGenerated]<globaldatatracking>
-PassiveAbilities,9816540992749668,PassiveAbilities.PassiveAbility_10903.Description,"Whenever a [Vanguard]<vanguard> or [Tank]<tank> is [auto attacked]<bold>, they deal [{0} damage]<damage> to the attacker per [Shard]<shard> [generated]<generate> this game. [Backup.]<backup>",[ヴァンガード]<vanguard>または[タンク]<tank>が[通常攻撃を受けるたび、]<bold>このラン中に[生成した]<generate>[シャード]<shard>1つにつき、攻撃者へ[{0}ダメージ]<damage>を与える。[控え有効。]<backup>
+PassiveAbilities,9816540992749668,PassiveAbilities.PassiveAbility_10903.Description,"For [Rush ({1}),]<rush> whenever a [Vanguard]<vanguard> or [Tank]<tank> is [auto attacked]<bold> they deal [{0} damage]<damage> to the attacker per [Shard]<shard> [generated]<generate> this game. [Backup.]<backup>",[速攻（{1}）]<rush>の間、[ヴァンガード]<vanguard>または[タンク]<tank>が[通常攻撃を受けるたび、]<bold>このラン中に[生成した]<generate>[シャード]<shard>1つにつき、攻撃者へ[{0}ダメージ]<damage>を与える。[控え有効。]<backup>
 PassiveAbilities,9816540992749667,PassiveAbilities.PassiveAbility_10903.Name,The Hoarder,溜め込み屋
 PassiveAbilities,9816540992749584,PassiveAbilities.PassiveAbility_110.Description,[Start of Combat:]<bold> Gain [{0}+{1}_Magic]<statcalc_defense> [Defense]<defense>.,[戦闘開始時：]<bold>[防御力]<defense>+[{0}+{1}_Magic]<statcalc_defense>。
 PassiveAbilities,9816540992749583,PassiveAbilities.PassiveAbility_110.Name,Oak Skin,樫の皮膚
@@ -2420,7 +2418,7 @@ RankModifiers,11912747969921043,RankModifiers.RankModifier_11.Name,Rolling Speed
 RankModifiers,46193532301082625,RankModifiers.RankModifier_12.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [12]<datatracking>,[シャード]<shard>の[生成数：]<generate> [12]<datatracking>
 RankModifiers,11912747969921046,RankModifiers.RankModifier_12.Description,"[Every {0} auto attacks,]<bold> gain [{1} Shard]<shard>.",[通常攻撃{0}回ごとに、]<bold>[シャードを{1}]<shard>獲得する。
 RankModifiers,11912747969921045,RankModifiers.RankModifier_12.Name,Golden Eye,黄金の瞳
-RankModifiers,11912747969921048,RankModifiers.RankModifier_13.Description,Gain [{0} Range]<attackrange>.,[射程+{0}]<attackrange>。
+RankModifiers,11912747969921048,RankModifiers.RankModifier_13.Description,Gain [{0} Range]<attackrange> and [{1} Attack Speed]<attackspeed>.,[射程+{0}]<attackrange>、[攻撃速度+{1}]<attackspeed>。
 RankModifiers,11912747969921047,RankModifiers.RankModifier_13.Name,Ranger,レンジャー
 RankModifiers,46193532301082632,RankModifiers.RankModifier_136.DataTrackingDescription,[Rerolls]<reroll> [this Game:]<bold> [globalRerolls]<globaldatatracking>,このラン中の[リロール]<reroll>[回数：]<bold> [globalRerolls]<globaldatatracking>
 RankModifiers,11912747969921294,RankModifiers.RankModifier_136.Description,[Mystics]<mystic> gain [{0} Mana Regen]<manaregen> for each [reroll]<reroll> this game. [Backup]<backup>.,このラン中の[リロール]<reroll>1回につき、[ミスティック]<mystic>の[マナ回復+{0}]<manaregen>。[控え有効]<backup>。
@@ -2591,7 +2589,7 @@ RankModifiers,11912747969921128,RankModifiers.RankModifier_53.Description,This H
 RankModifiers,11912747969921127,RankModifiers.RankModifier_53.Name,Critical Attacks,会心攻撃
 RankModifiers,11912747969921130,RankModifiers.RankModifier_54.Description,"For [Rush ({0}),]<rush> gain [+{1}% Attack]<attack>.",[速攻（{0}）]<rush>の間、[攻撃力+{1}%]<attack>。
 RankModifiers,11912747969921129,RankModifiers.RankModifier_54.Name,"Hit Hard, Hit Fast",強く、速く
-RankModifiers,11912747969921132,RankModifiers.RankModifier_55.Description,Gain [{0} Range]<attackrange>.,[射程+{0}]<attackrange>。
+RankModifiers,11912747969921132,RankModifiers.RankModifier_55.Description,Gain [{0} Range]<attackrange> and [{1} Attack]<attack>.,[射程+{0}]<attackrange>、[攻撃力+{1}]<attack>。
 RankModifiers,11912747969921131,RankModifiers.RankModifier_55.Name,Ranger,レンジャー
 RankModifiers,46193532301082630,RankModifiers.RankModifier_56.DataTrackingDescription,[Rush]<rush> [Triggered:]<bold> [totalRushTriggers]<globaldatatracking>,[速攻]<rush>の[発動回数：]<bold> [totalRushTriggers]<globaldatatracking>
 RankModifiers,11912747969921134,RankModifiers.RankModifier_56.Description,[Warriors]<warrior> gain [{0} Attack]<attack> per [Rush]<rush> trigger this game. [Backup]<backup>.,このラン中の[速攻]<rush>発動1回につき、[ウォリアー]<warrior>の[攻撃力+{0}]<attack>。[控え有効]<backup>。
@@ -2703,7 +2701,7 @@ Relics,21745596571041843,Relics.Relic_1027.Name,Unity Vessel,結束の器
 Relics,65024501187477535,Relics.Relic_1027.QuestDescription,Win a combat with {0} or more Heroes of the same [Class]<class> in play.,同じ[クラス]<class>のヒーローを{0}人以上出撃させて戦闘に勝利する。
 Relics,65024501187477536,Relics.Relic_1027.QuestRewardDescription,Gain [{0} Shards]<shard>.,[シャードを{0}]<shard>獲得する。
 Relics,21745596571041844,Relics.Relic_1028.Name,Divergence Vessel,分岐の器
-Relics,65024501187477537,Relics.Relic_1028.QuestDescription,Win a combat with {0} or more Heroes that do not share a [Class]<class> in play.,[クラス]<class>が重複しないヒーローを{0}人以上出撃させて戦闘に勝利する。
+Relics,65024501187477537,Relics.Relic_1028.QuestDescription,"Win a combat with {0} or more Heroes in play, where no [Class]<class> is shared between any two Heroes.",[クラス]<class>が重複しないヒーローを{0}人以上出撃させて戦闘に勝利する。
 Relics,65024501187477538,Relics.Relic_1028.QuestRewardDescription,Gain [{0} Shards]<shard>.,[シャードを{0}]<shard>獲得する。
 Relics,21745596571041845,Relics.Relic_1029.Name,Victory Vessel,勝利の器
 Relics,65024501187477539,Relics.Relic_1029.QuestDescription,Win {0} combats.,戦闘に{0}回勝利する。
@@ -2895,7 +2893,7 @@ Relics,21745596575236111,Relics.Relic_3006.DataTrackingDescription,"[Crit]<crit>
 [シャード]<shard>[生成数：]<generate> [{1}]<datatracking>"
 Relics,21745596575236110,Relics.Relic_3006.Description,Whenever an [Assassin]<assassin> kills an enemy they permanently gain [{0} Crit]<crit> then you gain [{1} Shard]<shard> per [{2} Crit]<crit> they have (Max: {3}).,[アサシン]<assassin>が敵を倒すたび、[クリティカルを{0}]<crit>恒久的に獲得する。その後、そのヒーローが持つ[クリティカル{2}]<crit>につき[シャードを{1}]<shard>獲得する（最大：{3}）。
 Relics,21745596575236109,Relics.Relic_3006.Name,Assassin's Elevation Prism,アサシンの飛躍プリズム
-Relics,21745596575236113,Relics.Relic_3007.Description,"For [Rush ({0}),]<rush> [Assassins]<assassin> gain [Stealth]<stealth> and [{1} Crit]<crit>.",[速攻（{0}）]<rush>の間、[アサシン]<assassin>が[ステルス]<stealth>を得て、[クリティカル+{1}]<crit>。
+Relics,21745596575236113,Relics.Relic_3007.Description,"For [Rush ({0}),]<rush> [Assassins]<assassin> gain [{1} Crit]<crit> and [Stealth]<stealth>.",[速攻（{0}）]<rush>の間、[アサシン]<assassin>が[ステルス]<stealth>を得て、[クリティカル+{1}]<crit>。
 Relics,21745596575236112,Relics.Relic_3007.Name,Assassin's Supremacy Filigree,アサシンの至高フィリグリー
 Relics,21745596575236115,Relics.Relic_3008.Description,"Whenever a [Duelist]<duelist> auto attacks, they randomly inflict [{0} Poison]<poison>, [{1} Frost]<frost>, or [{2} Burn]<burn> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象へ[毒を{0}]<poison>、[凍気を{1}]<frost>、[炎上を{2}]<burn>のいずれかをランダムに付与する。
 Relics,21745596575236114,Relics.Relic_3008.Name,Duelist's Rhythm Prism,デュエリストの律動プリズム
@@ -3388,7 +3386,7 @@ Relics,11913064820228097,Relics.Relic_567.Description,"Whenever a [Duelist]<duel
 Relics,11913064816034040,Relics.Relic_567.Name,Duelist's Chill Banner,デュエリストの冷気旗
 Relics,11913064820228117,Relics.Relic_568.Description,"Whenever a [Duelist]<duelist> auto attacks, they inflict [{0} Burn]<burn> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象に[炎上を{0}]<burn>付与する。
 Relics,11913064820228098,Relics.Relic_568.Name,Duelist's Flame Banner,デュエリストの炎旗
-Relics,11913064820228119,Relics.Relic_571.Description,"Whenever a [Duelist]<duelist> auto attacks, they gain [{0} Attack Speed]<attackspeed> per type of [Debuff]<debuff> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象の[デバフ]<debuff>1種類につき[攻撃速度+{0}]<attackspeed>。
+Relics,11913064820228119,Relics.Relic_571.Description,"Whenever a [Duelist]<duelist> [auto attacks]<bold>, they deal {0} [bonus damage]<damage> per type of [Debuff]<debuff> on their target.",[デュエリスト]<duelist>が[通常攻撃する]<bold>たび、対象の[デバフ]<debuff>1種類につき[追加ダメージを{0}]<damage>与える。
 Relics,11913064820228118,Relics.Relic_571.Name,Duelist's Outbreak Banner,デュエリストの感染旗
 Relics,11913064820228126,Relics.Relic_581.DataTrackingDescription,[Shards]<shard> [Generated:]<generate> [{0}]<datatracking>,[シャード]<shard>の[生成数：]<generate> [{0}]<datatracking>
 Relics,11913064820228125,Relics.Relic_581.Description,"Every {0} times a [Mystic]<mystic> [casts]<bold>, gain [{1} Shard]<shard>.",[ミスティック]<mystic>が[アビリティを{0}回発動する]<bold>たび、[シャードを{1}]<shard>獲得する。
