@@ -4078,14 +4078,14 @@ UI,43367915780177926,UI.BattleFlow.RunLost,Run Lost,ラン敗北
 UI,65095700206714886,UI.BattleFlow.ShardlessVictory,Shardless Victory,シャードなし勝利
 UI,65095700206714887,UI.BattleFlow.StabilizerBroken,Emergency Rewind Used,緊急巻き戻しを使用
 UI,65095700206714889,UI.BattleFlow.SurvivingHeroBonus,Surviving Hero Bonus,生存ヒーローボーナス
-UI,12991570283053067,UI.BattleInfo.ShardStabilizer.Description.Active,"[Emergency Rewind:]<bold> Gather [{0} Shards]<shard> after each combat victory while [Emergency Rewind]<bold> is available. If you are defeated in combat, [Emergency Rewind]<bold> will activate to protect your run and release all of the gathered [Shards]<shard>. If you are defeated in combat while [Emergency Rewind]<bold> is unavailable, your run will end in defeat.
+UI,12991570283053067,UI.BattleInfo.ShardStabilizer.Description.Active,"[Emergency Rewind:]<bold> Gather [{0} Shards]<shard> after each combat victory while [Emergency Rewind]<bold> is available. If you are defeated in combat, [Emergency Rewind]<bold> will activate to protect your run and release all of its gathered [Shards]<shard>. If you are defeated in combat while [Emergency Rewind]<bold> is unavailable, your run will end in defeat.
 
 [Emergency Rewind]<bold> is available.
 Current [Shards]<shard>: {1}","[緊急巻き戻し：]<bold>[緊急巻き戻し]<bold>が使用可能な間、戦闘に勝利するたび[シャードを{0}]<shard>蓄える。戦闘に敗北すると、[緊急巻き戻し]<bold>が発動してランを守り、蓄えた[シャード]<shard>をすべて放出する。[緊急巻き戻し]<bold>が使用できない状態で再び戦闘に敗北すると、ランは敗北で終了する。
 
 [緊急巻き戻し]<bold>は使用可能。
 現在の[シャード]<shard>：{1}"
-UI,12991570283053068,UI.BattleInfo.ShardStabilizer.Description.Inactive,"[Emergency Rewind:]<bold> Gather [{0} Shards]<shard> after each combat victory while [Emergency Rewind]<bold> is available. If you are defeated in combat, [Emergency Rewind]<bold> will activate to protect your run and release all of the gathered [Shards]<shard>. If you are defeated in combat while [Emergency Rewind]<bold> is unavailable, your run will end in defeat.
+UI,12991570283053068,UI.BattleInfo.ShardStabilizer.Description.Inactive,"[Emergency Rewind:]<bold> Gather [{0} Shards]<shard> after each combat victory while [Emergency Rewind]<bold> is available. If you are defeated in combat, [Emergency Rewind]<bold> will activate to protect your run and release all of its gathered [Shards]<shard>. If you are defeated in combat while [Emergency Rewind]<bold> is unavailable, your run will end in defeat.
 
 [Emergency Rewind]<bold> was used and is currently unavailable! If you lose another combat your run will end in defeat.","[緊急巻き戻し：]<bold>[緊急巻き戻し]<bold>が使用可能な間、戦闘に勝利するたび[シャードを{0}]<shard>蓄える。戦闘に敗北すると、[緊急巻き戻し]<bold>が発動してランを守り、蓄えた[シャード]<shard>をすべて放出する。[緊急巻き戻し]<bold>が使用できない状態で再び戦闘に敗北すると、ランは敗北で終了する。
 
@@ -4324,7 +4324,7 @@ UI,60725998584565760,UI.Keyword.Stall.Description,[Stall (X)]<stall> abilities a
 UI,64027298696396803,UI.Keyword.Stall.ExtraInformation,[Stall (X):]<stall> Activates after X seconds have elapsed in combat.,[忍耐（X）：]<stall> 戦闘開始からX秒経過すると発動する。
 UI,64027298696396808,UI.Keyword.Stealth.ExtraInformation,[Stealth:]<stealth> A character with [Stealth]<stealth> can not be targeted by enemies.,[ステルス：]<stealth> [ステルス]<stealth>状態のキャラクターは敵から対象にされない。
 UI,64027298696396825,UI.Keyword.Storm.ExtraInformation,[The Rift Storm]<storm> begins after 50 seconds of combat and deals increasing amounts of damage each second.,[リフトストーム]<storm>は戦闘開始から50秒後に発生し、毎秒、全キャラクターへ増加し続けるダメージを与える。
-UI,64027298696396811,UI.Keyword.Stun.ExtraInformation,[Stun:]<stun> A [Stunned]<stun> character can not move or take actions.,[スタン：]<stun> [スタン]<stun>状態のキャラクターは移動も行動もできない。
+UI,64027298696396811,UI.Keyword.Stun.ExtraInformation,"[Stun:]<stun> A [Stunned]<stun> character cannot move or act. When [Stunned,]<stun> Heroes gain stacking 25% [Stun Resistance]<bold> for 15 seconds.","[スタン：]<stun> [スタン]<stun>状態のキャラクターは移動も行動もできない。ヒーローは[スタン]<stun>状態になるたび、15秒間[スタン耐性+25%]<bold>。この効果は累積する。"
 UI,64027298696396812,UI.Keyword.Taunt.ExtraInformation,[Taunt:]<taunt> A [Taunted]<taunt> character changes their target to the enemy who [Taunted]<taunt> them.,[挑発：]<taunt> [挑発]<taunt>されたキャラクターは、攻撃対象を[挑発]<taunt>してきた敵へ変更する。
 UI,64027298696396819,UI.Keyword.Trh.ExtraInformation,"Fiona's [The Right Hand]<bold> creates rarer items as Fiona's [rank]<rank> increases. [Rank B]<bold> = Common, [Rank A]<bold> = Rare, [Rank S]<bold> = Epic.",フィオナの[右腕]<bold>で作られるアイテムは、フィオナの[ランク]<rank>が高いほどレアリティが上がる。[ランクB]<bold>＝コモン、[ランクA]<bold>＝レア、[ランクS]<bold>＝エピック。
 UI,64027298696396820,UI.Keyword.Wad.ExtraInformation,"Niklas's [Wheel and Deal]<bold> creates rarer items as his [rank]<rank> increases. [Rank B]<bold> = Common, [Rank A]<bold> = Rare,  [Rank S]<bold> = Epic.",ニクラスの[回して稼げ！]<bold>で作られるアイテムは、ニクラスの[ランク]<rank>が高いほどレアリティが上がる。[ランクB]<bold>＝コモン、[ランクA]<bold>＝レア、[ランクS]<bold>＝エピック。
