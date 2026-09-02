@@ -4186,8 +4186,11 @@ UI,43294476776112129,UI.Difficulty.C,Difficulty: C,難易度：C
 UI,43294476776112130,UI.Difficulty.C.Description,Heroes take 10% Max HP damage at the start of each combat.,各戦闘開始時、ヒーローが最大HPの10%分のダメージを受ける。
 UI,55275582371004416,UI.Difficulty.CurrentWinStreak,Current Win Streak,現在の連勝数
 UI,71305342326800384,UI.Difficulty.EndlessBonus,Endless mode score bonus: +{0},エンドレスモードスコアボーナス：+{0}
+UI,95887993016549376,UI.Difficulty.HighestStreak,Highest Streak: {0},最高連勝数：{0}
 UI,55275582371004419,UI.Difficulty.LockedDecription,Beat the previous difficulty mode to unlock.,一つ前の難易度をクリアすると解放。
 UI,55275582371004420,UI.Difficulty.Modifiers,Difficulty Modifiers,難易度補正
+UI,95887993033326592,UI.Difficulty.RedRift.HighestStreak,Highest Streak,最高連勝数
+UI,95887993033326593,UI.Difficulty.RedRift.TotalWins,Total Wins,通算勝利数
 UI,55275582371004417,UI.Difficulty.RiftMode,The Red Rift,レッドリフト
 UI,55275582371004418,UI.Difficulty.RiftModeDescription,Take on a highly dangerous contract to close the <b>Red Rift.</b>\n\n- Complete all <b>6 challenges</b> and defeat the final boss to seal the Red Rift and earn your spot on the <b>Win Streak Leaderboard.</b>\n- Failing a challenge ends your run in defeat and <b>resets your win streak</b>.\n- Enemies in the Red Rift have <b>increased stats</b>.\n- Red Rift runs do not continue into <b>Endless Mode</b>. ,極めて危険な契約に挑み、<b>レッドリフト</b>を閉じる。\n\n・<b>6つのチャレンジ</b>をすべて達成して最終ボスを倒すと、レッドリフトを封印し、<b>連勝ランキング</b>へ名を刻める。\n・チャレンジに失敗するとランは敗北で終了し、<b>連勝数がリセット</b>される。\n・レッドリフトの敵は<b>ステータスが強化</b>されている。\n・レッドリフトのランは<b>エンドレスモード</b>へ移行しない。
 UI,43294476776112135,UI.Difficulty.S,Difficulty: S,難易度：S
@@ -4198,6 +4201,7 @@ UI,43294476776112139,UI.Difficulty.SSS,Difficulty: SSS,難易度：SSS
 UI,43294476776112140,UI.Difficulty.SSS.Description,"Act Bosses influence combats in their act, making them more difficult.",アクトボスがそのアクト中の戦闘へ干渉し、難易度を上げる。
 UI,69011334061649920,UI.Difficulty.Selection,Select a difficulty level for your Rift Contract,リフト契約の難易度を選択
 UI,55275582341644288,UI.Difficulty.Title,New Run,新しいラン
+UI,95887992982994944,UI.Difficulty.TotalWins,Total Wins: {0},通算勝利数：{0}
 UI,64027222985015296,UI.EndScreen.Defeat,Defeat,敗北
 UI,76328939000823810,UI.EndScreen.Difficulty,Difficulty,難易度
 UI,60371974664458242,UI.EndScreen.Endless,Endless,エンドレス
