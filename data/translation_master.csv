@@ -2893,7 +2893,11 @@ Relics,21745596575236111,Relics.Relic_3006.DataTrackingDescription,"[Crit]<crit>
 [シャード]<shard>[生成数：]<generate> [{1}]<datatracking>"
 Relics,21745596575236110,Relics.Relic_3006.Description,Whenever an [Assassin]<assassin> kills an enemy they permanently gain [{0} Crit]<crit> then you gain [{1} Shard]<shard> per [{2} Crit]<crit> they have (Max: {3}).,[アサシン]<assassin>が敵を倒すたび、[クリティカルを{0}]<crit>恒久的に獲得する。その後、そのヒーローが持つ[クリティカル{2}]<crit>につき[シャードを{1}]<shard>獲得する（最大：{3}）。
 Relics,21745596575236109,Relics.Relic_3006.Name,Assassin's Elevation Prism,アサシンの飛躍プリズム
-Relics,21745596575236113,Relics.Relic_3007.Description,"For [Rush ({0}),]<rush> [Assassins]<assassin> gain [{1} Crit]<crit> and [Stealth]<stealth>.",[速攻（{0}）]<rush>の間、[アサシン]<assassin>が[ステルス]<stealth>を得て、[クリティカル+{1}]<crit>。
+Relics,21745596575236113,Relics.Relic_3007.Description,"At [start of combat,]<bold> [Assassins]<assassin> gain [Stealth]<stealth> for {0} seconds.
+
+For [Rush ({1}),]<rush> [Assassins]<assassin> gain [{2} Crit]<crit>.","[戦闘開始時、]<bold>[アサシン]<assassin>が{0}秒間[ステルス]<stealth>を得る。
+
+[速攻（{1}）]<rush>の間、[アサシン]<assassin>の[クリティカル+{2}]<crit>。"
 Relics,21745596575236112,Relics.Relic_3007.Name,Assassin's Supremacy Filigree,アサシンの至高フィリグリー
 Relics,21745596575236115,Relics.Relic_3008.Description,"Whenever a [Duelist]<duelist> auto attacks, they randomly inflict [{0} Poison]<poison>, [{1} Frost]<frost>, or [{2} Burn]<burn> on their target.",[デュエリスト]<duelist>が通常攻撃するたび、対象へ[毒を{0}]<poison>、[凍気を{1}]<frost>、[炎上を{2}]<burn>のいずれかをランダムに付与する。
 Relics,21745596575236114,Relics.Relic_3008.Name,Duelist's Rhythm Prism,デュエリストの律動プリズム
